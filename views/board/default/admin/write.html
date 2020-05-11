@@ -1,0 +1,51 @@
+<h2 id="contents_title">
+	<i class="fa fa-leaf"></i>
+	기본설정
+</h2>
+<div class="contents">
+	<div class="container">
+		<h3 class="title">
+			<i class="fa fa-users"></i> 회원정보
+		</h3>
+        <form method="post">
+            <input type="hidden" name="has_data" value="1">
+		<table class="table horizontal">
+		<?=form('text','제목','title',$board['write']['title'],array('options'=>array('test|테스트','test2|테스트2','test3|테스트3')))?>
+          <tr>
+              <td>
+                  <input type="text" name="test_field" value="<?=$board['write']['test_field']?>">
+              </td>
+          </tr>
+		</table>
+		<a href="" id="open_image_library" class="btn ">이미지 라이브러리</a>
+		<div class="buttons">
+			<input type="submit" value="<?=attr($param['no'],'수정','등록')?>" class="btn btn-blue btn-large" />
+			<a href="<?=$board['parent']?>" class="btn btn-red btn-large">목록</a>
+		</div>
+        </form>
+	</div>
+</div>
+   
+
+   <script type="text/javascript">
+   $('#open_image_library').click(function(){
+	   var type  = $(this).data('type');
+	   if($('#image_library_layer').size()>0){
+			$('#image_library_layer').fadeIn();
+			return false;
+	   }
+	$('<iframe src="/admin/file?layer=1&type='+type+'" id="image_library_layer"></iframe>').appendTo('body');
+	return false;
+   });
+   </script>
+   <style type="text/css">
+   #image_library_layer{
+	position:fixed;
+	top:50%;
+	left:50%;
+	width:950px;
+	height:600px;
+	margin-left:-400px;
+	margin-top:-300px;
+   }
+   </style>

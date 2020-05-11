@@ -1,0 +1,178 @@
+<div id="wrap">
+	<header>
+		<h1 id="logo">
+			MarketOfMaterial <span id="admin_title">
+				관리자
+			</span>
+		</h1>
+		<div id="header_buttons">
+			<a href="">
+				<i class="fa fa-home"> </i> 몰 바로가기
+			</a>
+			<a href="/admin/logout">
+				<i class="fa fa-power-off"> </i> 로그아웃
+			</a>
+
+		</div>
+	</header>
+
+	<div id="contents_wrap">
+		<div id="contents">
+			<div id="gnb">
+				<ul>
+					<li>
+						<a href="/admin/config">
+							<i class="fa fa-home"></i>
+							메인
+						</a>
+					</li>
+					<li <?=attr(makeCondition($melon['segment'][1],'user|master'),'class="active"')?>>
+						<a href="/admin/user">
+							<i class="fa fa-group"></i>
+							회원관리
+						</a>
+					</li>
+					<li <?=attr($melon['segment'][1]=='board','class="active"')?>>
+						<a href="/admin/board/config">
+							<i class="fa fa-comments-o"></i>
+							게시판관리
+						</a>
+					</li>
+					<li>
+						<a href="/admin/category">
+							<i class="fa fa-gear"></i>
+							제품관리
+						</a>
+					</li>
+					<li>
+						<a href="">
+							<i class="fa fa-file"></i>
+							판매관리
+						</a>
+					</li>
+					<li>
+						<a href="">
+							<i class="fa fa-money"></i>
+							결제관리
+						</a>
+					</li>
+					<li>
+						<a href="">
+							<i class="fa fa-dollar"></i>
+							정산관리
+						</a>
+					</li>
+					<li>
+						<a href="">
+							<i class="fa fa-shopping-cart"></i>
+							구매관리
+						</a>
+					</li>
+					<li>
+						<a href="">
+							<i class="fa fa-paper-plane"></i>
+							배너관리
+						</a>
+					</li>
+					<li>
+						<a href="/admin/statistics">
+							<i class="fa fa-bar-chart-o"></i>
+							통계
+						</a>
+					</li>
+				
+		
+				</ul>
+
+			</div>
+			<?php
+				
+
+			?>
+			<div id="lnb_wrap">
+				
+				<div class="lnb" <?=attr(makeCondition($melon['segment'][1],'user|master'),'style="display:block;"')?>>	
+					<ul>
+						<li <?=attr($melon['segment'][1]=='user','class="active"')?>>
+							<a href="/admin/user">
+								회원 관리
+							</a>
+						</li>
+						<li <?=attr($melon['segment'][1]=='master','class="active"')?>>
+							<a href="/admin/master">
+								관리그룹 관리
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="lnb"  <?=attr($melon['segment'][1]=='board','style="display:block;"')?>>
+					
+					<ul <?=attr($melon['segment'][1]=='board','style="display:block;"')?>>
+						<li <?=attr($melon['segment'][2]=='config','class="active"')?>>
+							<a href="/admin/board/config">게시판 설정</a>
+						</li>						
+					</ul>
+					<ul style="display:block;">
+						<?php
+								$currentBoardGroup = '';
+								for ($bora = 0 ; $bora<$headerBoards['length'];$bora++){
+
+									$headerBoard = $headerBoards['list'][$bora];
+								
+									if($currentBoardGroup!=$headerBoard['group_name']){
+										$currentBoardGroup = $headerBoard['group_name'];
+							
+							if($currentBoardGroup==''){
+								$headerBoard['group_name'] ='미분류';
+							}
+										
+										if($bora>0){
+										?>
+											</ul>
+										<?php
+										}
+							?>
+						
+							
+							<h3 class="title"> - <?=$currentBoardGroup?></h3>
+							<ul style="display:block;">
+							<li  <?=attr($melon['segment'][2]==$headerBoard['id'],'class="active"')?>>
+								<a href="/admin/board/<?=$headerBoard['id']?>"><?=$headerBoard['name']?></a>
+							</li>
+							<?php
+								}
+							else{
+
+								?>
+							<li>
+								<a href="/admin/board/<?=$headerBoard['id']?>"><?=$headerBoard['name']?></a>
+							</li>
+								<?php
+								}
+							}
+							?>
+						</ul>	
+				</div>
+				<div class="lnb" <?=attr(makeCondition($melon['segment'][1],'statistics'),'style="display:block;"')?>>	
+					<ul>
+						<li <?=attr($param['mode']=='','class="active"')?>>
+							<a href="/admin/statistics?mode">
+								일반
+							</a>
+						</li>
+						<li <?=attr($param['mode']=='daily','class="active"')?>>
+							<a href="/admin/statistics?mode=daily">
+								날짜별
+							</a>
+						</li>
+						<li <?=attr($param['mode']=='site','class="active"')?>>
+							<a href="/admin/statistics?mode=site">
+								유입경로별
+							</a>
+						</li>
+					</ul>
+				</div>
+		
+
+			</div>
+			<div id="inner_contents">

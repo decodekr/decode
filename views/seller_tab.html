@@ -1,0 +1,139 @@
+
+<style>
+	#public_tab{
+
+	margin:10px;
+	margin-bottom: 40px;
+	
+}
+#public_tab:after{
+display: block;
+content:'';
+clear: both;
+}
+#public_tab>li {
+position: relative;
+	float:left;
+	list-style: none;
+	margin-right:1px;
+}
+#public_tab>li>a{
+	display:block;
+	width:120px;
+	height:40px;
+	line-height:40px;
+	font-size:19px;
+	background:#e3e3e3;
+	color:#171717;
+	font-size:17px;
+	text-align:center;
+	text-decoration:none;
+}
+#public_tab>li.active>a,#public_tab>li>a:hover{
+	background:#2c4fa3;
+	color:#fff;
+}
+#public_tab>li.active .tab_sub{
+display: block;
+}
+.tab_sub{
+position: absolute;
+top: 47px;
+padding: 0;
+left: 0;
+width: 1000px;
+display: none;
+overflow: hidden;
+margin-bottom: 25px;
+}
+.tab_sub li{
+	float: left;
+	list-style: none;
+	padding: 0 5px;
+	margin-left: 10px;
+	height: 24px;
+	line-height: 24px;
+	font-size:15px;
+	border-right: 1px solid #ddd;
+}
+.tab_sub li:last-child{
+border-right: 0;
+}
+</style>
+ <ul id="public_tab">
+			<li <?=attr($melon['segment'][1]=='','class="active"')?>>
+			<a href="/seller">
+				판매자 홈
+			</a>
+			
+
+		</li>
+		<li  <?=attr($melon['segment'][1]=='order','class="active"')?>>
+			<a href="/seller/order">
+				주문 관리
+			</a>
+			<ul class="tab_sub">
+				<li>
+						<a href="/seller/order?status=0">주문 예정인 주문</a>
+
+				</li>
+				<li>
+						<a href="/seller/order?status=1">진행중인 주문</a>
+
+				</li>
+				<li>
+						<a href="/seller/order?status=10">진행완료된 주문</a>
+
+				</li>
+
+			</ul>
+
+			
+
+		</li>
+		<li  <?=attr($melon['segment'][1]=='profile_edit','class="active"')?>>
+			<a href="/seller/profile_edit">
+				정보 수정
+			</a>
+		</li>
+		<li <?=attr($melon['segment'][1]=='statistics','class="active"')?>>
+			<a href="/seller/statistics" >
+				정산 관리
+			</a>
+		</li>
+		<li  <?=attr($melon['segment'][1]=='product','class="active"')?>>
+			<a href="/seller/product">
+				상품 관리
+			</a>
+			<ul class="tab_sub">
+				<li class="active">
+						<a href="/seller/product">재고 관리</a>
+
+				</li>
+				<li>
+						<a href="/seller/product/add">상품 등록</a>
+
+				</li>
+				
+
+			</ul>
+		</li>
+		<li  <?=attr($melon['segment'][1]=='notice'||$melon['segment'][1]=='qna','class="active"')?>>
+			<a href="/seller/notice">
+				관리자 공지
+			</a>
+			<ul class="tab_sub">
+				<li class="active">
+						<a href="/seller/notice">관리자 공지</a>
+
+				</li>
+				<li>
+						<a href="/seller/qna">FAQ / Q&amp;A</a>
+
+				</li>
+				
+
+			</ul>
+		</li>
+	
+	</ul>

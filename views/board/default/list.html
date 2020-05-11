@@ -1,0 +1,35 @@
+
+		<table id="board_list">
+			<tbody>
+			<tr>
+				<th style="width:60px;">번호</th>
+				<th style="width:694px;">제목</th>
+				<th style="width:80px;">작성자</th>
+				<th style="width:110px;">작성일</th>
+			</tr>
+			
+			<?php
+foreach($board['list']['data'] as $boardItem){
+?>
+			<tr>
+				<td><?=$boardItem['no']?></td>
+				<td style="text-align:left;">
+				<a class="secret"  href="<?=$board['parent']?>/view/no/<?=$boardItem['no']?>"><?=$boardItem['title']?></a>
+							
+								</td>
+				<td><?=$boardItem['writer']?></td>
+				<td><?=dateFormat($boardItem['create_date'])?> </td>
+			</tr>
+<?php
+}
+
+?>
+					</tbody>
+					</table>
+<div id="pagination_board">
+<?php
+echo $board['list']['pagination'];
+?>
+</div>
+				
+<a href="<?=$board['parent']?>/write">[글쓰기]</a>

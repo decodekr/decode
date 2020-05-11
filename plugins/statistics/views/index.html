@@ -1,0 +1,46 @@
+						<table class="table table-bordered table-hover">
+							  <thead>
+								<tr>
+								  
+									<th class="text-center" style="">번호</th>
+									<th class="text-center">아이피</th>
+									<th class="text-center">접속자기기</th>
+									<th class="text-center">접속경로</th>
+
+						
+									<th>접속일시</th>
+								</tr>
+							</thead>
+								<tbody>
+								<?php
+								foreach($visitors['list'] as $visitor){
+							?>
+							   <tr>
+								  <td class="text-center">
+								<?=$visitor['no']?>					
+								
+								</td>
+									
+								  <td class="text-center">
+								  <?=$visitor['ip']?>						
+								  </td>
+								  	
+								  <td class="text-center">
+								  <?=$visitor['useragent']?>						
+								  </td>
+								  	
+								  <td class="text-center">
+								  <a href="<?=$visitor['refferer']?>" target="_blank"><?=$visitor['refferer']?>			 </a>			
+								  </td>
+									 <td class="text-center">
+							  <?=$visitor['create_date']?>						
+							  </td>
+								</tr>
+								<?php
+									}
+								?>
+							</tbody>
+						</table>
+						<div class="pagination" class="btn-group">
+							<?=$visitors['pagination']?>
+						</div>

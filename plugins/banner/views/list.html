@@ -1,0 +1,57 @@
+						<table class="table table-bordered table-hover">
+							  <thead>
+								<tr>
+								  
+									<th class="text-center" style="">번호</th>
+									<th class="text-center">배너 제목</th>
+									<th class="text-center">배너 이미지</th>
+									<th class="text-center">배너 위치</th>
+									<th class="text-center">등록일</th>
+									<th class="text-center">관리</th>
+
+						
+								</tr>
+							</thead>
+								<tbody>
+								<?php
+									foreach($banners['list'] as $banner){
+							?>
+							   <tr>
+								  <td class="text-center">
+								<?=$banner['no']?>					
+								
+								</td>
+								  <td class="text-center">
+								<?=$banner['title']?>					
+								
+								</td>
+									
+								  <td class="text-center">
+								  	<?=attr($banner['image'],'<img src="/files/'.$banner['image'].'" style="width:100px;">')?>					
+								  </td>
+								  	
+								  <td class="text-center">
+								  <?=$banner['location']?>						
+								  </td>
+								  	
+							
+									 <td class="text-center">
+							  <?=$banner['create_date']?>						
+							  </td>
+							  <td>
+							  	<a href="<?=$melon['path']?>/mode/delete/no/<?=$banner['no']?>" class="btn btn-sm btn-danger delete-button">
+								삭제 <i class="fa fa-trash-o"></i>
+								</a>
+							  </td>
+								</tr>
+								<?php
+									}
+								?>
+							</tbody>
+						</table>
+						<div class="pagination" class="btn-group">
+							<?=$banners['pagination']?>
+						</div>
+						<div id="buttons">
+				<a href="<?=$melon['path']?>/mode/add" class="btn btn-primary right">등록</a>
+			</div>

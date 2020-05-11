@@ -1,0 +1,86 @@
+@font-face {
+  font-family: '나눔바른고딕';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Nanum Barun Gothic Regular'), local('Nanum Barun Gothic-Regular'), local('NanumBarunGothic Regular');
+  src: url(/fonts/NanumBarunGothic.eot);
+  src: url(/fonts/NanumBarunGothic.eot?#iefix) format('embedded-opentype'),
+       url(/fonts/NanumBarunGothic.woff) format('woff'),
+       url(/fonts/NanumBarunGothic.ttf) format('truetype');
+}
+
+/*
+	Initialize Style
+*/
+html,body{
+	height:100%;
+}
+body{
+	font-family:'나눔바른고딕',sans-serif;
+	font-size:11px;
+	color:#000;
+	background:#f2f2f2;
+}
+html,body,div,h1,h2,h3,h4,h5,p,dl,dt,dd,ul,ol,li,table,tr,td,th,form,fieldset,button,input,select,hr,textarea{
+	margin:0;
+	padding:0
+}
+td,th{
+	text-align:center;
+	vertical-align:middle;
+}
+td.align-left,th.align-left{
+	text-align:left;
+}
+a{
+	text-decoration:none
+}
+li{
+	list-style:none
+}
+input[type="text"],input[type="password"]{
+	border:1px solid black;
+	text-indent:4px;
+}
+input,select,button,label{
+	vertical-align:middle;
+	
+}
+input[type="submit"]{
+	background:#999;
+	border:0;
+	cursor:pointer
+}
+table{
+	table-layout:fixed;
+	border-collapse:collapse;
+	border-spacing:0
+}
+img{
+	border:0;
+}
+address{
+	font-style:normal;
+}
+select{
+	border-radius:0;
+}
+.clear{
+	float:none !important;
+	width:0 !important;
+	height:0 !important;
+	margin:0 !important;
+	padding:0 !important;
+	border:0 !important;
+	clear:both;
+}
+
+
+input::-webkit-input-placeholder{
+	text-indent:10px;
+}
+
+html {
+	-webkit-tap-highlight-color: rgba(201, 224, 253, 0.8);
+	-webkit-tap-highlight-color: transparent;
+}

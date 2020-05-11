@@ -1,0 +1,52 @@
+
+	<?php
+		$currentMonth = '';
+		$currentYear = substr($visitors[0]['date'],0,4);;
+		$monthTotal = 0;
+		?>
+<div class="portlet-title">
+
+
+</div>
+<div class="portlet-body">
+	<div class="table-responsive">
+		<table class="table">
+		<thead>
+						<tr>
+						
+						
+						
+							<th>
+							 유입 경로
+							</th>
+							<th>유입 수</th>
+						
+					
+						</tr>
+					</thead>
+					<tbody>
+				
+				
+					<?php
+						foreach($visitors['list'] as $visitor){
+						
+					?>
+					<tr>
+							<td>
+							<?=$visitor['domain']?>
+							</td>
+							<td>
+							<?=$visitor['count']?>
+							</td>
+						</tr>
+					<?php
+					
+						}
+					?>
+				
+										
+					</tbody>
+		</table>
+		
+	</div>
+</div>

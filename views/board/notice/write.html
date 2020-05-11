@@ -1,0 +1,38 @@
+<form method="post" name="a">
+<input type="hidden" name="has_data"  value="1"/>
+<table id="board_form">
+		<colgroup><col style="width:50px;">
+		<col style="width:200px;">
+		<col style="width:50px;">
+		<col style="width:200px;">
+		<col style="width:50px;">
+		<col style="width:200px;">
+		<col style="width:50px;">
+		<col style="width:150px;">
+		</colgroup><tbody><tr>
+			<th>제목</th>
+			<td colspan="7"><input type="text" name="title" value="<?=$board['write']['title']?>" style="width:897px;"></td>
+		</tr>
+		<tr>
+			<th>작성자</th>
+			<td><input type="text" name="writer" value="<?=$board['write']['writer']?>"></td>
+
+		</tr>
+		<tr>
+			<td colspan="8" style="border:0;">
+				<textarea name="contents" id="board_form_textarea"><?=$board['write']['contents']?></textarea>
+			</td>
+		</tr>
+	</tbody></table>
+<div id="board_btn" style="text-align:center;">
+		<a href="" class="btn" style="position:static;" onclick="document.a.submit();return false;">작성</a>
+	
+	</div>
+</form>
+
+<style>
+	form input,textarea{
+	background: #fff !important;
+}
+
+</style>

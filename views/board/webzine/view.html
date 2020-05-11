@@ -1,0 +1,39 @@
+<main class="site-main site-login">
+        <div class="box-center-3">
+
+<h2 class="sub_title  "><?=$board['config']['name']?></h2>
+<div class="content-default notice-wrap">
+    <div class="board-view-table-wrap">
+    <table class="board-view-table">
+        <tr class="board-view-title">
+            <th><?=$board['view']['title']?></th>
+        </tr>
+        <tr>
+            <td>관리자</td>
+        </tr>
+        <tr class="board-view-article">
+            <td>
+                <?=nl2br($board['view']['contents'])?>
+            </td>
+        </tr>
+    </table>
+    </div>
+    <div class="board-btn-list"><br>
+        <a href="<?=$board['parent']?>" class="btn btn-default">목록</a>
+    </div>
+</div>
+
+</div>
+
+<style>
+/*! CSS Used from: http://animal.identt.co.kr/styles/reset.css */
+div,table,tbody,tr,th,td{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;}
+table{border-collapse:collapse;border-spacing:0;}
+/*! CSS Used from: http://animal.identt.co.kr/styles/style.css */
+.board-view-table{width:100%;font-size:12px;border-top:2px solid #838383;}
+.board-view-table th,.board-view-table td{padding:12px 20px;}
+.board-view-table tr{border-bottom:1px solid #c9c9c9;}
+.board-view-title{background-color:#fbfbfb;font-size:13px;font-weight:bold;}
+.board-view-table-wrap{padding:0 15px;}
+.board-view-article td{word-break:break-all;}
+</style>

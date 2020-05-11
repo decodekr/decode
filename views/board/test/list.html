@@ -1,0 +1,66 @@
+<style>
+    .board-list table {
+        width: 100%;
+        border-collapse: collapse;
+        border-spacing: 0;
+        border: 0;
+        border-top: 1px solid #f4f4f4;
+        color: #2c2e37;
+        font-size: 13px;
+    }
+    .board-list th {
+        border: 0;
+        border-bottom: 1px solid #f4f4f4;
+        padding: 24px 0 25px;
+        white-space: nowrap;
+        font-size: 15px;
+        text-align: center;
+    }
+    .board-list td {
+        border: 0;
+        padding: 20px 10px 21px;
+        white-space: nowrap;
+        vertical-align: top;
+        text-align: center;
+        font-size: 14px;
+    }
+</style>
+<div class="sub-container-default">
+    <div class="board-list">
+        <table>
+            <thead class="xe-hidden-xs">
+            <tr>
+                <th scope="col"><span>번호</span></th>
+                <th scope="col"><span>제목</span></th>
+                <th scope="col"><span>작성자</span></th>
+                <th scope="col"><span>작성일</span></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php
+            foreach($board['list']['data'] as $boardItem){
+            ?>
+            <tr>
+                <td><?=$boardItem['no']?></td>
+                <td><a href="<?=$board['parent']?>/view/no/<?=$boardItem['no']?>"><?=$boardItem['title']?></a></td>
+                <td><a href="#"><?=$boardItem['writer']?></a></td>
+                <td><?=dateFormat($boardItem['create_date'])?></td>
+            </tr>
+            <?php
+            }
+            ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+<div id="pagination_board">
+<?php
+echo $board['list']['pagination'];
+?>
+</div>
+
+<a href="<?=$board['parent']?>/write">[글쓰기]</a>

@@ -1,0 +1,111 @@
+<div id="search_form" style="clear:both;padding:20px 0;">
+				<form action="" class="form-inline" role="form">
+					<div class="form-group">
+				
+					</div>
+					<div class="form-group">
+					<select name="search_type" class="form-control">
+					<option value="">전체</option>
+					<?php
+						foreach($contact_form['fields'] as $key => $field){
+					
+					?>
+						<option value="<?=$key?>" <?=attr($param['search_type']==$key)?>><?=$field?></option>
+						<?php
+					}	
+					?>
+					</select>	
+						<input type="text" name="search_keyword" value="<?=$param['search_keyword']?>" class="form-control" placeholder="검색어 입력">
+					</div>
+				
+					<button type="submit" class="btn btn-default">검색</button>
+				</form>
+			</div>
+			<table class="table need-result">
+					<thead>
+						<tr>
+							<th>
+								No
+							</th>
+							
+							<?php
+								foreach ($contact_form['fields'] as $field=>$fieldName){
+							?>
+							<th>
+								<?=$fieldName?>
+							</th>
+							<?php
+								}
+							?>
+							<th>
+								상태
+							</th>
+							<th>
+								등록일
+							</th>
+						
+							<th>
+								관리
+							</th>
+						
+						</tr>
+					</thead>
+					<tbody>
+					<?php
+						foreach($applicants['list'] as $applicant){
+
+							$data = jsonDecode($applicant['contents']);
+					?>
+					<tr>
+							<td>
+								<?=$applicant['no']?>							</td>
+							
+							<?php
+								foreach ($contact_form['fields'] as $field=>$fieldName){
+							?>
+							<td>
+								<?=$data[$field]?>
+							</td>
+							<?php
+								}
+							?>
+							<td>
+							<?php
+								if($applicant['status']==0){
+							?>
+							<a href="?status=1&no=<?=$applicant['no']?>" class="btn btn-primary">상담대기</a>
+							<?php
+							}
+							?>
+							<?php
+								if($applicant['status']==1){
+							?>
+							<a href="?status=0&no=<?=$applicant['no']?>" class="btn btn-success">상담완료</a>
+							<?php
+							}
+							?>
+							</td>
+							
+							<td>
+								<?=$applicant['create_date']?>									</td>
+							<td class="admin_buttons">
+								<!-- <a href="applicant.detail.php?no=<?=$applicant['no']?>" class="btn btn-sm green">
+								수정 <i class="fa fa-pencil"></i>
+								</a> -->
+								<a href="?no=<?=$applicant['no']?>" class="btn btn-sm btn-danger delete-button">
+								삭제 <i class="fa fa-trash-o"></i>
+								</a>
+				
+							</td>
+						
+						
+						</tr>
+					<?php
+						}
+					?>
+										
+					</tbody>
+				</table>
+				<div id="pagination">
+				<?=$applicants['pagination']?>
+				</div>

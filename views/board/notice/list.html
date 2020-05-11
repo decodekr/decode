@@ -1,0 +1,42 @@
+
+<div id="content">
+<div class="container">
+<h2 class="sub_title  "><?=$board['config']['name']?></h2>
+<div class="sub-container-default board-inner">
+
+<div class="table-box">
+    <table class="table-default table">
+        <tbody><tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>날짜</th>
+        </tr>
+        <?php
+        foreach($board['list']['data'] as $boardItem){
+        ?>
+        <tr>
+            <td><?=$boardItem['no']?></td>
+            <td>
+                <a href="<?=$board['parent']?>/view/no/<?=$boardItem['no']?>"><?=$boardItem['title']?></a>
+            </td>
+            <td><?=$boardItem['writer']?></td>
+            <td><?=dateFormat($boardItem['create_date'])?></td>
+        </tr>
+            <?php
+        }
+
+        ?>
+        </tbody></table>
+    <!-- <ul class="pagin">
+        <li class="pagin-prev"><a href="#">이전</a></li>
+        <?php
+        echo $board['list']['pagination'];
+        ?>
+        <li class="pagin-next"><a href="#">다음</a></li>
+    </ul> -->
+</div>
+</div>
+<a href="<?=$board['parent']?>/write" style="display:none;">[글쓰기]</a>
+</div>
+</div>

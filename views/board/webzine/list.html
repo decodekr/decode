@@ -1,0 +1,101 @@
+
+<div id="content">
+<div class="container">
+<h2 class="sub_title  "><?=$board['config']['name']?></h2>
+<div class="sub-container-default board-inner">
+
+<div class="table-box">
+   <ul class="clear event_list">
+	 <?php
+        foreach($board['list']['data'] as $boardItem){
+        ?>
+				       <li>
+                   <a href="/board/news/view/no/<?=$boardItem['no']?>">
+						<div class="thumbnail pc" style="background-image:url('/files/<?=$boardItem[image]?>')"></div>
+						<!-- <img src="/files/board/event/치즈볼행사_copied-fu8oe.jpg" alt="" class="mobile mobile-thumbnail"> -->
+						<h3 class="title">
+							<?=$boardItem['title']?>					</h3>
+						<div class="date">
+							<?=getSummary($boardItem['contents'],150)?>				</div>
+				   </a>
+                </li>
+			<?php
+}	
+					?>
+				    
+				 
+            </ul>
+    <!-- <ul class="pagin">
+        <li class="pagin-prev"><a href="#">이전</a></li>
+        <?php
+        echo $board['list']['pagination'];
+        ?>
+        <li class="pagin-next"><a href="#">다음</a></li>
+    </ul> -->
+</div>
+</div>
+<a href="<?=$board['parent']?>/write" style="display:none;">[글쓰기]</a>
+</div>
+</div>
+
+<style>
+li{
+list-style: none;
+}
+.event_title{
+	font-size:27px;
+	text-indent: 9px;
+	margin-top: 32px;
+	margin-top: 60px;
+	border-left: 8px solid #ec483c;
+	line-height: 30px;
+}
+.event_list {
+	border-top: 1px solid #222;
+	margin-top: 16px;
+	padding-top: 19px;
+}
+.event_list li{
+	float: left;
+	width: 284px;
+	height: 324px;
+	margin-right: 21px;
+	border: 1px solid #d7d7d7;
+	margin-bottom:20px;
+	box-sizing:border-box;
+
+}
+.event_list li:nth-child(4n){
+	margin-right: 0;
+}
+.event_list li .thumbnail{
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+	width: 282px;
+	height: 200px;
+	border-bottom: 1px solid #d7d7d7;
+
+}
+.event_list li .title{
+	font-size:20px;
+	color: #222;
+	margin-top: 7px;
+	line-height: 22px;
+	text-align: center;
+	padding: 0 10px;
+	white-space:nowrap;
+	overflow: hidden;
+	text-overflow:ellipsis;
+
+}
+.event_list li .date{
+	font-size:13px;
+	line-height: 17px;
+	color: #202020;
+	padding: 10px;
+	padding-top: 0;
+	text-align: left;
+
+}
+</style>

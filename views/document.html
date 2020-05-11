@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<title> <?=$siteConfig['title']?> </title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="utf-8">
+	<link rel="icon" href="favicon.png" type="image/x-icon"/>
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+	<link rel="stylesheet" href="/styles/reset.css">
+	<link rel="stylesheet" href="/styles/style.css">
+	<?=loadStyle('/styles/board/skin/'.$board['config']['skin'].'.css',$board['id'])?>
+	<?=loadStyle('/styles/board/'.$board['config']['skin'].'.css',$board['id'])?>
+	<script type="text/javascript" src="/scripts/jquery.js"></script>
+	<script type="text/javascript" src="/scripts/melon.js"></script>
+	<?=loadScript('/scripts/board/skin/'.$board['config']['skin'].'.js',$board['id'])?>
+	<?=loadScript('/scripts/board/'.$board['config']['skin'].'.js',$board['id'])?>
+	
+
+</head>
+<body>
+
+

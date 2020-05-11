@@ -1,0 +1,88 @@
+<h2 id="contents_title">
+	<i class="fa fa-leaf"></i>
+	회원관리
+</h2>
+<div class="contents">
+	
+	<div class="container">
+		<h3 class="title">
+			<i class="fa fa-users"></i> 회원 리스트
+		</h3>
+		<table class="table need-result">
+			<thead>
+				<tr>
+					<th>
+						No
+					</th>
+					<th>
+						 제목
+					</th>
+					<th>
+						 작성자
+					</th>
+					<th>
+						 조회
+					</th>
+			
+					<th>
+						등록일
+					</th>
+				
+					<th>
+						관리
+					</th>
+				
+				</tr>
+			</thead>
+			<tbody>
+				<?php
+					foreach($board['list']['data'] as $boardItem){
+				?>
+				<tr class="table-row-link" data-href="<?=$board['parent']?>/view/no/<?=$boardItem['no']?>">
+					<td>
+						 <?=$boardItem['no']?>
+					</td>
+					<td>
+						 <?=$boardItem['title']?>
+					</td>
+					<td>
+						 <?=$boardItem['writer']?>
+					</td>
+					<td>
+						 <?=$boardItem['hit']?>
+					</td>
+					<td class="create_date">
+						  <?=$boardItem['create_date']?>
+					</td>
+					<td class="admin_buttons">
+						<a href="<?=$board['parent']?>/write/no/<?=$boardItem['no']?>" class="btn btn-sm green">
+					<i class="fa fa-pencil"></i> 	수정 
+						</a>
+						<a href="<?=$board['parent']?>/delete/no/<?=$boardItem['no']?>" class="btn btn-sm btn-danger delete-button">
+						<i class="fa fa-trash-o"></i> 삭제 
+						</a>
+					</td>	
+				</tr>
+			<?php
+}
+
+?>
+			<!-- <?=attr($users['length']==0,'<tr><td colspan="5">조회 결과가 없습니다.</td></tr>')?>
+	 -->
+			</tbody>
+		</table>
+				
+			<div class="pagination">
+				<?php
+					echo $board['list']['pagination'];
+				?>
+			</div>
+			<div id="buttons">
+				<a href="<?=$board['parent']?>/write" class="btn btn-primary right">작성</a>
+			</div>
+
+		</div>
+
+</div>
+
+

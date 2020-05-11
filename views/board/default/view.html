@@ -1,0 +1,48 @@
+<table id="board_view">
+			<colgroup><col style="width:50px;">
+			<col style="width:340px;">
+	
+			</colgroup><tbody><tr>
+				<th>제목</th>
+				<td colspan="2">
+								<?=$board['view']['title']?></td>
+			</tr>
+						<tr>
+				<th>작성자</th>
+				<td><?=$board['view']['writer']?></td>
+	
+			</tr>
+						<tr>
+				<td colspan="2" style="border:0;">
+					<div id="board_view_contents">
+				<?=nl2br($board['view']['contents'])?>
+													</div>
+				</td>
+			</tr>
+						<tr>
+
+			
+					</tbody></table>
+
+					<div id="board_btn">
+			<a href="<?=$board['parent']?>" class="btn" style="left:0;">목록</a>
+						<a href="<?=$board['parent']?>/delete/no/<?=$param['no']?>" class="btn" style="right:60px;">삭제</a>
+			<a href="<?=$board['parent']?>/write/no/<?=$param['no']?>" class="btn" style="right:0;">수정</a>
+					</div>
+
+
+<form action="<?=$board['parent']?>/comment">
+<input type="hidden" name="has_data" value="1" />
+	<input type="hidden" name="board_no" value="<?=$param['no']?>" />
+	<textarea name="contents" id="" cols="30" rows="10"></textarea>
+	<input type="submit" />
+</form>
+
+<?php
+	$data=getList('board_test_comment','','','','reply_no desc, sort asc');
+
+	for ($bora=0;$bora<$data['length'];$bora++){
+		$item = $data[$bora];
+		echo '<li style="margin-left :'.($item['depth']*100).'px">'.$item['no'].$item['contents'].'</li>';
+	}
+?>

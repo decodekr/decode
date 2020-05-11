@@ -1,0 +1,77 @@
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa fa-reorder font-green-sharp"></i>
+			<span class="caption-subject font-green-sharp bold uppercase"><?=$board['config']['name']?></span>
+		</div>
+	</div>
+	<div class="portlet-body form">
+		<div  class="form-horizontal form-bordered ">
+			<input type="hidden" name="has_data" value="1" />
+			<div class="form-body ">
+				<div class="form-group" >
+					<label class="control-label col-md-3">제목</label>
+					<div class="col-md-4">
+						
+						<?=$board['view']['title']?>
+						<!-- <span class="help-block">
+						Maxlength is 25 chars. The badge will show up by default when the remaining chars are 10 or less. </span> -->
+					</div>
+				</div>
+				<div class="form-group" >
+					<label class="control-label col-md-3">작성자</label>
+					<div class="col-md-4">
+						
+						<?=$board['view']['writer']?>
+						<!-- <span class="help-block">
+						Maxlength is 25 chars. The badge will show up by default when the remaining chars are 10 or less. </span> -->
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-3">내용</label>
+					<div class="col-md-9">
+						<?=$board['view']['contents']?>
+					</div>
+				</div>
+				<?php
+					if ($param['no']) {
+				?>
+				<div class="form-group">
+					<label class="control-label col-md-3">등록일</label>
+					<div class="col-md-4">
+				
+						<?=$board['view']['create_date']?>
+			
+					
+						<!-- <span class="help-block">
+						Maxlength is 25 chars. The badge will show up by default when the remaining chars are 10 or less. </span> -->
+					</div>
+				</div>
+				<?php
+					}
+				?>
+				
+			</div>
+			<div class="form-actions">
+				<div class="row">
+					<div class="row">
+					<div class="col-md-offset-5 col-md-9">
+						<a href="<?=$board['parent']?>/write/no/<?=$board['view']['no']?>" class="btn green">
+						<?=attr($param['no'],'수정','등록')?>
+						
+						<i class="fa fa-pencil"></i>
+						</button>
+						<a href="<?=$board['parent']?>/delete/no/<?=$param['no']?>" class="btn btn-danger delete-button">
+						삭제 <i class="fa fa-trash-o"></i>
+						</a>
+						<a href="<?=$board['parent']?>" class="btn btn-default">
+						
+						목록
+						<i class="fa fa-arrow-left"></i>
+						</a>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div><!-- END FORM-->
+	</div><!-- END BODY-->
+   

@@ -1,0 +1,134 @@
+
+	<?php
+		$currentMonth = '';
+		$currentYear = substr($visitors[0]['date'],0,4);;
+		$monthTotal = 0;
+		?>
+<div class="portlet-title">
+	
+
+</div>
+<div class="portlet-body">
+	<div class="table-responsive">
+		<table class="table">
+			<thead>
+						<tr>
+				
+						<td colspan="3" style="font-size:20px;"><?=$currentYear?>년 (<span id="year_total"></span>)</td>
+					</tr>
+						<tr>
+						
+						
+						
+							<th>
+							 날짜
+							</th>
+							<th>방문수</th>
+							<th>일별 방문수</th>
+						
+					
+						</tr>
+					</thead>
+					<tbody>
+				
+				
+					<?php
+
+									
+					foreach($visitors['list'] as $visitor){
+							$year = substr($visitor['date'],0,4);
+							$month = substr($visitor['date'],5,2);
+							
+					if($currentMonth!=$month){
+				
+						
+						if($bora!=0){
+
+							echo '</ul><input type="hidden" value="'.$monthTotal.'" class="monthly"></tr>';
+						}
+						
+						$monthTotal =$visitor['count'];
+					$currentMonth = $month;
+					?>
+					<tr>
+							<td>
+							<?=$month?>
+							</td>
+							<td>
+						
+							</td>
+							<td>
+								<a href="" class="btn btn-success check">확인</a>
+							</td>
+						</tr>
+						<tr  style="display:none;">
+						<td colspan="3" >
+						<ul class="daily">
+						<li>
+						<?=dateFormat($visitor['date'],'m/d')?>
+						<span>
+						<?=$visitor['count']?>
+						</span>
+						</li>
+					<?php
+					}
+					else{
+
+						$monthTotal +=$visitor['count'];
+					?>
+						<li>
+						<?=dateFormat($visitor['date'],'m/d')?>
+						<span>
+						<?=number_format($visitor['count'])?>
+						</span>
+						</li>
+					<?php
+					}
+
+
+						}
+
+					?>
+					</ul>
+					<input type="hidden" value="<?=$monthTotal?>"  class="monthly">
+					</td>
+					</tr>
+										
+					</tbody>
+		</table>
+			<script type="text/javascript">
+			$('.check').click(function(){
+				if($(this).parent().parent().next().is(':visible')){
+					$(this).parent().parent().next().hide()
+
+						return false;
+				}
+				$(this).parent().parent().next().show();
+				return false;
+			});
+
+			var yearTotal = 0;
+			$('.monthly').each(function(){
+				var month = parseInt($(this).val());
+				yearTotal+=month;
+				$(this).parent().parent().prev().find('td').eq(1).text(number_format(month));
+			});
+			$('#year_total').text(number_format(yearTotal));
+			</script>
+				<style>
+			.daily li{
+				list-style:none;
+				height:22px;
+				
+			}
+			.daily li{
+				color:red;
+			}
+			.daily li span{
+				color:#000;
+				margin-left:10px;
+				font-weight:bold;
+			}
+			</style>
+	</div>
+</div>
