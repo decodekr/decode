@@ -2,6 +2,7 @@
 	
 	ini_set('memory_limit',-1);
 	$omit=array('country','available_delivery_date','unit','quantity','unit_price','price','supplier');
+	
 	function multiexplode ($delimiters,$string) {
 
     $ready = str_replace($delimiters, $delimiters[0], $string);
@@ -25,41 +26,65 @@
 
 	}
 if($param['mode']=='product_list'){
-	$where=  '1=1 AND details not like '." ' ".'"category":"" '."'";
 
+	if($param['category']==''){
+		exit;
+	}
+	$where=  '';;
+	$select = '';
 	
 	
 	//키워드 보정
 	
 	
 	
-		if($param['keyword']){
-			$where.=' AND (';
-			$param['keyword'] = multiexplode(array(',',' '),$param['keyword']);
-			
-			
-			$keywords='';
-			foreach($param['keyword'] as $keyword){
-				if($keywords!=''){
-					$keywords.=',';
-				}
-				$keywords.=samewords($keyword);
-			}		
+	if($param['keyword']){
+		$where.=' (';
 
+		//컴마와 공백으로 쪼갠다.
 
-			$keywords = explode(',',$keywords);
-			
-			foreach($keywords as $index=>$keyword){
-			if($index!=0){
-				$where.=' AND ';
-			}
-			$where.="details like '%".'"'.$keyword.''."%'";
-			}
-				$where.=')';
-		}
+		$param['keyword'] =  str_replace('\"','inch',$param['keyword']);
+		$param['keyword'] = multiexplode(array(',',' '),$param['keyword']);
+		$param['keyword']=array_filter($param['keyword']);
 		
-	
+		$keywords='';
+		foreach($param['keyword'] as $keyword){
+			if($keywords!=''){
+				$keywords.=',';
+			}
+			//$keywords.=samewords($keyword);
+			$keywords.=$keyword;
+		}		
 
+
+		$keywords = explode(',',$keywords);
+		
+		foreach($keywords as $index=>$keyword){
+			if(trim($keyword)==''){
+				continue;
+			}
+		if($index!=0){
+			$where.=' OR ';
+			$select.=' + ';
+		}
+		$where.="details like '%".'"'.$keyword.''."%'";
+		$select.="case when details like '%".$keyword."%' then 1 else 0 end";
+		}
+			$where.=')';
+	}
+
+
+		/*
+	select *
+      ,((case when details like '%KTT%' then 1 else 0 end) +
+      (case when details like '%삼한%' then 1 else 0 end) +
+      (case when details like '%PIPE%' then 1 else 0 end) ) as priority
+  from product_lists
+ where details like '%KTT%'
+    or details like '%삼한%'
+    or details like '%PIPE%'
+ order by priority desc
+*/
 	
 	if($param['category']){
 		if($where!=''){
@@ -67,32 +92,45 @@ if($param['mode']=='product_list'){
 		}
 		$where.='category like "%'.$param['category'].'%"';
 	}
-	if($param['details']){
+/*	if($param['details']){
 		foreach($param['details'] as $detail){
 			if($where!=''){
-				$where.=' AND ';
+				$where.=' OR ';
 			}
 			$where.='details like "%'.$detail.'%"';
 		}
-	}
+	}*/
 	$param['product_type'] =$param['category'];
 	
+	if($select!=''){
+		$order='priority desc';
+	$select = '*,('.$select.') AS priority';
+	}
+	else{
+	$order='';
+	}
 
-$products=pageList('product_lists',$where,'',100,10,$param['page'],'$page');
+
+$products=pageListSelect('product_lists',$where,$order,10,10,$param['page'],'$page',$select);
+
 
 
 $keywordLen = count($param['keyword']);
+
 
 if($keywordLen>0&&$param['keyword']!=''){
 foreach($products['list'] as $index=>$product){
 	$match=0;
 	foreach($param['keyword'] as $keyword){
-		if($keyword!=''){
+
+		if(trim($keyword)!=''){
+
 			if(strpos($product['details'],$keyword)!==FALSE ||strpos($product['details'],strtolower($keyword))!==FALSE||strpos($product['details'],strtoupper($keyword))!==FALSE){
 				$match++;
 			}
 		}
 	}
+
 	$matchRate = $match/$keywordLen;
 	$products['list'][$index]['match_rate'] = $matchRate;
 }
@@ -107,21 +145,14 @@ array_multisort($matchRates, SORT_DESC, $products['list']);
 }
 
 
+
+
 ?>
 
 
 
 
 
-
-				<?php
-		if($param['category']==''){
-	?>
-		<div style="padding:40px 0;text-align:center;">   품목을 선택해주세요</div>
-         
-				<?php
-	}	
-			?>
 
 
 
@@ -179,10 +210,15 @@ array_multisort($matchRates, SORT_DESC, $products['list']);
 					if(in_array($title,$omit)){
 						continue;
 					}
+					if($detail==''){
+						echo '<td>-</td>';
+					}else{
+
 				?>
 				<td><?=$detail?></td>
 					<?php
-				}	
+				}
+				}
 				?>
 				 <!-- 
                     <td><?=$product['details']['pipe_type']?></td>
@@ -255,15 +291,20 @@ array_multisort($matchRates, SORT_DESC, $products['list']);
 					   <tr>
                     <th scope="row"><input type="checkbox" name="no[]" value="<?=$product['no']?>"></th>
                     <?php if($param['keyword']){?> <th><?=round(($product['match_rate']*100))?>%</th> <?php } ?>
-                 <?php
+                   <?php
 					foreach($product['details'] as $title=>$detail){
-				if(in_array($title,$omit)){
+					if(in_array($title,$omit)){
 						continue;
 					}
+					if($detail==''){
+						echo '<td>-</td>';
+					}else{
+
 				?>
 				<td><?=$detail?></td>
 					<?php
-				}	
+				}
+				}
 				?>
 				 <!-- 
                     <td><?=$product['details']['pipe_type']?></td>
@@ -338,15 +379,20 @@ array_multisort($matchRates, SORT_DESC, $products['list']);
 					   <tr>
                     <th scope="row"><input type="checkbox" name="no[]" value="<?=$product['no']?>"></th>
                     <?php if($param['keyword']){?> <th><?=round(($product['match_rate']*100))?>%</th> <?php } ?>
-                 <?php
+                   <?php
 					foreach($product['details'] as $title=>$detail){
 					if(in_array($title,$omit)){
 						continue;
 					}
+					if($detail==''){
+						echo '<td>-</td>';
+					}else{
+
 				?>
 				<td><?=$detail?></td>
 					<?php
-				}	
+				}
+				}
 				?>
 				 <!-- 
                     <td><?=$product['details']['pipe_type']?></td>
@@ -420,15 +466,20 @@ array_multisort($matchRates, SORT_DESC, $products['list']);
 					   <tr>
                     <th scope="row"><input type="checkbox" name="no[]" value="<?=$product['no']?>"></th>
                     <?php if($param['keyword']){?> <th><?=round(($product['match_rate']*100))?>%</th> <?php } ?>
-                 <?php
+                   <?php
 					foreach($product['details'] as $title=>$detail){
-				if(in_array($title,$omit)){
+					if(in_array($title,$omit)){
 						continue;
 					}
+					if($detail==''){
+						echo '<td>-</td>';
+					}else{
+
 				?>
 				<td><?=$detail?></td>
 					<?php
-				}	
+				}
+				}
 				?>
 				 <!-- 
                     <td><?=$product['details']['pipe_type']?></td>
@@ -453,12 +504,12 @@ array_multisort($matchRates, SORT_DESC, $products['list']);
 				}	
 						}
 			?>
-				<!-- <div id="pagination_wrap">
+				 <div id="pagination_wrap">
 					<div class="pagination">
 						<?=$products['pagination']?>
 				</div>
 
-				</div> -->
+				</div>
 				
 				
 			
@@ -467,6 +518,50 @@ array_multisort($matchRates, SORT_DESC, $products['list']);
 }
 	include'views/header.html';
 ?>
+<style type="text/css">
+
+
+
+#wrapper {
+opacity:0;
+	position: absolute;
+	z-index: 1;
+	top: 65px;
+	bottom: 48px;
+	left: 0;
+	height:650px;
+	width: 100%;
+
+	overflow: hidden;
+}
+
+#scroller {
+	position: absolute;
+	z-index: 1;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	width: 2700px;
+	height: 100%;
+
+	-webkit-transform: translateZ(0);
+	-moz-transform: translateZ(0);
+	-ms-transform: translateZ(0);
+	-o-transform: translateZ(0);
+	transform: translateZ(0);
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	-webkit-text-size-adjust: none;
+	-moz-text-size-adjust: none;
+	-ms-text-size-adjust: none;
+	-o-text-size-adjust: none;
+	text-size-adjust: none;
+}
+
+
+
+</style>
 <style>
 #search_wrap{
 padding: 40px 0;
@@ -479,6 +574,7 @@ padding: 40px 0;
 }
 	#search_right{
 	width: 900px;
+	height: 800px;
 	float: right;
 	margin-left: 30px;
 }
@@ -642,7 +738,7 @@ letter-spacing:-1px;
 						<div class="form-search">
 							
 								<div class="box-group">
-									<input type="text" name="keyword" id="search_keyword_input" placeholder="카테고리를 선택하고 검색어를 ,(컴마)로 구분하여 입력해주세요." class="form-control" value="<?=$param['keyword']?>">
+									<input type="text" name="keyword" id="search_keyword_input" placeholder="카테고리를 선택하고 검색어를 ,(컴마)로 구분하여 입력해주세요." class="form-control" value="<?=htmlspecialchars($_GET['keyword'])?>">
 									<button class="btn btn-search" type="button" id="search_button"><span class="fa fa-search"></span></button>
 								</div>
 							
@@ -683,17 +779,22 @@ display: none;
 	color: #fff;
 }
 </style>
-			<a href="" id="right_button" class="slide_buttons">
+			<!-- <a href="" id="right_button" class="slide_buttons">
 				<i class="fa fa-arrow-right"></i>
 
 			</a>
 			<a href="" id="left_button" class="slide_buttons">
 					<i class="fa fa-arrow-left"></i>
 
-			</a>
+			</a> -->
+			<div id="no-result">품목을 선택해주세요.</div>
+			<div id="wrapper">
+	<div id="scroller">
 		  <div class="search-list-table_wrap" >
 				
 		  </div>
+		  </div>
+		 </div>
 		  <div class="pagination">
 						
 				</div>
@@ -729,10 +830,10 @@ display: none;
  </main>
 
 <style>
-	.search-list-table_wrap{
+	/*.search-list-table_wrap{
 	overflow-x: hidden;
 	min-height:760px;
-}
+}*/
 
 </style>
 <script>
@@ -840,6 +941,7 @@ display: none;
 	
 			var details= [];
 
+
 			$('.detail_category').each(function(){
 			
 				details.push($(this).text());
@@ -861,21 +963,28 @@ display: none;
 				data:  {mode : 'product_list',category: category,details:details,page:$page,keyword:$keyword},
 				dataType:'HTML',
 				success : function($data){
-					
+					if($data!=''){
+					$('#wrapper').css({opacity:1});
+					$('#no-result').hide();
+					}
+					else{
+							$('#no-result').show();
+						$('#wrapper').css({opacity:0});
+				}
 					$('.search-list-table_wrap').html($data);
 					if($('#no-result').size()>0){
 					$('.slide_buttons').hide();
 				}
 					
 				 itemTotal = $('.search-list-table tbody tr').size()
-					paginationLoad(itemTotal,1,15,10);
+					//paginationLoad(itemTotal,1,15,10);
 					$('.search-list-table tbody tr:lt(15)').show();
 				}
 
 			})
 	}
 
-
+/*
 function paginationLoad($total,$page,$itemNum,$pageNum) {
 	var template = '';
 	var totalPage = Math.ceil($total / $itemNum);
@@ -907,7 +1016,7 @@ function paginationLoad($total,$page,$itemNum,$pageNum) {
 	}
 	$('.pagination').html(template);
 }
-
+*/
 
 var keyword =$('#search_keyword_input').val();
 		getList(1,keyword);
@@ -924,12 +1033,12 @@ getList(1,keyword)
 })
 $(document).on('click','.pagination a',function(){
 		var keyword =$('#search_keyword_input').val();
-var page = $(this).data('page');
+var page = $(this).attr('href');
 
-$('.search-list-table tbody tr').hide();
-paginationLoad(itemTotal,page,15,10);
-$('.search-list-table tbody tr').slice((page-1)*15,page*15).show()
-//getList(page,keyword);
+//$('.search-list-table tbody tr').hide();
+//paginationLoad(itemTotal,page,15,10);
+//$('.search-list-table tbody tr').slice((page-1)*15,page*15).show()
+getList(page,keyword);
 return false;
 });
 
@@ -1033,6 +1142,17 @@ $(document).on('click','#check_all',function(){
 });
 </script>
 
+<script src="/scripts/iscroll.js"></script>
+<script type="text/javascript">
+
+var myScroll;
+
+
+	myScroll = new IScroll('#wrapper', {scrollbars: true, scrollX: true, scrollY: false, mouseWheel: true });
+
+
+
+</script>
 
 
 	<?php

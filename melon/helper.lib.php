@@ -301,6 +301,43 @@ function pageList($table,$where,$order,$itemNumber,$pageNumber,$currentPage,$pag
 	}
 	return $data;
 }
+function pageListSelect($table,$where,$order,$itemNumber,$pageNumber,$currentPage,$pagingTags,$select='*'){
+	GLOBAL $melon;
+	if(!$currentPage){
+		$currentPage = 1;
+	}
+	$data=getList($table,$where,$itemNumber*($currentPage-1),$itemNumber,$order,$select);
+	
+	$data['item_total']=getTotal($table,$where);
+	$data['pageInfo'] = getPageInfo($data['item_total'],$itemNumber,$pageNumber,$currentPage);
+	if(is_string($pagingTags)){
+		$pagingTags = str_replace('[url]',$pagingTags,$melon['helper']['pagination']);
+	}
+	$pageInfo = $data['pageInfo'];
+	$data['pagination'] = '';
+	if($pagingTags['first']&&$pageInfo['isFirst']){
+		$data['pagination'].=str_replace('$page',$pageInfo['firstPage'],$pagingTags['first']);
+	}
+	if($pagingTags['prev']&&$pageInfo['isPrev']){
+		$data['pagination'].=str_replace('$page',$pageInfo['prevPage'],$pagingTags['prev']);
+	}
+	for($iu=$pageInfo['initPage'];$iu<=$pageInfo['finalPage'];$iu++){
+		if($currentPage==$iu){
+			$data['pagination'].=str_replace('$page',$iu,$pagingTags['current']);
+		}
+		else{
+			
+			$data['pagination'].=str_replace('$page',$iu,$pagingTags['number']);
+		}
+	}
+	if($pagingTags['next']&&$pageInfo['isNext']){
+		$data['pagination'].=str_replace('$page',$pageInfo['nextPage'],$pagingTags['next']);
+	}
+	if($pagingTags['last']&&$pageInfo['isLast']){
+		$data['pagination'].=str_replace('$page',$pageInfo['lastPage'],$pagingTags['last']);
+	}
+	return $data;
+}
 function pageListJoin($table,$joins,$field,$where,$order,$itemNumber,$pageNumber,$currentPage,$pagingTags){
 	GLOBAL $melon;
 	if(!$currentPage){

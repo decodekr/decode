@@ -22,8 +22,8 @@ if( !get_magic_quotes_gpc() )
 	$_REQUEST = sqlInjectionClean($_REQUEST);
 	$_COOKIE = sqlInjectionClean($_COOKIE);
 }
-unset($_GET);
-unset($_POST);
+//unset($_GET);
+//unset($_POST);
 unset($_REQUEST["PHPSESSID"]);
 $param = &$_REQUEST;
 $session = &$_SESSION;

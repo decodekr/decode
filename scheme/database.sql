@@ -222,3 +222,17 @@ CREATE TABLE `estimate_orders` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+
+
+CREATE TABLE `coverstories` (
+  `no` int(11) NOT NULL AUTO_INCREMENT,
+  title VARCHAR(255) NOT NULL DEFAULT '',
+  description TEXT NOT NULL DEFAULT '',
+  url VARCHAR(255) NOT NULL DEFAULT '',
+  thumbnail1 VARCHAR(255) NOT NULL DEFAULT '',
+  thumbnail2 VARCHAR(255) NOT NULL DEFAULT '',
+  target VARCHAR(255) NOT null DEFAULT '',
+ `create_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' comment '등록일',
+  `modify_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' comment '수정일',
+  PRIMARY KEY (`no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -24,7 +24,12 @@ $cnt['flange']=0;
 $cnt['valve']=0;
 
 
+
 if($_FILES['excel']['name']){
+	$columnMax=array('X'
+,'AC'
+,'Y'
+,'AB');
 	$total=getTotal('product_lists','create_date like "%'.date('Y-m-d').'%"')+1;
 
 	$file=uploadFile($_FILES['excel'],'/files');
@@ -39,17 +44,24 @@ if($_FILES['excel']['name']){
 
 	$target = "A"."1".":"."$maxColumn"."$maxRow";
 	foreach($worksheets as $sheetIndex=>$worksheet){ 
+		if($sheetIndex==4){
+		break;
+		}
 		$sheet = $php_excel->getSheet($sheetIndex);           // 첫번째 시트
 		$maxRow = $sheet->getHighestRow();          // 마지막 라인
-		$maxColumn = $sheet->getHighestColumn();    // 마지막 칼럼
+		$maxColumn = $columnMax[$sheetIndex];//$sheet->getHighestColumn();    // 마지막 칼럼
+echo $maxColumn;
 		for ($row = 2; $row <= $maxRow; $row++){ 
 			//  Read a row of data into an array
 			
 			
+			
+			print_x($rowData);
 			$rowData = $sheet->rangeToArray('A' . $row . ':' . $maxColumn . $row,
 											NULL,
 											TRUE,	   FALSE);
 	
+
 			$data=array();
 	
 			if($row==2){
@@ -61,14 +73,42 @@ if($_FILES['excel']['name']){
 				foreach($rowData[0] as $index=>$rowItem){
 					
 					if($titleRow[0][$index]!=''){
-						$data[str_replace(' ','_',strtolower($titleRow[0][$index]) )]=$rowItem;
+						if($rowItem==''){
+							$prevTitle=  $titleRow[0][$index-1];
+							
+							if($sheetIndex==0){
+								$sheetName='pipe';
+							}
+							if($sheetIndex==1){
+								$sheetName='fitting';
+							}
+							if($sheetIndex==2){
+								$sheetName='flange';
+							}
+							if($sheetIndex==3){
+								$sheetName='valve';
+							}
+							if(strtolower($prevValue)=='ball valve'){
+							
+							}
+							if(strtolower($prevValue)!='seamless'){
+							
+							//	printMessage('엑셀 업로드 실패 : '.$sheetName.'시트 '.$row.'열 '.$titleRow[0][$index].' 값이 입력되지 않았습니다.','/seller/product/add');
+							//		exit;
+							}
+						
+						}
+						$data[str_replace(' ','_',strtolower($titleRow[0][$index]) )]=str_replace('"','inch',$rowItem);
 					}
+					else{
+						
+					}
+					$prevValue=  $rowItem;
 				}
-
-				
+		
 				
 				$productParam['product_id']=date('Ymd').str_pad($total,4,'0',STR_PAD_LEFT);
-		
+	
 				$productParam['details']=jsonEncode($data);
 				$productParam['category']=strtolower($worksheet);
 				$productParam['price']=$data['unit_price'];
@@ -87,6 +127,7 @@ if($_FILES['excel']['name']){
 			}
 
 		}
+	
 	}
 
 printMessage('제품을 성공적으로 업로드 했습니다.','/seller/product/add');
