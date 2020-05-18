@@ -843,10 +843,18 @@ display: none;
 		$(document).on('click','#product_list_search_form input',function(){
 	$(this).parent().parent().siblings().find('input[type="checkbox"]').prop({checked:false});
 });
+
+$('#search_keyword_input').on('change keyup paste',function(){
+		//$('#search_left .filter-options:gt(0)').remove()
+		$('.detail_category').remove();
+});
 	$(document).on('click','.filter-option-contents input',function(){
 		//	$('.filter-options:gt(0).filter-options').remove()
+		$('#search_keyword_input').val('')
+		
 			currentSelect=0;
 		search(this);
+
 	
 		
 	
@@ -863,6 +871,12 @@ display: none;
 
 	});
 	$(document).on('click','#search_result input',function(){
+		var value  = $(this).val();
+		if($('#search_keyword_input').val()!=''){
+			value= $('#search_keyword_input').val()+','+value;
+		}
+		
+		$('#search_keyword_input').val(value)
 		search(this);
 	
 		$(this).parent().parent().siblings().find('input[type="checkbox"]').prop({checked:false});
@@ -909,6 +923,7 @@ display: none;
 				url : '/product/add',
 				data : {category_group:categoryGroup,has_data : 'next_category',type:type},
 				success : function($data){
+					
 					var  $template=  [];
 					for(var iu=0;iu<$data.list.length;iu++){
 						if($data.list[iu].additional_info==''){
@@ -919,7 +934,9 @@ display: none;
 						}
 						$template.push('<li><label class="inline"><input type="checkbox" name="'+$data.list[iu].category_group+'" value="'+$data.list[iu].name.replace('"','&quot;')+'" data-next="'+$data.list[iu].next_category_group+'" data-type="'+$data.list[iu].product_type+'"><span class="input"></span>'+$data.list[iu].name+additional+' </label></li>');
 					}
-					$parent.after(' <div class="filter-options"><div class="block-content"><div class="filter-options-item filter-categori categories"><div class="filter-options-title">'+$data.list[0].category_group.replace('_',' ').replace('_',' ').replace('_',' ').replace('_',' ').replace('_',' ').replace('_',' ')+'</div><div class="filter-options-content"><span class="label label-default detail_category"></span><a href="" class="btn btn-default search_button">'+$data.list[0].category_group.replace('_',' ').replace('_',' ').replace('_',' ').replace('_',' ').replace('_',' ').replace('_',' ')+' 선택</a><ul style="display:none;" >'+$template.join('')+'</ul></div></div></div></div>')
+					if($data.length>0){
+						$parent.after(' <div class="filter-options"><div class="block-content"><div class="filter-options-item filter-categori categories"><div class="filter-options-title">'+$data.list[0].category_group.replace('_',' ').replace('_',' ').replace('_',' ').replace('_',' ').replace('_',' ').replace('_',' ')+'</div><div class="filter-options-content"><span class="label label-default detail_category"></span><a href="" class="btn btn-default search_button">'+$data.list[0].category_group.replace('_',' ').replace('_',' ').replace('_',' ').replace('_',' ').replace('_',' ').replace('_',' ')+' 선택</a><ul style="display:none;" >'+$template.join('')+'</ul></div></div></div></div>')
+					}
 				$('#search_layer').slideUp()
 				//	$('#search_layer').slideDown().find('#search_result').html($template.join(''));
 					
