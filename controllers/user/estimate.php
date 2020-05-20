@@ -84,7 +84,7 @@ exit;
 		
 			
 			
-				<span id="spay_logo_t" class="logo_t">(주)마켓오브메테리얼</span>
+				<span id="spay_logo_t" class="logo_t">&nbsp;</span>
 			
 		
 

@@ -13,13 +13,17 @@
 		
 	}
 	function samewords($word){
+			if(strtoupper($word)=='SS' || strtoupper($word)=='SUS'|| strtoupper($word)=='STAINLESS STEEL'){
+				return "WP304|A312-TP304|A240-Type 304|A182-F304|STS304,STS304W,STS304F|STS304TP|STS304|SUS304,SUS304W,SUS304F|SUS304TP|SUS304|3605-801|17440-X5 Cr Ni189|18% Cr-8% Ni Steel|WP304H|A312-TP304H|A240-Type 304H|A182-F304H|SUS304HTP|3605-811|18% Cr-8% Ni-(0.04-0.10)% C Steel|WP304L|A312-TP304L|A240-Type 304L|A182-F304L|STS304L,STS304LW,STS304LF|STS304LTP|STS304L|SUS304L,SUS304LW,SUS304LF|SUS304LTP|SUS304L|3605-811L|17440-X2 Cr Ni189|18% Ni-0.035% C Steel|WP309|A312-TP309|A240-Type 309S|STS309S,STS309SW,STS309SF|STS309TP|STS309S|SUS309S,SUS309SW,SUS309SF|SUS309STP|SUS309S|22% Cr-12% Ni Steel|WP310|A312-TP310|A240-Type 310S|A182-F310|STS310S,STS310SW,STS310SF|STS310TP|STS310S|SUS310S,SUS310SW,SUS310SF|SUS310STP|SUS310S|3605-805S|25% Cr-20% Ni Steel|WP316|A312-TP316|A240-Type 316|A182-F316|STS316,STS316W,STS316F|STS316TP|STS316|SUS316,SUS316W,SUS316F|SUS316TP|SUS316|3605-845|17440-X5 Cr Ni Mo1810|18% Cr-8% Ni-Mo Steel|WP316H|A312-TP316H|A240-Type 316H|A182-F316H|STS316H,STS316HF|STS316HTP|SUS316H,SUS316HF|SUS316HTP|3605-855|18% Cr-8% Ni-Mo(0.04-0.10)% C Steel|WP316L|A312-TP316L|A240-Type 316L|A182-F316L|STS316L,STS316LW,STS316LF|STS316LTP|STS316L|SUS316L,SUS316LW,SUS316LF|SUS316LTP|SUS316L|3605-845L|17440-X2 Cr Ni Mo1810|18% Cr-8% Ni-Mo-0.035% C Steel|WP317L|A312-TP317L|A240-Type 317L|A182-F317L|STS317L,STS317LW|STS317LTP|STS317L|SUS317L,SUS317LW|SUS317LTP|SUS317L|18% Cr-12% Ni-3.5% Mo-Low C|WP321|A312-TP321|A240-Type 321|A182-F321|STS321,STS321W,STS321F|STS321TP|STS321|SUS321,SUS321W,SUS321F|SUS321TP|SUS321|3605-822Ti|17440-X10 Cr Ni Ti189|18% Cr-8% Ni-Ti Steel|WP321H|A312-TP321H|A240-Type 321H|A182-F321H|SUS321HTP|3605-832Ti|18% Cr-8% Ni-Ti-(0.04-0.10)% C Steel|WP347|A312-TP347|A240-Type 347|A182-F347|STS347,STS347W,STS347F|STS347TP|STS347|SUS347,SUS347W,SUS347F|SUS347TP|SUS347|3605-822Nb|17440-X1 Cr Ni Nb189|18% Cr-8% Ni-Cb+Ta Steel|WP347H|A312-TP347H|A240-Type 347H|A182-F347H|STS347H,STS347HF|STS347HTP|SUS347H,SUS347HF|SUS347HTP|3605-832Nb|18% Cr-8% Ni-Cb+Ta(0.04-0.10)%C Steel";
+			}
+			if(strtoupper($word)=='LOW TEMPERATURE STEEL' || strtoupper($word)=='LTS'){
+				return "WPL6|A333 & A334-6|A516-60|A350-LF2|PL39|STPL39|SLAL39|PL380(W)|STPL380|3603-Steel 27 LT 30|Carbon Steel|WPL3|A333 & A334-3|A203-D|A350-LF3|PL450(W)|STPL450|3603-Steel 503 LT 100|"½% NI Steel|3"|WPL9|A333 & A334-9|A203-A|A350-LF9|PL690(W)|STPL690|2% NI-1% CU Steel";
+			}
+			if(strtoupper($word)=='CS' || strtoupper($word)=='CARBON STEEL'){
+				return "A120|A283-A|SPP|SPP|SB41|FSGP or SGP|SGP(STPY400)|SS400|1387-M|2440-ST33-1|A53-B|A284|PS38(W)|PS38|PT38(W)|PT38|SPPS38|SWS41B|PG370(W)|PS370(W)|PT370(W)|PT370|STPG370|SM41B|3602-ERW 23|1626-ST37|A53-B|A284|PS42(W)|PS42|PT42(W)|PT42|SPPS42|SWS41B|PG410(W)|PS410(W)|PT410(W)|PT410|STPG410|SM41B|3602-ERW 27|HT38|HT38(W)|SPHT38|SBB42|STPT370|SB42|3602-Steel 23|17175-ST35.8|WPB|A106-B|A515-60 or 70|A105|HT42|HT42(W)|SPHT42|SBB42|PS370|PT370(W)|STPT410|SB42|3602-Steel 27|17175-ST45.8|WPB|A106-B|A516-60 or 70|A516-60 or 70|PS410|PT410(W)|WPC|A106-C|A515-70|A105|HT49|HT49(W)|SPHT49|SBB49|STPT480|SB49|3602-Steel 35|WPC|A106-C|A516-70|A516-70|PS480|PT480(W)";
+			}
+			if(strtoupper($word)=='A120'|strtoupper($word)=='A283-A'|strtoupper($word)=='SPP'|strtoupper($word)=='SPP'|strtoupper($word)=='SB41'|strtoupper($word)=='FSGP or SGP'|strtoupper($word)=='SGP(STPY400)'|strtoupper($word)=='SS400'|strtoupper($word)=='1387-M'|strtoupper($word)=='2440-ST33-1'){return 'A120|A283-A|SPP|SPP|SB41|FSGP or SGP|SGP(STPY400)|SS400|1387-M|2440-ST33-1';}if(strtoupper($word)=='A53-B'|strtoupper($word)=='A284'|strtoupper($word)=='PS38(W)|PS38|PT38(W)|PT38'|strtoupper($word)=='SPPS38'|strtoupper($word)=='SWS41B'|strtoupper($word)=='PG370(W)|PS370(W)|PT370(W)|PT370'|strtoupper($word)=='STPG370'|strtoupper($word)=='SM41B'|strtoupper($word)=='3602-ERW 23'|strtoupper($word)=='1626-ST37'){return 'A53-B|A284|PS38(W)|PS38|PT38(W)|PT38|SPPS38|SWS41B|PG370(W)|PS370(W)|PT370(W)|PT370|STPG370|SM41B|3602-ERW 23|1626-ST37';}if(strtoupper($word)==''|strtoupper($word)=='A53-B'|strtoupper($word)=='A284'|strtoupper($word)=='PS42(W)|PS42|PT42(W)|PT42'|strtoupper($word)=='SPPS42'|strtoupper($word)=='SWS41B'|strtoupper($word)=='PG410(W)|PS410(W)|PT410(W)|PT410'|strtoupper($word)=='STPG410'|strtoupper($word)=='SM41B'|strtoupper($word)=='3602-ERW 27'){return 'A53-B|A284|PS42(W)|PS42|PT42(W)|PT42|SPPS42|SWS41B|PG410(W)|PS410(W)|PT410(W)|PT410|STPG410|SM41B|3602-ERW 27';}if(strtoupper($word)==''|strtoupper($word)==''|strtoupper($word)==''|strtoupper($word)==''|strtoupper($word)=='HT38|HT38(W)'|strtoupper($word)=='SPHT38'|strtoupper($word)=='SBB42'|strtoupper($word)==''|strtoupper($word)=='STPT370'|strtoupper($word)=='SB42'|strtoupper($word)=='3602-Steel 23'|strtoupper($word)=='17175-ST35.8'){return 'HT38|HT38(W)|SPHT38|SBB42|STPT370|SB42|3602-Steel 23|17175-ST35.8';}if(strtoupper($word)=='WPB'|strtoupper($word)=='A106-B'|strtoupper($word)=='A515-60 or 70'|strtoupper($word)=='A105'|strtoupper($word)=='HT42|HT42(W)'|strtoupper($word)=='SPHT42'|strtoupper($word)=='SBB42'|strtoupper($word)=='PS370|PT370(W)'|strtoupper($word)=='STPT410'|strtoupper($word)=='SB42'|strtoupper($word)=='3602-Steel 27'|strtoupper($word)=='17175-ST45.8'){return 'WPB|A106-B|A515-60 or 70|A105|HT42|HT42(W)|SPHT42|SBB42|PS370|PT370(W)|STPT410|SB42|3602-Steel 27|17175-ST45.8';}if(strtoupper($word)=='WPB'|strtoupper($word)=='A106-B'|strtoupper($word)=='A516-60 or 70'|strtoupper($word)=='A516-60 or 70'|strtoupper($word)==''|strtoupper($word)==''|strtoupper($word)==''|strtoupper($word)=='PS410|PT410(W)'|strtoupper($word)==''|strtoupper($word)==''|strtoupper($word)==''|strtoupper($word)==''){return 'WPB|A106-B|A516-60 or 70|A516-60 or 70||PS410|PT410(W)||';}if(strtoupper($word)=='WPC'|strtoupper($word)=='A106-C'|strtoupper($word)=='A515-70'|strtoupper($word)=='A105'|strtoupper($word)=='HT49|HT49(W)'|strtoupper($word)=='SPHT49'|strtoupper($word)=='SBB49'|strtoupper($word)==''|strtoupper($word)=='STPT480'|strtoupper($word)=='SB49'|strtoupper($word)=='3602-Steel 35'){return 'WPC|A106-C|A515-70|A105|HT49|HT49(W)|SPHT49|SBB49|STPT480|SB49|3602-Steel 35';}if(strtoupper($word)=='WPC'|strtoupper($word)=='A106-C'|strtoupper($word)=='A516-70'|strtoupper($word)=='A516-70'|strtoupper($word)==''|strtoupper($word)==''|strtoupper($word)==''|strtoupper($word)=='PS480|PT480(W)'|strtoupper($word)==''|strtoupper($word)==''|strtoupper($word)==''|strtoupper($word)==''){return 'WPC|A106-C|A516-70|A516-70||PS480|PT480(W)||';}if(strtoupper($word)=='WPL6'|strtoupper($word)=='A333 & A334-6'|strtoupper($word)=='A516-60'|strtoupper($word)=='A350-LF2'|strtoupper($word)=='PL39'|strtoupper($word)=='STPL39'|strtoupper($word)=='SLAL39'|strtoupper($word)=='PL380(W)'|strtoupper($word)=='STPL380'|strtoupper($word)=='3603-Steel 27 LT 30'){return 'WPL6|A333 & A334-6|A516-60|A350-LF2|PL39|STPL39|SLAL39|PL380(W)|STPL380|3603-Steel 27 LT 30';}if(strtoupper($word)=='WPL3'|strtoupper($word)=='A333 & A334-3'|strtoupper($word)=='A203-D'|strtoupper($word)=='A350-LF3'|strtoupper($word)=='PL450(W)'|strtoupper($word)=='STPL450'|strtoupper($word)=='3603-Steel 503 LT 100'){return 'WPL3|A333 & A334-3|A203-D|A350-LF3|PL450(W)|STPL450|3603-Steel 503 LT 100';}if(strtoupper($word)=='WPL9'|strtoupper($word)=='A333 & A334-9'|strtoupper($word)=='A203-A'|strtoupper($word)=='A350-LF9'|strtoupper($word)=='PL690(W)'|strtoupper($word)=='STPL690'){return 'WPL9|A333 & A334-9|A203-A|A350-LF9|PL690(W)|STPL690';}if(strtoupper($word)=='WP1'|strtoupper($word)=='A335-P1'|strtoupper($word)=='A204-B'|strtoupper($word)=='A182-F1'|strtoupper($word)=='PA12|FA12'|strtoupper($word)=='SPA12'|strtoupper($word)=='SBB46M'|strtoupper($word)=='PA12(W)|FA12'|strtoupper($word)=='STPA12'|strtoupper($word)=='17175-15 Mo3'){return 'WP1|A335-P1|A204-B|A182-F1|PA12|FA12|SPA12|SBB46M|PA12(W)|FA12|STPA12|17175-15 Mo3';}if(strtoupper($word)=='WP12'|strtoupper($word)=='A335-P12'|strtoupper($word)=='A387-12'|strtoupper($word)=='A182-F12'|strtoupper($word)=='PA22|FA22'|strtoupper($word)=='SPA22'|strtoupper($word)=='SCMV2'|strtoupper($word)=='PA22(W)|FA22'|strtoupper($word)=='STPA22'|strtoupper($word)=='3603-HF620'|strtoupper($word)=='17175-13 Cr Mo44'){return 'WP12|A335-P12|A387-12|A182-F12|PA22|FA22|SPA22|SCMV2|PA22(W)|FA22|STPA22|3603-HF620|17175-13 Cr Mo44';}if(strtoupper($word)=='WP11'|strtoupper($word)=='A335-P11'|strtoupper($word)=='A387-11'|strtoupper($word)=='A182-F11'|strtoupper($word)=='PA23|FA23'|strtoupper($word)=='SPA23'|strtoupper($word)=='SCMV3'|strtoupper($word)=='PA23(W)|FA23'|strtoupper($word)=='STPA23'|strtoupper($word)=='3603-HF621'){return 'WP11|A335-P11|A387-11|A182-F11|PA23|FA23|SPA23|SCMV3|PA23(W)|FA23|STPA23|3603-HF621';}if(strtoupper($word)=='WP22'|strtoupper($word)=='A335-P22'|strtoupper($word)=='A387-22'|strtoupper($word)=='A182-F22'|strtoupper($word)=='PA24|FA24'|strtoupper($word)=='SPA24'|strtoupper($word)=='SCMV4'|strtoupper($word)=='PA24(W)|FA24'|strtoupper($word)=='STPA24'|strtoupper($word)=='SCMV4'|strtoupper($word)=='3603-HF622|27'|strtoupper($word)=='17175-10 Cr Mo910'){return 'WP22|A335-P22|A387-22|A182-F22|PA24|FA24|SPA24|SCMV4|PA24(W)|FA24|STPA24|SCMV4|3603-HF622|27|17175-10 Cr Mo910';}if(strtoupper($word)=='WP5'|strtoupper($word)=='A335-P5'|strtoupper($word)=='A387-5'|strtoupper($word)=='A182-F5'|strtoupper($word)=='PA25|FA25'|strtoupper($word)=='SPA25'|strtoupper($word)=='SCMV6'|strtoupper($word)=='PA25(W)|FA25'|strtoupper($word)=='STPA25'|strtoupper($word)=='3603-HF625'){return 'WP5|A335-P5|A387-5|A182-F5|PA25|FA25|SPA25|SCMV6|PA25(W)|FA25|STPA25|3603-HF625';}if(strtoupper($word)=='WP7'|strtoupper($word)=='A335-P7'|strtoupper($word)=='A387-7'|strtoupper($word)=='A182-F7'){return 'WP7|A335-P7|A387-7|A182-F7';}if(strtoupper($word)=='WP9'|strtoupper($word)=='A335-P9'|strtoupper($word)=='A387-9'|strtoupper($word)=='A182-F9'|strtoupper($word)=='PA26(W)|FA26'|strtoupper($word)=='STPA26'){return 'WP9|A335-P9|A387-9|A182-F9|PA26(W)|FA26|STPA26';}if(strtoupper($word)=='WP91'|strtoupper($word)=='A335-P91'|strtoupper($word)=='A387-F91'|strtoupper($word)=='A182-F91'|strtoupper($word)==''|strtoupper($word)==''|strtoupper($word)==''|strtoupper($word)==''|strtoupper($word)==''|strtoupper($word)==''){return 'WP91|A335-P91|A387-F91|A182-F91|||';}if(strtoupper($word)=='WP304'|strtoupper($word)=='A312-TP304'|strtoupper($word)=='A240-Type 304'|strtoupper($word)=='A182-F304'|strtoupper($word)=='STS304|STS304W|STS304F'|strtoupper($word)=='STS304TP'|strtoupper($word)=='STS304'|strtoupper($word)=='SUS304|SUS304W|SUS304F'|strtoupper($word)=='SUS304TP'|strtoupper($word)=='SUS304'|strtoupper($word)=='3605-801'|strtoupper($word)=='17440-X5 Cr Ni189'){return 'WP304|A312-TP304|A240-Type 304|A182-F304|STS304|STS304W|STS304F|STS304TP|STS304|SUS304|SUS304W|SUS304F|SUS304TP|SUS304|3605-801|17440-X5 Cr Ni189';}if(strtoupper($word)=='WP304H'|strtoupper($word)=='A312-TP304H'|strtoupper($word)=='A240-Type 304H'|strtoupper($word)=='A182-F304H'|strtoupper($word)=='SUS304HTP'|strtoupper($word)=='3605-811'){return 'WP304H|A312-TP304H|A240-Type 304H|A182-F304H|SUS304HTP|3605-811';}if(strtoupper($word)=='WP304L'|strtoupper($word)=='A312-TP304L'|strtoupper($word)=='A240-Type 304L'|strtoupper($word)=='A182-F304L'|strtoupper($word)=='STS304L|STS304LW|STS304LF'|strtoupper($word)=='STS304LTP'|strtoupper($word)=='STS304L'|strtoupper($word)=='SUS304L|SUS304LW|SUS304LF'|strtoupper($word)=='SUS304LTP'|strtoupper($word)=='SUS304L'|strtoupper($word)=='3605-811L'|strtoupper($word)=='17440-X2 Cr Ni189'){return 'WP304L|A312-TP304L|A240-Type 304L|A182-F304L|STS304L|STS304LW|STS304LF|STS304LTP|STS304L|SUS304L|SUS304LW|SUS304LF|SUS304LTP|SUS304L|3605-811L|17440-X2 Cr Ni189';}if(strtoupper($word)=='WP309'|strtoupper($word)=='A312-TP309'|strtoupper($word)=='A240-Type 309S'|strtoupper($word)=='STS309S|STS309SW|STS309SF'|strtoupper($word)=='STS309TP'|strtoupper($word)=='STS309S'|strtoupper($word)=='SUS309S|SUS309SW|SUS309SF'|strtoupper($word)=='SUS309STP'|strtoupper($word)=='SUS309S'){return 'WP309|A312-TP309|A240-Type 309S|STS309S|STS309SW|STS309SF|STS309TP|STS309S|SUS309S|SUS309SW|SUS309SF|SUS309STP|SUS309S';}if(strtoupper($word)=='WP310'|strtoupper($word)=='A312-TP310'|strtoupper($word)=='A240-Type 310S'|strtoupper($word)=='A182-F310'|strtoupper($word)=='STS310S|STS310SW|STS310SF'|strtoupper($word)=='STS310TP'|strtoupper($word)=='STS310S'|strtoupper($word)=='SUS310S|SUS310SW|SUS310SF'|strtoupper($word)=='SUS310STP'|strtoupper($word)=='SUS310S'|strtoupper($word)=='3605-805S'){return 'WP310|A312-TP310|A240-Type 310S|A182-F310|STS310S|STS310SW|STS310SF|STS310TP|STS310S|SUS310S|SUS310SW|SUS310SF|SUS310STP|SUS310S|3605-805S';}if(strtoupper($word)=='WP316'|strtoupper($word)=='A312-TP316'|strtoupper($word)=='A240-Type 316'|strtoupper($word)=='A182-F316'|strtoupper($word)=='STS316|STS316W|STS316F'|strtoupper($word)=='STS316TP'|strtoupper($word)=='STS316'|strtoupper($word)=='SUS316|SUS316W|SUS316F'|strtoupper($word)=='SUS316TP'|strtoupper($word)=='SUS316'|strtoupper($word)=='3605-845'|strtoupper($word)=='17440-X5 Cr Ni Mo1810'){return 'WP316|A312-TP316|A240-Type 316|A182-F316|STS316|STS316W|STS316F|STS316TP|STS316|SUS316|SUS316W|SUS316F|SUS316TP|SUS316|3605-845|17440-X5 Cr Ni Mo1810';}if(strtoupper($word)=='WP316H'|strtoupper($word)=='A312-TP316H'|strtoupper($word)=='A240-Type 316H'|strtoupper($word)=='A182-F316H'|strtoupper($word)=='STS316H|STS316HF'|strtoupper($word)=='STS316HTP'|strtoupper($word)=='SUS316H|SUS316HF'|strtoupper($word)=='SUS316HTP'|strtoupper($word)=='3605-855'){return 'WP316H|A312-TP316H|A240-Type 316H|A182-F316H|STS316H|STS316HF|STS316HTP|SUS316H|SUS316HF|SUS316HTP|3605-855';}if(strtoupper($word)=='WP316L'|strtoupper($word)=='A312-TP316L'|strtoupper($word)=='A240-Type 316L'|strtoupper($word)=='A182-F316L'|strtoupper($word)=='STS316L|STS316LW|STS316LF'|strtoupper($word)=='STS316LTP'|strtoupper($word)=='STS316L'|strtoupper($word)=='SUS316L|SUS316LW|SUS316LF'|strtoupper($word)=='SUS316LTP'|strtoupper($word)=='SUS316L'|strtoupper($word)=='3605-845L'|strtoupper($word)=='17440-X2 Cr Ni Mo1810'){return 'WP316L|A312-TP316L|A240-Type 316L|A182-F316L|STS316L|STS316LW|STS316LF|STS316LTP|STS316L|SUS316L|SUS316LW|SUS316LF|SUS316LTP|SUS316L|3605-845L|17440-X2 Cr Ni Mo1810';}if(strtoupper($word)=='WP317L'|strtoupper($word)=='A312-TP317L'|strtoupper($word)=='A240-Type 317L'|strtoupper($word)=='A182-F317L'|strtoupper($word)=='STS317L|STS317LW'|strtoupper($word)=='STS317LTP'|strtoupper($word)=='STS317L'|strtoupper($word)=='SUS317L|SUS317LW'|strtoupper($word)=='SUS317LTP'|strtoupper($word)=='SUS317L'){return 'WP317L|A312-TP317L|A240-Type 317L|A182-F317L|STS317L|STS317LW|STS317LTP|STS317L|SUS317L|SUS317LW|SUS317LTP|SUS317L';}if(strtoupper($word)=='WP321'|strtoupper($word)=='A312-TP321'|strtoupper($word)=='A240-Type 321'|strtoupper($word)=='A182-F321'|strtoupper($word)=='STS321|STS321W|STS321F'|strtoupper($word)=='STS321TP'|strtoupper($word)=='STS321'|strtoupper($word)=='SUS321|SUS321W|SUS321F'|strtoupper($word)=='SUS321TP'|strtoupper($word)=='SUS321'|strtoupper($word)=='3605-822Ti'|strtoupper($word)=='17440-X10 Cr Ni Ti189'){return 'WP321|A312-TP321|A240-Type 321|A182-F321|STS321|STS321W|STS321F|STS321TP|STS321|SUS321|SUS321W|SUS321F|SUS321TP|SUS321|3605-822Ti|17440-X10 Cr Ni Ti189';}if(strtoupper($word)=='WP321H'|strtoupper($word)=='A312-TP321H'|strtoupper($word)=='A240-Type 321H'|strtoupper($word)=='A182-F321H'|strtoupper($word)=='SUS321HTP'|strtoupper($word)=='3605-832Ti'){return 'WP321H|A312-TP321H|A240-Type 321H|A182-F321H|SUS321HTP|3605-832Ti';}if(strtoupper($word)=='WP347'|strtoupper($word)=='A312-TP347'|strtoupper($word)=='A240-Type 347'|strtoupper($word)=='A182-F347'|strtoupper($word)=='STS347|STS347W|STS347F'|strtoupper($word)=='STS347TP'|strtoupper($word)=='STS347'|strtoupper($word)=='SUS347|SUS347W|SUS347F'|strtoupper($word)=='SUS347TP'|strtoupper($word)=='SUS347'|strtoupper($word)=='3605-822Nb'|strtoupper($word)=='17440-X1 Cr Ni Nb189'){return 'WP347|A312-TP347|A240-Type 347|A182-F347|STS347|STS347W|STS347F|STS347TP|STS347|SUS347|SUS347W|SUS347F|SUS347TP|SUS347|3605-822Nb|17440-X1 Cr Ni Nb189';}if(strtoupper($word)=='WP347H'|strtoupper($word)=='A312-TP347H'|strtoupper($word)=='A240-Type 347H'|strtoupper($word)=='A182-F347H'|strtoupper($word)=='STS347H|STS347HF'|strtoupper($word)=='STS347HTP'|strtoupper($word)=='SUS347H|SUS347HF'|strtoupper($word)=='SUS347HTP'|strtoupper($word)=='3605-832Nb'){return 'WP347H|A312-TP347H|A240-Type 347H|A182-F347H|STS347H|STS347HF|STS347HTP|SUS347H|SUS347HF|SUS347HTP|3605-832Nb';}if(strtoupper($word)==''){return '';}
 	
-		if($word=='CS' || $word=='Carbon Steel'){
-			
-			return 'CS,Carbon Steel';
-		}
-	
-		if($word=='A120'||$word=='A283-A'||$word=='SPP'||$word=='SPP'||$word=='SB41'||$word=='FSGP or SGP'||$word=='SGP(STPY400)'||$word=='SS400'||$word=='1387-M'||$word=='2440-ST33-1'){return 'A120,A283-A,SPP,SPP,SB41,FSGP or SGP,SGP(STPY400),SS400,1387-M,2440-ST33-1';}if($word=='A53-B'||$word=='A284'||$word=='PS38(W),PS38,PT38(W),PT38'||$word=='SPPS38'||$word=='SWS41B'||$word=='PG370(W),PS370(W),PT370(W),PT370'||$word=='STPG370'||$word=='SM41B'||$word=='3602-ERW 23'||$word=='1626-ST37'){return 'A53-B,A284,PS38(W),PS38,PT38(W),PT38,SPPS38,SWS41B,PG370(W),PS370(W),PT370(W),PT370,STPG370,SM41B,3602-ERW 23,1626-ST37';}if($word==''||$word=='A53-B'||$word=='A284'||$word=='PS42(W),PS42,PT42(W),PT42'||$word=='SPPS42'||$word=='SWS41B'||$word=='PG410(W),PS410(W),PT410(W),PT410'||$word=='STPG410'||$word=='SM41B'||$word=='3602-ERW 27'){return 'A53-B,A284,PS42(W),PS42,PT42(W),PT42,SPPS42,SWS41B,PG410(W),PS410(W),PT410(W),PT410,STPG410,SM41B,3602-ERW 27';}if($word==''||$word==''||$word==''||$word==''||$word=='HT38,HT38(W)'||$word=='SPHT38'||$word=='SBB42'||$word==''||$word=='STPT370'||$word=='SB42'||$word=='3602-Steel 23'||$word=='17175-ST35.8'){return 'HT38,HT38(W),SPHT38,SBB42,,STPT370,SB42,3602-Steel 23,17175-ST35.8';}if($word=='WPB'||$word=='A106-B'||$word=='A515-60 or 70'||$word=='A105'||$word=='HT42,HT42(W)'||$word=='SPHT42'||$word=='SBB42'||$word=='PS370,PT370(W)'||$word=='STPT410'||$word=='SB42'||$word=='3602-Steel 27'||$word=='17175-ST45.8'){return 'WPB,A106-B,A515-60 or 70,A105,HT42,HT42(W),SPHT42,SBB42,PS370,PT370(W),STPT410,SB42,3602-Steel 27,17175-ST45.8';}if($word=='WPB'||$word=='A106-B'||$word=='A516-60 or 70'||$word=='A516-60 or 70'||$word==''||$word==''||$word==''||$word=='PS410,PT410(W)'||$word==''||$word==''||$word==''||$word==''){return 'WPB,A106-B,A516-60 or 70,A516-60 or 70,,,,PS410,PT410(W),,,,';}if($word=='WPC'||$word=='A106-C'||$word=='A515-70'||$word=='A105'||$word=='HT49,HT49(W)'||$word=='SPHT49'||$word=='SBB49'||$word==''||$word=='STPT480'||$word=='SB49'||$word=='3602-Steel 35'){return 'WPC,A106-C,A515-70,A105,HT49,HT49(W),SPHT49,SBB49,,STPT480,SB49,3602-Steel 35';}if($word=='WPC'||$word=='A106-C'||$word=='A516-70'||$word=='A516-70'||$word==''||$word==''||$word==''||$word=='PS480,PT480(W)'||$word==''||$word==''||$word==''||$word==''){return 'WPC,A106-C,A516-70,A516-70,,,,PS480,PT480(W),,,,';}if($word=='WPL6'||$word=='A333 & A334-6'||$word=='A516-60'||$word=='A350-LF2'||$word=='PL39'||$word=='STPL39'||$word=='SLAL39'||$word=='PL380(W)'||$word=='STPL380'||$word=='3603-Steel 27 LT 30'){return 'WPL6,A333 & A334-6,A516-60,A350-LF2,PL39,STPL39,SLAL39,PL380(W),STPL380,3603-Steel 27 LT 30';}if($word=='WPL3'||$word=='A333 & A334-3'||$word=='A203-D'||$word=='A350-LF3'||$word=='PL450(W)'||$word=='STPL450'||$word=='3603-Steel 503 LT 100'){return 'WPL3,A333 & A334-3,A203-D,A350-LF3,PL450(W),STPL450,3603-Steel 503 LT 100';}if($word=='WPL9'||$word=='A333 & A334-9'||$word=='A203-A'||$word=='A350-LF9'||$word=='PL690(W)'||$word=='STPL690'){return 'WPL9,A333 & A334-9,A203-A,A350-LF9,PL690(W),STPL690';}if($word=='WP1'||$word=='A335-P1'||$word=='A204-B'||$word=='A182-F1'||$word=='PA12,FA12'||$word=='SPA12'||$word=='SBB46M'||$word=='PA12(W),FA12'||$word=='STPA12'||$word=='17175-15 Mo3'){return 'WP1,A335-P1,A204-B,A182-F1,PA12,FA12,SPA12,SBB46M,PA12(W),FA12,STPA12,17175-15 Mo3';}if($word=='WP12'||$word=='A335-P12'||$word=='A387-12'||$word=='A182-F12'||$word=='PA22,FA22'||$word=='SPA22'||$word=='SCMV2'||$word=='PA22(W),FA22'||$word=='STPA22'||$word=='3603-HF620'||$word=='17175-13 Cr Mo44'){return 'WP12,A335-P12,A387-12,A182-F12,PA22,FA22,SPA22,SCMV2,PA22(W),FA22,STPA22,3603-HF620,17175-13 Cr Mo44';}if($word=='WP11'||$word=='A335-P11'||$word=='A387-11'||$word=='A182-F11'||$word=='PA23,FA23'||$word=='SPA23'||$word=='SCMV3'||$word=='PA23(W),FA23'||$word=='STPA23'||$word=='3603-HF621'){return 'WP11,A335-P11,A387-11,A182-F11,PA23,FA23,SPA23,SCMV3,PA23(W),FA23,STPA23,3603-HF621';}if($word=='WP22'||$word=='A335-P22'||$word=='A387-22'||$word=='A182-F22'||$word=='PA24,FA24'||$word=='SPA24'||$word=='SCMV4'||$word=='PA24(W),FA24'||$word=='STPA24'||$word=='SCMV4'||$word=='3603-HF622,27'||$word=='17175-10 Cr Mo910'){return 'WP22,A335-P22,A387-22,A182-F22,PA24,FA24,SPA24,SCMV4,PA24(W),FA24,STPA24,SCMV4,3603-HF622,27,17175-10 Cr Mo910';}if($word=='WP5'||$word=='A335-P5'||$word=='A387-5'||$word=='A182-F5'||$word=='PA25,FA25'||$word=='SPA25'||$word=='SCMV6'||$word=='PA25(W),FA25'||$word=='STPA25'||$word=='3603-HF625'){return 'WP5,A335-P5,A387-5,A182-F5,PA25,FA25,SPA25,SCMV6,PA25(W),FA25,STPA25,3603-HF625';}if($word=='WP7'||$word=='A335-P7'||$word=='A387-7'||$word=='A182-F7'){return 'WP7,A335-P7,A387-7,A182-F7';}if($word=='WP9'||$word=='A335-P9'||$word=='A387-9'||$word=='A182-F9'||$word=='PA26(W),FA26'||$word=='STPA26'){return 'WP9,A335-P9,A387-9,A182-F9,PA26(W),FA26,STPA26';}if($word=='WP91'||$word=='A335-P91'||$word=='A387-F91'||$word=='A182-F91'||$word==''||$word==''||$word==''||$word==''||$word==''||$word==''){return 'WP91,A335-P91,A387-F91,A182-F91,,,,,,';}if($word=='WP304'||$word=='A312-TP304'||$word=='A240-Type 304'||$word=='A182-F304'||$word=='STS304,STS304W,STS304F'||$word=='STS304TP'||$word=='STS304'||$word=='SUS304,SUS304W,SUS304F'||$word=='SUS304TP'||$word=='SUS304'||$word=='3605-801'||$word=='17440-X5 Cr Ni189'){return 'WP304,A312-TP304,A240-Type 304,A182-F304,STS304,STS304W,STS304F,STS304TP,STS304,SUS304,SUS304W,SUS304F,SUS304TP,SUS304,3605-801,17440-X5 Cr Ni189';}if($word=='WP304H'||$word=='A312-TP304H'||$word=='A240-Type 304H'||$word=='A182-F304H'||$word=='SUS304HTP'||$word=='3605-811'){return 'WP304H,A312-TP304H,A240-Type 304H,A182-F304H,SUS304HTP,3605-811';}if($word=='WP304L'||$word=='A312-TP304L'||$word=='A240-Type 304L'||$word=='A182-F304L'||$word=='STS304L,STS304LW,STS304LF'||$word=='STS304LTP'||$word=='STS304L'||$word=='SUS304L,SUS304LW,SUS304LF'||$word=='SUS304LTP'||$word=='SUS304L'||$word=='3605-811L'||$word=='17440-X2 Cr Ni189'){return 'WP304L,A312-TP304L,A240-Type 304L,A182-F304L,STS304L,STS304LW,STS304LF,STS304LTP,STS304L,SUS304L,SUS304LW,SUS304LF,SUS304LTP,SUS304L,3605-811L,17440-X2 Cr Ni189';}if($word=='WP309'||$word=='A312-TP309'||$word=='A240-Type 309S'||$word=='STS309S,STS309SW,STS309SF'||$word=='STS309TP'||$word=='STS309S'||$word=='SUS309S,SUS309SW,SUS309SF'||$word=='SUS309STP'||$word=='SUS309S'){return 'WP309,A312-TP309,A240-Type 309S,STS309S,STS309SW,STS309SF,STS309TP,STS309S,SUS309S,SUS309SW,SUS309SF,SUS309STP,SUS309S';}if($word=='WP310'||$word=='A312-TP310'||$word=='A240-Type 310S'||$word=='A182-F310'||$word=='STS310S,STS310SW,STS310SF'||$word=='STS310TP'||$word=='STS310S'||$word=='SUS310S,SUS310SW,SUS310SF'||$word=='SUS310STP'||$word=='SUS310S'||$word=='3605-805S'){return 'WP310,A312-TP310,A240-Type 310S,A182-F310,STS310S,STS310SW,STS310SF,STS310TP,STS310S,SUS310S,SUS310SW,SUS310SF,SUS310STP,SUS310S,3605-805S';}if($word=='WP316'||$word=='A312-TP316'||$word=='A240-Type 316'||$word=='A182-F316'||$word=='STS316,STS316W,STS316F'||$word=='STS316TP'||$word=='STS316'||$word=='SUS316,SUS316W,SUS316F'||$word=='SUS316TP'||$word=='SUS316'||$word=='3605-845'||$word=='17440-X5 Cr Ni Mo1810'){return 'WP316,A312-TP316,A240-Type 316,A182-F316,STS316,STS316W,STS316F,STS316TP,STS316,SUS316,SUS316W,SUS316F,SUS316TP,SUS316,3605-845,17440-X5 Cr Ni Mo1810';}if($word=='WP316H'||$word=='A312-TP316H'||$word=='A240-Type 316H'||$word=='A182-F316H'||$word=='STS316H,STS316HF'||$word=='STS316HTP'||$word=='SUS316H,SUS316HF'||$word=='SUS316HTP'||$word=='3605-855'){return 'WP316H,A312-TP316H,A240-Type 316H,A182-F316H,STS316H,STS316HF,STS316HTP,SUS316H,SUS316HF,SUS316HTP,3605-855';}if($word=='WP316L'||$word=='A312-TP316L'||$word=='A240-Type 316L'||$word=='A182-F316L'||$word=='STS316L,STS316LW,STS316LF'||$word=='STS316LTP'||$word=='STS316L'||$word=='SUS316L,SUS316LW,SUS316LF'||$word=='SUS316LTP'||$word=='SUS316L'||$word=='3605-845L'||$word=='17440-X2 Cr Ni Mo1810'){return 'WP316L,A312-TP316L,A240-Type 316L,A182-F316L,STS316L,STS316LW,STS316LF,STS316LTP,STS316L,SUS316L,SUS316LW,SUS316LF,SUS316LTP,SUS316L,3605-845L,17440-X2 Cr Ni Mo1810';}if($word=='WP317L'||$word=='A312-TP317L'||$word=='A240-Type 317L'||$word=='A182-F317L'||$word=='STS317L,STS317LW'||$word=='STS317LTP'||$word=='STS317L'||$word=='SUS317L,SUS317LW'||$word=='SUS317LTP'||$word=='SUS317L'){return 'WP317L,A312-TP317L,A240-Type 317L,A182-F317L,STS317L,STS317LW,STS317LTP,STS317L,SUS317L,SUS317LW,SUS317LTP,SUS317L';}if($word=='WP321'||$word=='A312-TP321'||$word=='A240-Type 321'||$word=='A182-F321'||$word=='STS321,STS321W,STS321F'||$word=='STS321TP'||$word=='STS321'||$word=='SUS321,SUS321W,SUS321F'||$word=='SUS321TP'||$word=='SUS321'||$word=='3605-822Ti'||$word=='17440-X10 Cr Ni Ti189'){return 'WP321,A312-TP321,A240-Type 321,A182-F321,STS321,STS321W,STS321F,STS321TP,STS321,SUS321,SUS321W,SUS321F,SUS321TP,SUS321,3605-822Ti,17440-X10 Cr Ni Ti189';}if($word=='WP321H'||$word=='A312-TP321H'||$word=='A240-Type 321H'||$word=='A182-F321H'||$word=='SUS321HTP'||$word=='3605-832Ti'){return 'WP321H,A312-TP321H,A240-Type 321H,A182-F321H,SUS321HTP,3605-832Ti';}if($word=='WP347'||$word=='A312-TP347'||$word=='A240-Type 347'||$word=='A182-F347'||$word=='STS347,STS347W,STS347F'||$word=='STS347TP'||$word=='STS347'||$word=='SUS347,SUS347W,SUS347F'||$word=='SUS347TP'||$word=='SUS347'||$word=='3605-822Nb'||$word=='17440-X1 Cr Ni Nb189'){return 'WP347,A312-TP347,A240-Type 347,A182-F347,STS347,STS347W,STS347F,STS347TP,STS347,SUS347,SUS347W,SUS347F,SUS347TP,SUS347,3605-822Nb,17440-X1 Cr Ni Nb189';}if($word=='WP347H'||$word=='A312-TP347H'||$word=='A240-Type 347H'||$word=='A182-F347H'||$word=='STS347H,STS347HF'||$word=='STS347HTP'||$word=='SUS347H,SUS347HF'||$word=='SUS347HTP'||$word=='3605-832Nb'){return 'WP347H,A312-TP347H,A240-Type 347H,A182-F347H,STS347H,STS347HF,STS347HTP,SUS347H,SUS347HF,SUS347HTP,3605-832Nb';}if($word==''){return '';}
 
 		return $word;
 
@@ -44,7 +48,10 @@ if($param['mode']=='product_list'){
 		//컴마와 공백으로 쪼갠다.
 
 		$param['keyword'] =  str_replace('\"','inch',$param['keyword']);
-		$param['keyword'] = multiexplode(array(',',' '),$param['keyword']);
+		$param['keyword'] =  str_replace('인치','inch',$param['keyword']);
+		$param['keyword'] =  str_replace('#','lb',$param['keyword']);
+		$param['keyword'] =  str_replace('pound','lb',$param['keyword']);
+		$param['keyword'] = multiexplode(array(','),$param['keyword']);
 		$param['keyword']=array_filter($param['keyword']);
 		
 		$keywords='';
@@ -64,16 +71,46 @@ if($param['mode']=='product_list'){
 				continue;
 			}
 		if($index!=0){
-			$where.=' OR ';
+			
 			$select.=' + ';
 		}
-		$where.="details like '%".'"'.$keyword.''."%'";
-		$select.="case when details like '%".$keyword."%' then 1 else 0 end";
+		if(strpos(sameWords($keyword),'|')!==FALSE){
+			$keywords=explode('|',sameWords($keyword));
+			$cond='';
+			foreach($keywords as $keyword){
+				if($cond!=''){
+					$cond.=' OR ';
+				
+				}
+				$cond.="details like '%".($keyword)."%'";
+			}
+			if($index!=0){
+				$where.=' OR ';
+			
+			}
+			$where.='('.$cond.')';
+
+		}
+		else{
+			if($index!=0){
+				$where.=' OR ';
+			
+			}
+			$where.="details like '%".($keyword)."%'";
+			$cond="details like '%".($keyword)."%'";
+		}
+		
+		$select.="case when ".$cond." then 1 else 0 end";
 		}
 			$where.=')';
 	}
 
 
+
+
+
+
+//echo $where;
 		/*
 	select *
       ,((case when details like '%KTT%' then 1 else 0 end) +
@@ -85,7 +122,8 @@ if($param['mode']=='product_list'){
     or details like '%PIPE%'
  order by priority desc
 */
-	
+	$keywordLen = count($param['keyword']);
+
 	if($param['category']){
 		if($where!=''){
 			$where.=' AND ';
@@ -103,21 +141,23 @@ if($param['mode']=='product_list'){
 	$param['product_type'] =$param['category'];
 	
 	if($select!=''){
-		$order='priority desc';
-	$select = '*,('.$select.') AS priority';
+		$order='match_rate desc';
+	$select = '*,('.$select.')/'.$keywordLen.' AS match_rate';
 	}
 	else{
 	$order='';
 	}
 
 
+
+
 $products=pageListSelect('product_lists',$where,$order,10,10,$param['page'],'$page',$select);
 
 
 
-$keywordLen = count($param['keyword']);
 
 
+/*
 if($keywordLen>0&&$param['keyword']!=''){
 foreach($products['list'] as $index=>$product){
 	$match=0;
@@ -125,7 +165,7 @@ foreach($products['list'] as $index=>$product){
 
 		if(trim($keyword)!=''){
 
-			if(strpos($product['details'],$keyword)!==FALSE ||strpos($product['details'],strtolower($keyword))!==FALSE||strpos($product['details'],strtoupper($keyword))!==FALSE){
+			if(strpos($product['details'],$keyword)!==FALSE |strpos($product['details'],strtolower($keyword))!==FALSE|strpos($product['details'],strtoupper($keyword))!==FALSE){
 				$match++;
 			}
 		}
@@ -143,7 +183,7 @@ foreach ($products['list'] as $key => $product)
 }
 array_multisort($matchRates, SORT_DESC, $products['list']);
 }
-
+*/
 
 
 
@@ -830,6 +870,15 @@ display: none;
  </main>
 
 <style>
+
+#loading{
+	position: fixed;
+	z-index: 9099;
+	top: 50%;
+	left: 50%;
+	margin-left: -100px;
+	margin-top: -100px;
+}
 	/*.search-list-table_wrap{
 	overflow-x: hidden;
 	min-height:760px;
@@ -955,7 +1004,7 @@ $('#search_keyword_input').on('change keyup paste',function(){
 	}
 
 	function getList($page,$keyword){
-	
+openLoading();
 			var details= [];
 
 
@@ -980,6 +1029,7 @@ $('#search_keyword_input').on('change keyup paste',function(){
 				data:  {mode : 'product_list',category: category,details:details,page:$page,keyword:$keyword},
 				dataType:'HTML',
 				success : function($data){
+						closeLoading()
 					if($data!=''){
 					$('#wrapper').css({opacity:1});
 					$('#no-result').hide();
@@ -1035,6 +1085,19 @@ function paginationLoad($total,$page,$itemNum,$pageNum) {
 }
 */
 
+function openLoading(){
+	$('#loading,#fog').show()
+	
+	}
+
+
+function closeLoading(){
+	$('#loading,#fog').hide()
+	
+	}
+
+
+
 var keyword =$('#search_keyword_input').val();
 		getList(1,keyword);
 
@@ -1044,9 +1107,17 @@ getList(1,keyword);
 
 });
 
+var searchRun=null;
 $('#search_keyword_input').on('keyup change paste',function($event){
 	var keyword =$('#search_keyword_input').val();
-getList(1,keyword)
+	clearTimeout(searchRun);
+	
+	searchRun=setTimeout(function(){
+		
+		getList(1,keyword)
+
+		
+	},850);
 })
 $(document).on('click','.pagination a',function(){
 		var keyword =$('#search_keyword_input').val();
@@ -1172,6 +1243,11 @@ var myScroll;
 </script>
 
 
+
+<div id="loading" style="display:none;">
+	<img src="/images/smalllogo.png" alt="">
+
+</div>
 	<?php
 
 	include'views/footer.html';
