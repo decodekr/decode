@@ -1,4 +1,13 @@
 <?php
+//===================================================================================//
+// NAME		: lib.client.php
+// MEMO		: 클라이언트 분석 기능
+// AUTHOR	: DECODE
+// EMAIL	: decode@decodelab.co.kr
+// Copyright (c) 2012, DECODE Co., Ltd. All rights reserved.
+//===================================================================================//
+
+
 function dateFormatNew($dateString='',$format='',$interval=null){
 	/*
 		3S,3M,3H,3D,3M,3Y  등으로 입력

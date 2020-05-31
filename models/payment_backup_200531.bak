@@ -1,0 +1,161 @@
+<?php
+/*
+
+	계좌를 조회한다.
+
+	*/
+
+
+function welcomeCURL($url,$data='',$method){
+    $welcomeHeader = array(
+        'Content-Type:application/json',
+        'WP_KEY:208',
+        'WP_HASH:VPKASomqvHmencyI1efXIYkGHNjHO2hR',
+        'ENCRYPT:FALSE'
+    );
+    $headers=$welcomeHeader;
+    $ch = curl_init(); //curl 사용 전 초기화 필수(curl handle)
+    curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+    curl_setopt($ch, CURLOPT_URL, $url); //URL 지정하기
+    if($method=='post'){
+        curl_setopt($ch, CURLOPT_POST, 1); //0이 default 값이며 POST 통신을 위해 1로 설정해야 함
+        curl_setopt ($ch, CURLOPT_POSTFIELDS, $data); //POST로 보낼 데이터 지정하기
+    }
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($ch, CURLOPT_HEADER, false);//헤더 정보를 보내도록 함(*필수)
+    //curl_setopt($ch, CURLOPT_HTTPHEADER, $header_data); //header 지정하기
+    curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1); //이 옵션이 0으로 지정되면 curl_exec의 결과값을 브라우저에 바로 보여줌. 이 값을 1로 하면 결과값을 return하게 되어 변수에 저장 가능(테스트 시 기본값은 1인듯?)
+    $result = curl_exec($ch);
+    curl_close($ch);
+    return $result;
+}
+//	echo addUser('박철균','tesuescapes@naver.com','01071777777');
+//echo addUser('박철균','tesuedscape@naver.com','01048858988');
+//echo checkAccount('1002147262084','박철균','20');
+//echo addUser('손태수','tesuescape@naver.com','01011854885'); 유저등록
+//echo addBalance('f155ab00587337b7a3748e81841df3b0b4b6e0a09702c0cb5cdec5036ca663d2"'); 계좌생성
+
+//echo	createWithdrawAccount('97c8a70b2c2a4453871f2e2e2865a866','3333037010481','박철균','90');
+/**
+ * 은행 목록 조회
+ */
+
+
+function getBankList(){
+    $url='https://stgftapi.welcomepayments.co.kr/wp/api/common/withdrawaccount/banks';
+    return welcomeCURL($url,'','get');
+}
+/**
+ * 유저 등록
+ */
+function addUser($name,$email,$phone){
+
+    $url='https://stgftapi.welcomepayments.co.kr/wp/api/user';
+    $data= array('memName'=>$name,'memType'=>'USER','memEmail'=>$email,'mobileNo'=>$phone,'smsYn'=>'Y');
+    $data=jsonEncode($data);
+    return welcomeCURL($url,$data,'post');
+}
+/**
+ * 지갑 추가
+ */
+function addBalance($guid){
+    $url='https://stgftapi.welcomepayments.co.kr/wp/api/user/balance/create/'.$guid;
+    //$data= array('memName'=>$name,'memType'=>'USER','memEmail'=>$email,'mobileNo'=>$phone,'smsYn'=>'Y');
+    $data=jsonEncode($data);
+    return welcomeCURL($url,$data,'post');
+}
+
+
+/**
+ * 출금계좌 만들기
+ */
+function createWithdrawAccount($guid,$account,$owner,$bank_code){
+    $url='https://stgftapi.welcomepayments.co.kr/wp/api/user/withdrawaccount/'.$guid;
+    $data='{
+			"bankId": '.$bank_code.',
+			"memAccntno":"'.$account.'",
+			"bankOwnerName":"'.$owner.'"
+		}';
+
+    return welcomeCURL($url,$data,'post');
+}
+
+
+/**
+ * 계좌주 인증
+ */
+
+function checkAccount($account,$owner,$bank_code){
+    $url='https://stgftapi.welcomepayments.co.kr/wp/api/inquiry/selectinquiry/account/name';
+    $data= array('memAccntno'=>$account,'bankOwnerName'=>$owner,'bankId'=>$bank_code);
+    $data=jsonEncode($data);
+    return welcomeCURL($url,$data,'post');
+}
+
+/**
+ * 출금계좌 본인인증
+
+
+
+ */
+
+function certifyWithdrawAccount($guid,$tid,$certifCode){
+    $url='https://stgftapi.welcomepayments.co.kr/wp/api/user/withdrawaccount/verify/'.$guid;
+    $data= array('tid'=>$tid,'verifyWord'=>$certifCode,'verifyKind'=>'WAC');
+    print_x($data);
+    $data=jsonEncode($data);
+    return welcomeCURL($url,$data,'post');
+}
+
+/**
+ * 가상계좌 발급
+.
+
+
+ */
+
+function getVirtualAccount($guid,$name){
+    $url='https://stgftapi.welcomepayments.co.kr/wp/api/user/virtualaccount/none/create/'.$guid;
+    $data= array('vaccntOwnerName'=>$name,'bankId'=>'50');
+    print_x($data);
+    $data=jsonEncode($data);
+    return welcomeCURL($url,$data,'post');
+}
+
+
+
+/**
+ * 유저 지갑 => 머천트 지갑 전환
+
+ */
+
+function giveToShop($guid,$amount){
+    $url='https://stgftapi.welcomepayments.co.kr/wp/api/user/transfer/'.$guid;
+    $data= array('orgAmt'=>$amount,'orgCrrncy'=>'KRW','remart'=>'상품 구매 신청');
+
+    $data=jsonEncode($data);
+    return welcomeCURL($url,$data,'post');
+}
+
+/*
+유저지갑 =>머천트 지갑 전환 인증
+
+*/
+function certifyGiveToShop($tid,$certifCode){
+    $url='https://stgftapi.welcomepayments.co.kr/wp/api/user/transfer/sms/verify';
+    $data= array('tid'=>$tid,'verifyWord'=>$certifCode);
+
+    $data=jsonEncode($data);
+    return welcomeCURL($url,$data,'post');
+}
+
+
+
+
+
+
+
+
+
+
+

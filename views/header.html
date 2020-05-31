@@ -191,19 +191,7 @@
                                     <a href="/product/list">구매하기</a>
                                
                                 </li>
-								<?php
-						}	
-								?>
-											<?php
-							if($session['user_type']=='seller'){	
-						?>
-                                <li >
-                                    <a href="/product/add">판매하기</a>
-                                   
-                                </li>
-		<?php
-						}	
-								?>
+
 								<li class="menu-item-has-children arrow">
                                     <a href="/board/notice">게시판</a>
                                     <span class="toggle-submenu hidden-md"></span>
@@ -226,6 +214,67 @@
 									 <li>
                                     <a href="#">회사소개</a>
 									</li>
+								<?php
+						}	
+								?>
+											<?php
+							if($session['user_type']=='seller'){	
+						?>
+                                <li class="menu-item-has-children arrow">
+                                    <a href="/seller/order">주문관리</a>
+
+									 <span class="toggle-submenu hidden-md"></span>
+                                    <ul class="submenu parent-megamenu">
+                                       <li  class="menu-item">
+												<a href="/seller/order?status=0">주문 예정인 주문</a>
+
+										</li>
+										<li  class="menu-item">
+												<a href="/seller/order?status=1">진행중인 주문</a>
+
+										</li>
+										<li  class="menu-item">
+												<a href="/seller/order?status=10">진행완료된 주문</a>
+
+										</li>
+                                      
+                            
+                                    </ul>
+                                   
+                                   
+                                </li>
+								 <li class="menu-item-has-children arrow">
+                                    <a href="/seller/product">상품관리</a>
+									 <span class="toggle-submenu hidden-md"></span>
+                                    <ul class="submenu parent-megamenu">
+                                        <li class="menu-item">
+                                            <a href="/seller/product">재고관리</a>
+                                        </li>
+                                        <li class="menu-item">
+                                            <a href="/seller/product/add">상품등록</a>
+                                        </li>
+                                      
+                            
+                                    </ul>
+                                   
+                                </li>
+								 <li >
+                                    <a href="/seller/statistics">정산관리</a>
+
+                                   
+                                </li>
+								 <li >
+                                    <a href="/seller/profile">정보수정</a>
+                                   
+                                </li>
+								 <li >
+                                    <a href="/seller/notice">관리자 공지</a>
+                                   
+                                </li>
+		<?php
+						}	
+								?>
+								
 
 									
 

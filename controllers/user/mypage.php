@@ -1,4 +1,13 @@
 <?php
+include'models/payment.php';
+
+if($param['virtual_account_nunber']){
+	insertItem('users',$param);
+	}
+$banks= jsonDecode(getBankList());
+$user=getItem('users',$_SESSION['login']);
+
+
 include 'views/header.html';
 ?>
 <?php
@@ -91,22 +100,156 @@ include 'views/header.html';
                                 <h5 class="title-login">계좌 정보 입력</h5>
                                 <p class="form-row form-row-wide">
                                     <label>BANK NAME</label>
-                                    <input type="text"  name="bank_name" placeholder=""   value="<?=$user['bank_name']?>"  class="input-text">
+                                  <select name="bank_code" class="input-text bank_code">
+									<option value="">BANK NAME</option>
+									<?php
+									foreach($banks['data'] as $bank){	
+								?>
+								<option value="<?=$bank['bankId']?>" <?=attr($bank['bankId']==$user['bank_code'])?>><?=$bank['bankName']?></option>
+									<?php
+								}	
+								?>
+										
+                                  </select>
                                 </p>
                                 <p class="form-row form-row-wide">
                                     <label>ACCOUNT NO</label>
-                                    <input type="text"  name="bank_account_number"   value="<?=$user['bank_account_number']?>"  placeholder="" class="input-text">
+                                    <input type="text"  name="bank_account_number"   value="<?=$user['bank_account_number']?>"  placeholder="" class="input-text bank_account_number">
                                 </p>
-                                <p class="form-row form-row-wide">
+                                <!-- <p class="form-row form-row-wide">
                                     <label>SWIFT CODE</label>
                                     <input type="text"  name="swift_code" placeholder=""    value="<?=$user['swift_code']?>"  class="input-text">
-                                </p>
+                                </p> -->
                                 <p class="form-row form-row-wide">
-                                    <label>BANK ADDRE</label>
-                                    <input type="text"  name="bank_address" placeholder=""   value="<?=$user['bank_address']?>"  class="input-text">
+                                    <label>ACCOUNT OWNER NAME</label>
+                                    <input type="text"  name="bank_address" placeholder="" disabled   value="<?=$user['name']?>"  class="input-text">
                                 </p>
+								<p style="float:right;">
+									<input type="text" id="account_certif_code" style="display:none;">
+									<a href="" class="btn btn-success" id="check_account">계좌 인증</a>
+
+								</p>
+								<input type="hidden" name="tid" value="" id="tid">
+								<script>
+									$('#check_account').click(function(){
+									var tid = $('#tid').val();
+									if(tid!=''){
+										var certifCode  = $('#account_certif_code').val();
+										postRequest({
+											url: '/json/payment',
+											data : {mode: 'certify_account',guid : '<?=$user['guid']?>',tid : tid,certif_code :certifCode},
+											success : function($data){
+							
+										
+												if(typeof($data.data)=='undefined'){
+														Swal.fire({
+														  title: '',
+														  text: '인증번호가 일치하지 않습니다.',
+														  icon: 'error',
+														  confirmButtonText: '확인'
+														})
+												}
+												else{
+													Swal.fire({
+														 
+													  text: '인증되었습니다. 가상계좌가 발급되었습니다.',
+													  icon: 'success',
+													  confirmButtonText: '확인'
+													});
+													postRequest({
+														url: '/json/payment',
+														data : {mode: 'get_virtual_account',guid : '<?=$user['guid']?>',name : '<?=$param['name']?>'},
+														success : function($data){
+															postResquest({
+																url :'/user/mypage',
+																data : {virtual_account_nunber  : $data.data.vaccntNo,virtual_account_owner:$data.data.vaccntOwnerName},
+																success : function(){
+
+																}
+															});
+															
+														}
+													});
+
+												
+												}
+											
+											
+
+
+
+
+											}
+										});
+									}
+									else{
+										var account= $('.bank_account_number').val();
+										var bankCode= $('.bank_code').val();
+										if(bankCode==''){
+											Swal.fire({
+											  title: '',
+											  text: 'BANK NAME을 선택해주세요.',
+											  icon: 'error',
+											  confirmButtonText: '확인'
+											})
+												return false;
+										}
+										if(account==''){
+											Swal.fire({
+											  title: '',
+											  text: 'ACCOUNT NO를 입력해주세요.',
+											  icon: 'error',
+											  confirmButtonText: '확인'
+											})
+												return false;
+										}
+											postRequest({
+												url: '/json/payment',
+												data : {mode: 'account_check',guid : '<?=$user['guid']?>',account : account,name :'<?=$user['name']?>',bankcode :bankCode},
+												success : function($data){
+								
+
+
+													if(typeof($data.data)=='undefined'){
+													
+														Swal.fire({
+														  title: '',
+														  text: '계좌 인증은 하루 5회만 가능합니다. 내일 다시 시도해주세요.',
+														  icon: 'error',
+														  confirmButtonText: '확인'
+														})
+													}
+													else{
+														$('#account_certif_code').fadeIn();
+														$('#tid').val($data.data.tid);
+														Swal.fire({
+														 
+														  text: '휴대폰 번호로 인증번호 확인 안내 문자를 전송하였습니다.',
+														  icon: 'success',
+														  confirmButtonText: '확인'
+														});
+
+														$('#check_account').text('인증 완료');
+													}
+												
+
+
+
+
+												}
+											});
+
+									}
+										return false;
+									});
+									
+
+								</script>
                                 <ul>
-                                    <li><label class="inline"><input type="checkbox" checked><span class="input"></span>본인은 이용약관, 개인정보 수집 및 이용,
+
+                                
+<br><br><li>
+									<label class="inline"><input type="checkbox" checked><span class="input"></span>본인은 이용약관, 개인정보 수집 및 이용,
                                         제공에 동의합니다.</label></li>
                                 </ul>
                                 <p class="form-row">
@@ -164,21 +307,172 @@ else{
                                 </p>
                                 <h5 class="title-login">예상 주요 거래 품목</h5>
                                 <p class="form-row form-row-wide">
-                                    <label>예상가래품목1</label>
+                                    <label>예상거래품목1</label>
                                     <input type="text"  name="expect_product[]" value="<?=$user['expect_product'][0]?>" placeholder="" class="input-text">
                                 </p>
                                 <p class="form-row form-row-wide">
-                                    <label>예상가래품목2</label>
+                                    <label>예상거래품목2</label>
                                     <input type="text"  name="expect_product[]"  value="<?=$user['expect_product'][1]?>"placeholder="" class="input-text">
                                 </p>
                                 <p class="form-row form-row-wide">
-                                    <label>예상가래품목3</label>
+                                    <label>예상거래품목3</label>
                                     <input type="text"  name="expect_product[]"  value="<?=$user['expect_product'][2]?>"placeholder="" class="input-text">
                                 </p>
                                 <p class="form-row form-row-wide">
-                                    <label>예상가래품목4</label>
+                                    <label>예상거래품목4</label>
                                     <input type="text" name="expect_product[]"  value="<?=$user['expect_product'][3]?>"placeholder="" class="input-text">
                                 </p>
+
+								 <h5 class="title-login">계좌 정보 입력</h5>
+                                <p class="form-row form-row-wide">
+                                    <label>BANK NAME</label>
+                                  <select name="bank_code" class="input-text bank_code">
+									<option value="">BANK NAME</option>
+									<?php
+									foreach($banks['data'] as $bank){	
+								?>
+								<option value="<?=$bank['bankId']?>" <?=attr($bank['bankId']==$user['bank_code'])?>><?=$bank['bankName']?></option>
+									<?php
+								}	
+								?>
+										
+                                  </select>
+                                </p>
+                                <p class="form-row form-row-wide">
+                                    <label>ACCOUNT NO</label>
+                                    <input type="text"  name="bank_account_number"   value="<?=$user['bank_account_number']?>"  placeholder="" class="input-text bank_account_number">
+                                </p>
+                                <!-- <p class="form-row form-row-wide">
+                                    <label>SWIFT CODE</label>
+                                    <input type="text"  name="swift_code" placeholder=""    value="<?=$user['swift_code']?>"  class="input-text">
+                                </p> -->
+                                <p class="form-row form-row-wide">
+                                    <label>ACCOUNT OWNER NAME</label>
+                                    <input type="text"  name="bank_address" placeholder="" disabled   value="<?=$user['name']?>"  class="input-text">
+                                </p>
+								<p style="float:right;">
+									<input type="text" id="account_certif_code" style="display:none;">
+									<a href="" class="btn btn-success" id="check_account">계좌 인증</a>
+
+								</p>
+								<input type="hidden" name="tid" value="" id="tid">
+								<script>
+									$('#check_account').click(function(){
+									var tid = $('#tid').val();
+									if(tid!=''){
+										var certifCode  = $('#account_certif_code').val();
+										postRequest({
+											url: '/json/payment',
+											data : {mode: 'certify_account',guid : '<?=$user['guid']?>',tid : tid,certif_code :certifCode},
+											success : function($data){
+							
+										
+												if(typeof($data.data)=='undefined'){
+														Swal.fire({
+														  title: '',
+														  text: '인증번호가 일치하지 않습니다.',
+														  icon: 'error',
+														  confirmButtonText: '확인'
+														})
+												}
+												else{
+													Swal.fire({
+														 
+													  text: '인증되었습니다. 가상계좌가 발급되었습니다.',
+													  icon: 'success',
+													  confirmButtonText: '확인'
+													});
+													postRequest({
+														url: '/json/payment',
+														data : {mode: 'get_virtual_account',guid : '<?=$user['guid']?>',name : '<?=$param['name']?>'},
+														success : function($data){
+															postResquest({
+																url :'/user/mypage',
+																data : {virtual_account_nunber  : $data.data.vaccntNo,virtual_account_owner:$data.data.vaccntOwnerName},
+																success : function(){
+
+																}
+															});
+															
+														}
+													});
+
+												
+												}
+											
+											
+
+
+
+
+											}
+										});
+									}
+									else{
+										var account= $('.bank_account_number').val();
+										var bankCode= $('.bank_code').val();
+										if(bankCode==''){
+											Swal.fire({
+											  title: '',
+											  text: 'BANK NAME을 선택해주세요.',
+											  icon: 'error',
+											  confirmButtonText: '확인'
+											})
+												return false;
+										}
+										if(account==''){
+											Swal.fire({
+											  title: '',
+											  text: 'ACCOUNT NO를 입력해주세요.',
+											  icon: 'error',
+											  confirmButtonText: '확인'
+											})
+												return false;
+										}
+											postRequest({
+												url: '/json/payment',
+												data : {mode: 'account_check',guid : '<?=$user['guid']?>',account : account,name :'<?=$user['name']?>',bankcode :bankCode},
+												success : function($data){
+								
+
+
+													if(typeof($data.data)=='undefined'){
+													
+														Swal.fire({
+														  title: '',
+														  text: '계좌 인증은 하루 5회만 가능합니다. 내일 다시 시도해주세요.',
+														  icon: 'error',
+														  confirmButtonText: '확인'
+														})
+													}
+													else{
+														$('#account_certif_code').fadeIn();
+														$('#tid').val($data.data.tid);
+														Swal.fire({
+														 
+														  text: '휴대폰 번호로 인증번호 확인 안내 문자를 전송하였습니다.',
+														  icon: 'success',
+														  confirmButtonText: '확인'
+														});
+
+														$('#check_account').text('인증 완료');
+													}
+												
+
+
+
+
+												}
+											});
+
+									}
+										return false;
+									});
+									
+
+								</script>
+
+
                                 <ul>
                                     <li><label class="inline"><input type="checkbox" checked><span class="input"></span>본인은 이용약관, 개인정보 수집 및 이용,
                                         제공에 동의합니다.</label></li>

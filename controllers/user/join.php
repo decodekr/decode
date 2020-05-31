@@ -4,7 +4,7 @@ include 'views/header.html';
 <?php
 
     if($param['has_data']){
-
+		include'models/payment.php';
 		if($param['password'][0]==$param['password'][1]){
 			$param['password'] = $param['password'][0];
 		}
@@ -40,6 +40,9 @@ include 'views/header.html';
 		$session['grade'] = 2;
 		$session['login_date'] =time();
 
+		$data=jsonDecode(addUser($param['name'],$param['email'],$param['phone']));
+
+		
 	
 		printMessage('가입을 축하합니다.','/user/join_complete');
 

@@ -2,10 +2,11 @@
 //===================================================================================//
 // NAME		: lib.db.php
 // MEMO		: 데이터베이스 기능
-// AUTHOR	: June PARK
-// EMAIL	: madosaja@nate.com
-// Copyright (c) 2012, DEEPTALE Co., Ltd. All rights reserved.
+// AUTHOR	: DECODE
+// EMAIL	: decode@decodelab.co.kr
+// Copyright (c) 2012, DECODE Co., Ltd. All rights reserved.
 //===================================================================================//
+
 
 /**
  * 데이터베이스에 접속

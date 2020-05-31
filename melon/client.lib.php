@@ -2,9 +2,9 @@
 //===================================================================================//
 // NAME		: lib.client.php
 // MEMO		: 클라이언트 분석 기능
-// AUTHOR	: June PARK
-// EMAIL	: deeptale@nate.com
-// Copyright (c) 2012, DEEPTALE Co., Ltd. All rights reserved.
+// AUTHOR	: DECODE
+// EMAIL	: decode@decodelab.co.kr
+// Copyright (c) 2012, DECODE Co., Ltd. All rights reserved.
 //===================================================================================//
 
 

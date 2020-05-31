@@ -1,4 +1,5 @@
 <?php
+	$omit=array('country','available_delivery_date','unit','quantity','unit_price','price','supplier');
 if($param['no']){
 	
 	foreach($param['no'] as $no){
@@ -63,6 +64,9 @@ include 'views/header.html';
                     <th>DESCRIPTION</th>
             
                     <th>QUANTITY</th>
+                    <th>성적서<br>
+					써티 도면 테스트 소재
+					</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -80,9 +84,12 @@ include 'views/header.html';
                     <th>
 						<?php
 					$detailIndex=0;
-					foreach($cart['details'] as $detail){	
+					foreach($cart['details'] as $title=>$detail){	
 	
 					if($detail==''){
+						continue;
+					}
+					if(in_array($title,$omit)){
 						continue;
 					}
 					if($detailIndex!=0){
@@ -98,7 +105,14 @@ include 'views/header.html';
                     </th>
                    
                     <td><input data-no="<?=$cart['no']?>" type="number"  style="width:80px;" name="amount" value="<?=$cart['amount']?>"></td>
-                </tr>
+					<td id="attaches">
+						<a href="#" class="attach_icon"><i class="fa fa-file"></i></a>
+						<a href="#" class="attach_icon"><i class="fa fa-file"></i></a>
+						<a href="#" class="attach_icon"><i class="fa fa-file"></i></a>
+						<a  href="#"class="attach_icon"><i class="fa fa-file"></i></a>
+
+					</td>
+				</tr>
 				<?php
 }			
 					if($carts['length']==0){
@@ -107,6 +121,48 @@ include 'views/header.html';
 				?>
                 </tbody>
             </table>
+
+
+<table class="table table-bordered" style="width:800px;">
+	
+	<tr>
+		
+		<th style="width:140px;">
+			희망운송 일정<br>
+		(대금 입금일 기준 + 2day)
+
+		</th>
+		<td>
+			<i class="fa fa-calendar"></i>
+<input type="text" class="datepicker" style="width:100px;">
+
+		</td>
+		<th  style="width:140px;">
+			
+			사용 통화
+		</th>
+		<td>
+			<select name="">
+				
+				<option value="">통화 선택</option>
+				<option value="">
+						KRW
+
+				</option>
+				<option value="">
+						USD
+
+				</option>
+			</select>
+
+		</td>
+	</tr>
+</table>
+
+				
+
+
+
             <div class="clearfix">
                 <a href="/user/estimate" class="float-right btn btn-light btn-xs waves-effect waves-light btn-list-select">견적서 요청</a>
             </div>
@@ -129,6 +185,16 @@ include 'views/header.html';
 			})
 		});
 	</script>
+	<style>
+		#attaches a{
+		margin-right: 18px;
+		color: #2c4fa3;
+	}
+	#attaches a:first-child{
+		margin-left: 5px;
+	}
+
+	</style>
 	<?php
 include 'views/footer.html';
 ?>

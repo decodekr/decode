@@ -2,6 +2,7 @@
 include 'views/header.html';
 $carts = getListJoin('estimate_cart_products',array('LEFT','product_lists','estimate_cart_products.product_no=product_lists.no'),'estimate_cart_products.*,product_lists.details,product_lists.price','estimate_cart_products.status=0 AND estimate_cart_products.user_no='.$session['login']);
 
+$user=getItem('users',$_SESSION['login']);
 if($param['order']==1){
 	$orderParam['user_no']=$session['login'];
 	$cartParam['status']=1;
@@ -1090,13 +1091,13 @@ exit;
 									
 									<th>은행명</th>
 									<td>
-										웰컴 상호 저축은행
+										상호 저축은행
 
 									</td>
 								</tr>
 								<tr>
 									<th>계좌번호</th>
-	<td>066-05-13-0708839</td>
+	<td><?=$user['virtual_account_number']?></td>
 								</tr>
 								<tr>
 										<th>
