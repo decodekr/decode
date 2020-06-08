@@ -54,6 +54,8 @@
                                     </label></li>
 									 <li><label class="inline"><input type="checkbox"  name="product_type" value="fitting" data-next="fitting" data-type="fitting"><span class="input"></span> Fitting
                                     </label></li>
+									 <li><label class="inline"><input type="checkbox"  name="product_type" value="flange" data-next="flange" data-type="flange"><span class="input"></span> Flange
+                                    </label></li>
                                   
                                 </ul>
                             </div>

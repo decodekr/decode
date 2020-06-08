@@ -28,8 +28,8 @@ include 'views/header.html';
             }
             else{
 				if($user['user_type']!=$param['user_type']){
-				 printMessage('아이디 또는 비밀번호를 확인해주세요');
-                exit;
+				// printMessage('아이디 또는 비밀번호를 확인해주세요');
+                //exit;
 				}
                $session['login']=$user['no'];
                $session['id']=$user['id'];
@@ -61,11 +61,11 @@ include 'views/header.html';
                         <form class="login" method="post" id="login_form">
 						<input type="hidden" name="user_type">
 							<input type="hidden" name="has_data" value="1">
-							 <p class="form-row" id="user_type">
+							 <!-- <p class="form-row" id="user_type">
 							   <label>회원유형<span class="required"></span></label><br>
                               <a href="" class="btn btn-default" data-value="seller">판매자 회원</a>
                               <a href="" class="btn btn-default" data-value="buyer">구매자 회원</a>
-                            </p>
+                            </p> -->
                             <p class="form-row form-row-wide">
                                 <label>이메일<span class="required"></span></label>
                                 <input type="text" value="" name="id"
@@ -100,7 +100,7 @@ include 'views/header.html';
 		});
 
 		$('#login_form').submit(function(){
-			if($('#user_type a.btn-primary').size()==0){
+			/*if($('#user_type a.btn-primary').size()==0){
 				Swal.fire({
 		  title: '',
 		  text: '회원 유형을 선택해주세요.',
@@ -108,7 +108,7 @@ include 'views/header.html';
 		  confirmButtonText: '확인'
 		})
 			return false;
-			}
+			}*/
 		})
 
 

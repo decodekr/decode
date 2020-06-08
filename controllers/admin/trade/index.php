@@ -2,6 +2,13 @@
 	if($param['status']){
 		$cartParam['status'] = $param['status'];
 			updateItem('estimate_cart_products',$cartParam,$param['no']);
+
+
+			if($param['status']==1){
+				getUserList($page, $size);
+				calcItem('users',$userParam);
+			}
+
 			jsonMessage(1,'거래 상태 변경');
 		exit;
 	}

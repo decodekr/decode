@@ -56,7 +56,7 @@ echo $maxColumn;
 			
 			
 			
-			print_x($rowData);
+			// print_x($rowData);
 			$rowData = $sheet->rangeToArray('A' . $row . ':' . $maxColumn . $row,
 											NULL,
 											TRUE,	   FALSE);

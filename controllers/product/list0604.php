@@ -714,7 +714,6 @@ foreach($products['list'] as $productIndex=>$product){
 
 .search-list-table thead th, .search-list-table tbody td{
 	width: 80px;;
-	height: 46px;
 }
 
 #wrapper {
@@ -892,9 +891,6 @@ margin-right: 10px;
 		margin-bottom: 0;
 		border-bottom: 1px solid #ddd;
 	}
-	.search-list-table thead th{
-	border-bottom: 1px solid #dee2e6
-	}
 	.search-list-table thead th,.search-list-table tbody td{
 	line-height: 17px;
 	font-size:12px;
@@ -903,7 +899,9 @@ margin-right: 10px;
 font-size:12px;
 letter-spacing:-1px;
 	}
-	
+	.search-list-table tbody tr{
+	display: none;
+	}
 </style>
 <div id="search_layer">
 	<h3>
@@ -974,34 +972,6 @@ display: none;
 	background: rgba(0,0,0,0.6);
 	color: #fff;
 }
-#checker{
-	position: absolute;z-index: 100;
-	top: 65px;
-	left: 0;
-	background:#fff;
-}
-#checker #pagination_wrap{
-display: none;
-}
-#checker table tr td{
-display: none;
-background: #fff;
-}
-#checker table tr td:nth-child(1){
-	display: block;
-}
-#checker table tr th{
-display: none;
-background: #fff;
-height: 52px;
-
-}
-.search-list-table thead th, .search-list-table tbody td{
-height: 52px;
-}
-#checker table tr th:nth-child(1){
-	display: block;
-}
 </style>
 			<!-- <a href="" id="right_button" class="slide_buttons">
 				<i class="fa fa-arrow-right"></i>
@@ -1012,10 +982,6 @@ height: 52px;
 
 			</a> -->
 			<div id="no-result">품목을 선택해주세요.</div>
-			<div id="checker">
-				
-
-			</div>
 			<div id="wrapper">
 	<div id="scroller">
 		  <div class="search-list-table_wrap" >
@@ -1241,7 +1207,6 @@ openLoading();
 						$('#wrapper').css({opacity:0});
 				}
 					$('.search-list-table_wrap').html($data)
-					$('#checker').html($data)
 					if($('#no-result').size()>0){
 					$('.slide_buttons').hide();
 				}

@@ -12,13 +12,19 @@ if($param['no']){
 		}
 	}
 }
+if($param['delete']){
+	
+	jsonMessage(1,'삭제 완료');
+	deleteItem('estimate_cart_products','no in ('.$param['delete'].')');
+	exit;
+}
 if($param['amount']){
 $cartParam['amount'] =$param['amount'];
 $cartParam['no'] =$param['no'];
 updateItem('estimate_cart_products',$cartParam,$param['no']);
 	exit;
 	}
-$carts = getListJoin('estimate_cart_products',array('LEFT','product_lists','estimate_cart_products.product_no=product_lists.no'),'estimate_cart_products.*,product_lists.details','status =0 AND estimate_cart_products.user_no='.$session['login']);
+$carts = getListJoin('estimate_cart_products',array('LEFT','product_lists','estimate_cart_products.product_no=product_lists.no'),'estimate_cart_products.*,product_lists.details','status =0 AND estimate_cart_products.user_no='.$session['login'].' AND product_lists.details!=""');
 include 'views/header.html';
 
 ?>
@@ -60,6 +66,7 @@ include 'views/header.html';
             <table class="search-list-table">
                 <thead>
                 <tr>
+					<th><input type="checkbox" id="check_all"></th>
                     <th>CATEGORY</th>
                     <th>DESCRIPTION</th>
             
@@ -80,6 +87,10 @@ include 'views/header.html';
 						$cart['details']['has_data']=null;
 				?>
                 <tr>
+					<td>
+						<input type="checkbox" class="checkbox" data-no="<?=$cart['no']?>">
+
+					</td>
                     <th scope="row"><?=$cart['details']['category']?></th>
                     <th>
 						<?php
@@ -129,12 +140,12 @@ include 'views/header.html';
 		
 		<th style="width:140px;">
 			희망운송 일정<br>
-		(대금 입금일 기준 + 2day)
+	
 
 		</th>
 		<td>
 			<i class="fa fa-calendar"></i>
-<input type="text" class="datepicker" style="width:100px;">
+<input type="text" class="datepicker" style="width:150px;">
 
 		</td>
 		<th  style="width:140px;">
@@ -160,10 +171,28 @@ include 'views/header.html';
 </table>
 
 				
-
+<style>
+.btn-list-select2{
+	position: relative;
+    cursor: pointer;
+    display: block;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    /* color: #323a46; */
+    /* background-color: #f1f5f7; */
+    padding: 5px 10px;
+	margin-left: 10px;
+    font-size: 14px;
+    border-radius: 3px;
+}
+</style>
 
 
             <div class="clearfix">
+                <a href="#" class="float-right btn btn-danger btn-xs waves-effect waves-light btn-list-select2" id="selected_delete">선택 삭제</a>
                 <a href="/user/estimate" class="float-right btn btn-light btn-xs waves-effect waves-light btn-list-select">견적서 요청</a>
             </div>
         </div>
@@ -184,6 +213,29 @@ include 'views/header.html';
 				
 			})
 		});
+
+		$('#selected_delete').on('click',function(){
+			var no  ='';
+			$('.checkbox:checked').each(function(){
+				if(no!=''){
+					no+=',';
+				}
+				no+=$(this).data('no');
+			});
+			if(no==''){
+				alert('삭제할 항목을 선택해주세요.');
+				return false;
+			}
+			$.get('/user/estimate_cart?delete='+no,function($data){
+				location.reload();
+			})
+				return false;
+		});
+
+			$('#check_all').click(function(){
+				var checked =  $(this).prop('checked');
+				$('.search-list-table input[type="checkbox"]').prop({checked:checked});
+			});
 	</script>
 	<style>
 		#attaches a{

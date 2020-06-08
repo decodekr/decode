@@ -1,5 +1,6 @@
 <?php
 include 'views/header.html';
+	$omit=array('country','available_delivery_date','unit','quantity','unit_price','price','supplier');
 $carts = getListJoin('estimate_cart_products',array('LEFT','product_lists','estimate_cart_products.product_no=product_lists.no'),'estimate_cart_products.*,product_lists.details,product_lists.price','estimate_cart_products.status=0 AND estimate_cart_products.user_no='.$session['login']);
 
 $user=getItem('users',$_SESSION['login']);
@@ -1727,9 +1728,12 @@ div.nppfs-keypad .kpd-blank{cursor:default;}
                     <th class="product_detail">
 						<?php
 					$detailIndex=0;
-					foreach($cart['details'] as $detail){	
+					foreach($cart['details'] as $title=>$detail){	
 	
 					if($detail==''){
+						continue;
+					}
+					if(in_array($title,$omit)){
 						continue;
 					}
 					if($detailIndex!=0){
