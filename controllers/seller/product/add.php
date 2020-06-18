@@ -98,7 +98,7 @@ echo $maxColumn;
 							}
 						
 						}
-						$data[str_replace(' ','_',strtolower($titleRow[0][$index]) )]=str_replace('"','inch',$rowItem);
+						$data[str_replace(' ','_',strtolower($titleRow[0][$index]) )]=strtoupper(str_replace('"','inch',$rowItem));
 					}
 					else{
 						
@@ -167,7 +167,19 @@ $join,
 <br>
 <br>
 					<div class="alert alert-info" role="alert">
-엑셀파일은 XLS( Excel 97 - 2003 통합 문서 ) 또는 XLSX 통합문서만 가능합니다.<br><b>Excel 데이터를 기준으로 재고와 가격이 입력되지 않은 행은 등록되지 않습니다.</b><br><br>엑셀에 서식 또는 틀고정 등이 포함되어 있을 경우 정상적으로 처리되지 않을 수 있으니, 각 셀 값은 텍스트(TEXT)형식으로만 작성하여야 합니다.<br>등록 대상 데이터가 시작되는 행번호는 3행입니다.</div>
+엑셀파일은 XLS( Excel 97 - 2003 통합 문서 ) 또는 XLSX 통합문서만 가능합니다.<br>
+
+   **Excel 데이터를 기준으로 재고와 가격이 입력되지 않은 자재는 사이트에 바로 노출되지 않고,** <br>
+
+   **별도 관리됩니다. 해당 자재는 수요자가 있을 경우 가격 및 관련 정보를 별도로 요청 드립니다.**<br>
+
+   엑셀에 서식 또는 틀고정 등이 포함되어 있을 경우 정상적으로 처리되지 않을 수 있으니, <br>
+
+   각 셀 값은 텍스트(TEXT)형식으로만 작성하여야 합니다.<br>
+
+   등록 대상 데이터가 시작되는 행번호는 3행입니다.
+
+</div>
 
 
 

@@ -1,15 +1,14 @@
 <?php
-
+include'models/mail.php';
 
 $check = getItem('users','id="'.$param['mail'].'"');
 
 if($check){
 	jsonMessage('-1');
 	exit;
-}
-
+} 
+$subject = "[MOM]회원가입 인증 메일입니다.";
 $code=generateCode(6,'shorthand:number');
-
 $mailText='
 <!doctype html>
 <html lang="ko">
@@ -27,10 +26,9 @@ $mailText='
         </h1><br>
 
         <p style="margin:20px 0 0;padding:30px 30px 50px;min-height:200px;height:auto !important;height:200px;border-bottom:1px solid #eee">
-            <b>회원가입을 위해 하단의 인증번호를 가입란에 입력해주세요.
+            <b>회원가입 이메일 인증을 위해 하단의 링크를 클릭해주세요.
        <br>
-	   <span style="color:#f9530b;display:block;
-	   width:60%;text-align:center;margin:20px;">[ '.$code.' ]</span>
+	   <a href="https://mom.identt.co.kr/json/mail_certif_complete?code='.$code.'&email='.urlencode($param['mail']).'" style="color:#f9530b;display:block;width:60%;text-align:center;margin:20px;">[인증하기]</a>
       </b>
 
 
@@ -51,17 +49,22 @@ $mailText='
 </body>
 </html>';
 
+sendMail($subject,$mailText,$param['mail']);
+
+
+
+
 
   $to = $param['mail'];
 
-   $subject = "[MOM]회원가입 인증 메일입니다.";
+
 
 
 
    $headers = "From: skanxn@drumreal.identt.co.kr\r\n";
 $headers .= "Content-Type:text/html; charset=UTF-8\r\n";
 
-mail($to, $subject, $mailText, $headers);
+//mail($to, $subject, $mailText, $headers);
  jsonMessage($code);
     
 

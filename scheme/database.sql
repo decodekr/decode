@@ -236,3 +236,25 @@ CREATE TABLE `coverstories` (
   `modify_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' comment '수정일',
   PRIMARY KEY (`no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `mail_certif_codes` (
+  `no` int(11) NOT NULL AUTO_INCREMENT,
+  email VARCHAR(255) NOT NULL DEFAULT '',
+  code VARCHAR(255) NOT NULL DEFAULT '',
+ `create_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' comment '등록일',
+  `modify_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' comment '수정일',
+  PRIMARY KEY (`no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+CREATE TABLE `samewords` (
+  `no` int(11) NOT NULL AUTO_INCREMENT,
+  input_word TEXT NOT NULL DEFAULT '',
+  result_words TEXT NOT NULL DEFAULT '',
+ `create_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' comment '등록일',
+  `modify_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' comment '수정일',
+  PRIMARY KEY (`no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+

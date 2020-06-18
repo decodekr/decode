@@ -99,7 +99,27 @@ include 'views/header.html';
 
 		});
 
-		$('#login_form').submit(function(){
+		$('.button-submit').click(function(){
+			var id = $('[name="id"]').val();
+			var password = $('[name="password"]').val();
+			postRequest({
+				url : '/user/valid_user',
+				data: {id : id,password:password},
+				success : function($data){
+					
+					if($data.result==1){
+						Swal.fire({
+						  title: '',
+						  text: '아이디 또는 비밀번호를 확인해주세요.',
+						  icon: 'error',
+						  confirmButtonText: '확인'
+						})
+					}
+						else{
+						$('#login_form').submit();
+						}
+				}
+			})
 			/*if($('#user_type a.btn-primary').size()==0){
 				Swal.fire({
 		  title: '',
@@ -109,10 +129,28 @@ include 'views/header.html';
 		})
 			return false;
 			}*/
+			return false;
 		})
 
 
-	</script>
+	
+  $(".forgot-password").on("click", function(e){
+                    e.preventDefault();
+
+                    var pop_url = '/user/find';
+                    var newWin = window.open(
+                        pop_url, 
+                        "social_sing_on", 
+                        "location=0,status=0,scrollbars=1,width=600,height=500"
+                    );
+
+                    if(!newWin || newWin.closed || typeof newWin.closed=='undefined')
+                         alert('브라우저에서 팝업이 차단되어 있습니다. 팝업 활성화 후 다시 시도해 주세요.');
+
+                    return false;
+                });
+
+</script>
 <?php
 include 'views/footer.html';
 ?>

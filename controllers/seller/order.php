@@ -7,7 +7,14 @@ if($param['status']==1){
 }
 
 if($param['cart_info']){
-	$estimateCarts=getListQuery('SELECT estimate_cart_products.*,product_lists.user_no AS product_user_no,product_lists.details,product_lists.delivery_date,product_lists.price as product_price,cart_user.name AS user_name FROM estimate_cart_products LEFT JOIN product_lists ON product_lists.no = estimate_cart_products.product_no LEFT JOIN users AS product_user ON product_lists.user_no = product_user.no LEFT JOIN users AS cart_user ON estimate_cart_products.user_no = cart_user.no LEFT JOIN estimate_orders ON estimate_cart_products.order_no = estimate_orders.no WHERE product_lists.user_no='.$session['login'].' AND order_no='.$param['order_no'].'
+	$estimateCarts=getListQuery('
+	SELECT estimate_orders.wish_date,estimate_cart_products.*,product_lists.user_no AS product_user_no,product_lists.details,product_lists.delivery_date,product_lists.price as product_price,cart_user.name AS user_name 
+	FROM estimate_cart_products 
+	LEFT JOIN product_lists ON product_lists.no = estimate_cart_products.product_no 
+	LEFT JOIN users AS product_user ON product_lists.user_no = product_user.no
+	LEFT JOIN users AS cart_user ON estimate_cart_products.user_no = cart_user.no 
+	LEFT JOIN estimate_orders ON estimate_cart_products.order_no = estimate_orders.no 
+	WHERE product_lists.user_no='.$session['login'].' AND order_no='.$param['order_no'].'
 	 ORDER BY estimate_cart_products.no DESC');
 	foreach($estimateCarts['list'] as $estimateCart){
 
@@ -32,7 +39,13 @@ $join=array(
 	array('LEFT',' estimate_orders','estimate_cart_products.order_no =  estimate_orders.no')
 );
 
-$estimateCarts=getListQuery('SELECT estimate_cart_products.*,product_lists.user_no AS product_user_no,product_lists.details,product_lists.delivery_date,product_lists.price as product_price,cart_user.name AS user_name FROM estimate_cart_products LEFT JOIN product_lists ON product_lists.no = estimate_cart_products.product_no LEFT JOIN users AS product_user ON product_lists.user_no = product_user.no LEFT JOIN users AS cart_user ON estimate_cart_products.user_no = cart_user.no LEFT JOIN estimate_orders ON estimate_cart_products.order_no = estimate_orders.no WHERE estimate_cart_products.status in ('.$param['status'].') AND product_lists.user_no='.$session['login'].'
+$estimateCarts=getListQuery('
+SELECT estimate_orders.wish_date,estimate_cart_products.*,product_lists.user_no AS product_user_no,product_lists.details,product_lists.delivery_date,product_lists.price as product_price,cart_user.name AS user_name 
+FROM estimate_cart_products 
+LEFT JOIN product_lists ON product_lists.no = estimate_cart_products.product_no
+LEFT JOIN users AS product_user ON product_lists.user_no = product_user.no 
+LEFT JOIN users AS cart_user ON estimate_cart_products.user_no = cart_user.no 
+LEFT JOIN estimate_orders ON estimate_cart_products.order_no = estimate_orders.no WHERE estimate_cart_products.status in ('.$param['status'].') AND product_lists.user_no='.$session['login'].'
 GROUP BY order_no  ORDER BY estimate_cart_products.no DESC');
 /*$estimateCarts=getListJoin(
 'estimate_cart_products,viewQuery',
@@ -84,6 +97,10 @@ $join,
 					상태
 
 				</th>
+				<th>
+					처리
+
+				</th>
 				<?php
 				}	
 				?>
@@ -94,6 +111,7 @@ $join,
 			echo '<tr><td colspan="6">주문 목록이 없습니다.</td></tr>';
 		}
 			foreach($estimateCarts['list'] as $estimateCart){
+				
 				$estimateCart['details']=json_decode( $estimateCart['details'],true);
 			
 			?>
@@ -120,7 +138,7 @@ $join,
 
 					</td>
 					<td>
-						2020.04.01 까지
+					<?=$estimateCart['wish_date']?>까지
 
 					</td>
 					<td>
@@ -135,8 +153,19 @@ $join,
 					if($param['status']==1){
 				?>
 				<td>
-					<?=displayStatus($param['status'])?>
+			
+					<?=displayStatus($estimateCart['status'])?>
 
+				</td>
+				<td>	
+				<?php
+					if($estimateCart['status']==4){	
+				?>
+			
+					<a href="?status=5" class="btn btn-primary">발송처리</a>
+				<?php
+				}	
+					?>
 				</td>
 				<?php
 				}	

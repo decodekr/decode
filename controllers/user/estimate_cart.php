@@ -79,12 +79,19 @@ include 'views/header.html';
                 <tbody>
                 <?php
 					foreach($carts['list'] as $cart){
+						if($cart['details']==''){
+						continue;
+						}
 						$cart['details']=json_decode( $cart['details'],true);
 						$cart['details']['package_type']=null;
 						$cart['details']['delivery_type']=null;
 						$cart['details']['Submit']=null;
 					//	$cart['details']['product_type']=null;
 						$cart['details']['has_data']=null;
+						if($cart['details']['category']==''){
+							continue;
+						}
+						
 				?>
                 <tr>
 					<td>
@@ -145,7 +152,7 @@ include 'views/header.html';
 		</th>
 		<td>
 			<i class="fa fa-calendar"></i>
-<input type="text" class="datepicker" style="width:150px;">
+<input type="text" class="datepicker" name="wish_date" style="width:150px;">
 
 		</td>
 		<th  style="width:140px;">
@@ -193,7 +200,7 @@ include 'views/header.html';
 
             <div class="clearfix">
                 <a href="#" class="float-right btn btn-danger btn-xs waves-effect waves-light btn-list-select2" id="selected_delete">선택 삭제</a>
-                <a href="/user/estimate" class="float-right btn btn-light btn-xs waves-effect waves-light btn-list-select">견적서 요청</a>
+                <a href="#" class="float-right btn btn-light btn-xs waves-effect waves-light btn-list-select" id="estimate_request">견적서 요청</a>
             </div>
         </div>
     </main>
@@ -213,6 +220,15 @@ include 'views/header.html';
 				
 			})
 		});
+
+			$('#estimate_request').click(function(){
+				if($('[name="wish_date"]').val()==''){
+				alert('희망 운송 일정을 입력해주세요.');
+				return false;
+				}
+				location.href='/user/estimate?wish_date='+$('[name="wish_date"]').val();
+				return false;
+			});
 
 		$('#selected_delete').on('click',function(){
 			var no  ='';

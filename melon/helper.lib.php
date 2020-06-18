@@ -1065,6 +1065,7 @@ function getPageInfo($itemTotal,$itemNum,$pageNum,$currentPage){
  
 function printMessage($message="",$url="")
 {
+
 	$result = "<meta charset=\"utf-8\"><script type=\"text/javascript\">";
 	if($message!="")
 	{
