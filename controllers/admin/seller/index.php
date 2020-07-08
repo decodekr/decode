@@ -115,8 +115,15 @@ $estimateOrders=pageListJoin('estimate_orders',$join,'estimate_orders.*,users.na
 									
 									
 						<select name="status" data-no="<?=$cart['no']?>" data-selected="<?=$cart['status']?>">
-								
 								<option value="0" <?=attr($cart['status']==0)?>>견적바구니</option>
+								<option value="1"  <?=attr($cart['status']==1)?>>주문접수</option>
+								<option value="2"  <?=attr($cart['status']==2)?>>입금완료</option>
+								<option value="2"  <?=attr($cart['status']==3)?>>계산서 발행중</option>
+								<option value="2"  <?=attr($cart['status']==4)?>>결제완료</option>
+								<option value="2"  <?=attr($cart['status']==5)?>>운송중</option>
+								<option value="2"  <?=attr($cart['status']==6)?>>거래완료</option>
+
+								<!-- <option value="0" <?=attr($cart['status']==0)?>>견적바구니</option>
 								<option value="1"  <?=attr($cart['status']==1)?>>주문접수</option>
 								<option value="2"  <?=attr($cart['status']==2)?>>구매자정보확인</option>
 								<option value="3"  <?=attr($cart['status']==3)?>>입금대기중</option>
@@ -124,7 +131,7 @@ $estimateOrders=pageListJoin('estimate_orders',$join,'estimate_orders.*,users.na
 								<option value="5"  <?=attr($cart['status']==5)?>>계약서 및 서류 확인</option>
 								<option value="6"  <?=attr($cart['status']==6)?>>배송중</option>
 								<option value="9"  <?=attr($cart['status']==9)?>>주문취소</option>
-								<option value="10"  <?=attr($cart['status']==10)?>>판매완료</option>
+								<option value="10"  <?=attr($cart['status']==10)?>>판매완료</option> -->
 						</select>
 					
 								</td>

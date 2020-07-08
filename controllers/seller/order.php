@@ -4,6 +4,18 @@ if($param['status']==''){
 }
 if($param['status']==1){
 	$param['status']='1,2,3,4,5,6,7,8,9';
+
+}
+
+if($param['update_status']){
+	$cartParam['status'] = $param['update_status'];
+	updateItem('estimate_cart_products,viewQuery',$cartParam,'order_no='.$param['order_no']);
+	
+	$orderParam['status']= $param['update_status'];
+	updateItem('estimate_orders',$orderParam,$param['order_no']);
+
+		getBack();
+	exit;
 }
 
 if($param['cart_info']){
@@ -78,10 +90,16 @@ $join,
 					주문내용
 
 				</th>
+				<?php
+					if($param['status']==1){
+				?>
 				<th>
 					배송일정
 
 				</th>
+				<?php
+				}	
+				?>
 				<th>
 						수량
 
@@ -137,18 +155,30 @@ $join,
 						<?=$estimateCart['details']['material_grade']?>
 
 					</td>
+					<?php
+					if($param['status']==1){
+				?>
 					<td>
 					<?=$estimateCart['wish_date']?>까지
 
 					</td>
+					<?php
+					}
+					?>
 					<td>
 						
 						<?=$estimateCart['amount']?>
 					</td>
 					<td>
+<?php
+
+
+	?>
+			
 							<?=number_format($estimateCart['product_price'])?>\
 
 					</td>
+					
 						<?php
 					if($param['status']==1){
 				?>
@@ -159,10 +189,34 @@ $join,
 				</td>
 				<td>	
 				<?php
+					if($estimateCart['status']==2){	
+				?>
+			
+					<a href="?update_status=3&order_no=<?=$estimateCart['order_no']?>" class="btn btn-primary">입금 확인 및 계산서 발행 예정</a>
+				<?php
+				}	
+					?>
+				<?php
+					if($estimateCart['status']==3){	
+				?>
+			
+					<a href="?update_status=4&order_no=<?=$estimateCart['order_no']?>" class="btn btn-primary">계산서 발행완료</a>
+				<?php
+				}	
+					?>
+				<?php
 					if($estimateCart['status']==4){	
 				?>
 			
-					<a href="?status=5" class="btn btn-primary">발송처리</a>
+					<a href="?update_status=5&order_no=<?=$estimateCart['order_no']?>" class="btn btn-primary">발송처리</a>
+				<?php
+				}	
+					?>
+				<?php
+					if($estimateCart['status']==6){	
+				?>
+			
+					<a href="" class="btn btn-warning">출금신청</a>
 				<?php
 				}	
 					?>

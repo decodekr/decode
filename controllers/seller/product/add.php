@@ -30,6 +30,7 @@ if($_FILES['excel']['name']){
 ,'AC'
 ,'Y'
 ,'AB');
+
 	$total=getTotal('product_lists','create_date like "%'.date('Y-m-d').'%"')+1;
 
 	$file=uploadFile($_FILES['excel'],'/files');
@@ -50,7 +51,8 @@ if($_FILES['excel']['name']){
 		$sheet = $php_excel->getSheet($sheetIndex);           // 첫번째 시트
 		$maxRow = $sheet->getHighestRow();          // 마지막 라인
 		$maxColumn = $columnMax[$sheetIndex];//$sheet->getHighestColumn();    // 마지막 칼럼
-echo $maxColumn;
+
+
 		for ($row = 2; $row <= $maxRow; $row++){ 
 			//  Read a row of data into an array
 			
@@ -98,6 +100,9 @@ echo $maxColumn;
 							}
 						
 						}
+						if($rowItem==''&&($titleRow[0][$index]=='SCRATCH Y/N'||$titleRow[0][$index]=='RUST Y/N'||$titleRow[0][$index]=='DENT Y/N'||$titleRow[0][$index]=='HEAT NO. AND PRODUCT CERTI. Y/N'||$titleRow[0][$index]=='MANUFACTURED YEAR'||$titleRow[0][$index]=='COUNTRY')){
+							printMessage('엑셀 업로드 실패 : '.$sheetName.'시트 '.$row.'열 '.$titleRow[0][$index].' 값은 필수로 입력해야 합니다.','/seller/product/add');
+						}
 						$data[str_replace(' ','_',strtolower($titleRow[0][$index]) )]=strtoupper(str_replace('"','inch',$rowItem));
 					}
 					else{
@@ -117,6 +122,13 @@ echo $maxColumn;
 				$productParam['delivery_type']=$data['delivery_type'];
 				$productParam['delivery_date']=$data['available_delivery_date'];
 				$productParam['package_type']=$data['package_type'];
+				$productParam['grade']='B'/*getGrade(
+				$productParam['details']['scratch_y/n'],
+				$productParam['details']['dent_y/n'],
+				$productParam['details']['rust_y/n'],
+				$productParam['details']['heat_no._and_product_certi._y/n'],
+				$productParam['details']['manufactured_date'],
+				$productParam['details']['country'])*/;
 		
 				
 			//	if($productParam['price']&&$productParam['amount']){

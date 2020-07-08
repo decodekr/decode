@@ -1,0 +1,186 @@
+<main class="site-main site-login">
+        <div class="box-center">
+            <div class="customer-login">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h5 class="title-login">판매자 계정 추가 정보</h5>
+                            <p class="p-title-login"></p>
+                            <form class="register" method="post">
+								<input type="hidden" name="has_data" value="1">
+								<input type="hidden" name="type" value="<?=$type?>">
+								<input type="hidden" name="user_type" value="<?=attr($param['user_type'],$param['user_type'],$user['user_type'])?>">
+                                <p class="form-row form-row-wide">
+                                    <label>회사명<span class="required">*</span></label>
+                                    <input type="text" name="company" placeholder="" value="<?=$user['company']?>" class="input-text">
+                                </p>
+                                <p class="form-row form-row-wide">
+                                    <label>사업자번호<span class="required">*</span></label>
+                                    <input type="text"  name="business_code" placeholder=""  value="<?=$user['business_code']?>" class="input-text">
+                                </p>
+								 <p class="form-row form-row-wide">
+                                    <label>사업자 등록증 사본<span class="required"></span></label>
+                                    <input type="file">
+									<!-- <p style="color:red;">TEST.php</p> -->
+                                </p>
+								 <p class="form-row form-row-wide">
+                                    <label>사업자 통장 사본<span class="required"></span></label>
+                                    <input type="file">
+										<!-- <p style="color:red;">TEST.php</p> -->
+                                </p>
+                                <p class="form-row form-row-wide">
+                                    <label>주소<span class="required"></span></label>
+                                </p>
+                                <div class="form-group form-row-wide">
+                                    <label class="inline"><input type="radio" name="address_country"  value="국내" <?=attr($user['address_country']=='국내','checked')?>><span class="input"></span>국내</label>
+                                    <label class="inline"><input type="radio" name="address_country" value="해외"  <?=attr($user['address_country']=='해외','checked')?>><span class="input"></span>해외</label>
+                                </div>
+
+								<script>
+									
+									$('[name="address_country"]').on('change',function(){
+								
+										$(this).parent().siblings().find('input').prop({checked:false});
+									});
+								</script>
+                                <p class="form-row form-row-wide">
+                                    <label>도로명 주소</label><br>
+                                    <input type="text"  name="address" id="address" readonly placeholder="주소를 검색하여 입력하세요"   value="<?=$user['address']?>"  class="input-text right_button">
+								<a href="" class="btn btn-default" style="height:40px;vertical-align: middle;line-height: 28px;" id="address_search_button">주소 검색</a>
+                                </p>
+                                <p class="form-row form-row-wide">
+                                   <div id="address_wrap" style="display:none;border:1px solid;width:100%;height:300px;margin:5px 0;position:relative">
+								<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
+								</div>
+                                </p>
+                                <p class="form-row form-row-wide">
+                                    <label>상세 주소</label>
+                                    <input type="text"   id="address_detail" name="address_detail" placeholder=""     value="<?=$user['address_detail']?>" class="input-text">
+                                </p>
+
+						
+
+
+
+                                <h5 class="title-login">계좌 정보 입력</h5>
+                                <p class="form-row form-row-wide">
+                                    <label>은행 명</label>
+                                  <select name="bank_code" class="input-text bank_code">
+									<option value="">은행명</option>
+									<?php
+									foreach($banks['data'] as $bank){	
+								?>
+								<option value="<?=$bank['bankId']?>" <?=attr($bank['bankId']==$user['bank_code'])?>><?=$bank['bankName']?></option>
+									<?php
+								}	
+								?>
+										
+                                  </select>
+                                </p>
+                                <p class="form-row form-row-wide">
+                                    <label>계좌번호</label>
+                                    <input type="text"  name="bank_account_number"   value="<?=$user['bank_account_number']?>"  placeholder="" class="input-text bank_account_number">
+                                </p>
+                                <!-- <p class="form-row form-row-wide">
+                                    <label>SWIFT CODE</label>
+                                    <input type="text"  name="swift_code" placeholder=""    value="<?=$user['swift_code']?>"  class="input-text">
+                                </p> -->
+                                <p class="form-row form-row-wide">
+                                    <label>예금주</label>
+                                    <input type="text"  name="bank_address" placeholder="" disabled   value="<?=$user['name']?>"  class="input-text">
+                                </p>
+								<p style="float:right;">
+									<input type="text" id="account_certif_code" style="display:none;">
+									<a href="" class="btn btn-success" id="check_account">계좌 인증</a>
+
+								</p>
+								<input type="hidden" name="tid" value="" id="tid">
+							
+                                <ul>
+
+                                
+<br><br><li>
+									<label class="inline"><input type="checkbox" checked><span class="input"></span>본인은 이용약관, 개인정보 수집 및 이용,
+                                        제공에 동의합니다.</label></li>
+                                </ul>
+                                <p class="form-row">
+                                    <input type="submit" value="상세 정보 입력 완료" name="Submit" class="button-submit">
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+	<script>
+	var businessCertif=0;
+
+	$('[name="business_code"]').blur(function(){
+		var business_code = $(this).val();
+		postRequest({
+			url : '/json/payment',
+			dataType:'html',
+			data: {mode :'check_business_code',business_code:business_code},
+			success : function($data){
+				if($data.indexOf('등록되어 있지 않은 사업자등록번호')!=-1){
+					businessCertif=0;
+					Swal.fire({
+					  title: '',
+					  text: '정확한 사업자 번호를 입력해 주세요.',
+					  icon: 'error',
+					  confirmButtonText: '확인'
+					})
+				}
+				else{
+					businessCertif=1;
+
+				}
+			}
+		})
+	});
+		$('[name="business_code"]').blur();
+	$('.button-submit').click(function(){
+		var company = $('[name="company"]').val();
+		var business_code = $('[name="business_code"]').val();
+		var virtual_account_number = $('[name="virtual_account_number"]').val();
+		if(company==''){
+			Swal.fire({
+			  title: '',
+			  text: '회사명을 입력해주세요.',
+			  icon: 'error',
+			  confirmButtonText: '확인'
+			})
+			return false;
+		}
+		if(business_code==''){
+			Swal.fire({
+			  title: '',
+			  text: '사업자번호를 입력해주세요.',
+			  icon: 'error',
+			  confirmButtonText: '확인'
+			})
+			return false;
+		}
+		if(businessCertif==0){
+			Swal.fire({
+			  title: '',
+			  text: '정확한 사업자 번호를 입력해 주세요.',
+			  icon: 'error',
+			  confirmButtonText: '확인'
+			})
+			return false;
+		}
+		if(virtual_account_number==''){
+			Swal.fire({
+			  title: '',
+			  text: '계좌 정보를 입력하고 인증을 진행해주세요.',
+			  icon: 'error',
+			  confirmButtonText: '확인'
+			})
+			return false;
+		}
+		
+	});
+
+	</script>

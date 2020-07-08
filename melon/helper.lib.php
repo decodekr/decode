@@ -1,4 +1,139 @@
 <?php
+
+function getGrade($scratch,$dent,$rust,$certi,$date,$country){
+		$grade=0;
+
+		$goodCountries='
+		KOREA
+		한국
+		대한민국
+		GERMANY
+		독일
+		USA
+		미국
+		NETHERLANDS
+		네덜란드
+		SWEDEN
+		스웨덴
+		FRANCE
+		프랑스
+		ITALY
+		이태리
+		ITALIA
+		이탈리아
+		UNITED KINGDOM
+		영국
+		ENGLAND
+		영국
+		ICELAND
+		아이슬란드
+		아이슬랜드
+		IRELAND
+		아일랜드
+		NORWAY
+		노르웨이
+		SPAIN
+		스페인
+		FINLAND
+		핀란드
+		CANADA
+		캐나다
+		DENMARK
+		덴마크
+		BELGIUM
+		벨기에
+		SWISS
+		스위스
+		JAPAN
+		일본
+		';
+		$badCountries='
+			INDIA
+			인도
+			CHINA
+			중국
+			';
+
+
+		if($scratch=='Y'||$scratch=='y'){
+			
+		}
+		else{
+			$grade+=5;
+		}
+		if($dent=='Y'||$dent=='y'){
+			
+		}
+		else{
+			$grade+=25;
+		}
+		if($rust=='Y'||$rust=='y'){
+			
+		}
+		else{
+			$grade+=10;
+		}
+		if($certi=='Y'||$certi=='y'){
+			$grade+=40;
+		}
+		else{
+			
+		}
+		
+
+		if($date!=''){
+		$start = new DateTime(); // 20120101 같은 포맷도 잘됨
+
+
+		$end = new DateTime($date);
+
+		 
+
+		// $차이 는 DateInterval 객체. var_dump() 찍어보면 대충 감이 옴.
+
+		$diff    = date_diff($start, $end);
+		if($diff<3){
+			$grade+=5;
+		}
+		else if($diff<5){
+			$grade+=3;
+		}
+		else if($diff<10){
+			$grade+=1;
+		}
+		if($diff<3){
+			$grade+=0;
+		}
+
+		}
+
+		
+		if(strpos($country,$goodCountry)!==FALSE){
+			$grade+=15;
+		}
+		else if(strpos($country,$badeCountry)!==FALSE){
+			$grade+=5;
+		}
+		else{
+			$grade+=10;
+		}
+
+		if($grade>90){
+			return 'A';
+		}
+		else if($grade>70){
+			return 'B';
+		}
+		else if($grade>40){
+			return 'C';
+		}
+		else{
+			return 'D';
+		}
+		
+	
+	}
+
 //===================================================================================//
 // NAME		: lib.client.php
 // MEMO		: 클라이언트 분석 기능

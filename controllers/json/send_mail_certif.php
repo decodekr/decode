@@ -49,7 +49,7 @@ $mailText='
 </body>
 </html>';
 
-sendMail($subject,$mailText,$param['mail']);
+//sendMail($subject,$mailText,$param['mail']);
 
 
 
@@ -64,7 +64,7 @@ sendMail($subject,$mailText,$param['mail']);
    $headers = "From: skanxn@drumreal.identt.co.kr\r\n";
 $headers .= "Content-Type:text/html; charset=UTF-8\r\n";
 
-//mail($to, $subject, $mailText, $headers);
+mail($to, $subject, $mailText, $headers);
  jsonMessage($code);
     
 

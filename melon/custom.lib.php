@@ -117,29 +117,22 @@ function displayStatus($status){
 		return '견적바구니';
 	}
 	if($status==1){
-		return '주문접수';
+		return '입금대기';
 	}
 	if($status==2){
-		return '구매자정보확인';
+		return '입금완료';
 	}
 	if($status==3){
-		return '입금대기중';
+		return '계산서 발행중';
 	}
 	if($status==4){
-		return '입금확인';
+		return '결제완료';
 	}
 	if($status==5){
-		return '계약서 및 서류 확인';
+		return '운송중';
 	}
 	if($status==6){
-		return '배송중';
-	}
-
-	if($status==9){
-		return '주문취소';
-	}
-	if($status==10){
-		return '판매완료';
+		return '거래완료';
 	}
 }
 function displayDetail($details){

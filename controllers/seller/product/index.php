@@ -1,4 +1,9 @@
 <?php
+if($param['del']){
+	deleteItem('product_lists',$param['del']);
+	printMessage('상품을 삭제했습니다.');
+	exit;
+}
 $products=pageList('product_lists','user_no='.$session['login'],'',20,10,$param['page'],'?page=$page');
 /*$estimateCarts=getListJoin(
 'estimate_cart_products,viewQuery',
@@ -35,8 +40,8 @@ $join,
 					수량
 
 				</th>
-				<th>
-					입금 후 납기일
+				<th  style="width:150px;">
+					입금 후 <br>납기일
 
 				</th>
 				<th  style="width:150px;">
@@ -89,7 +94,7 @@ $join,
 					<td>
 						
 					<a href="/product/add?no=<?=$product['no']?>" class="btn btn-default">수정</a>
-					<a href="" class="btn btn-danger">삭제</a>
+					<a href="?del=<?=$product['no']?>" class="btn btn-danger">삭제</a>
 					</td>
 				
 

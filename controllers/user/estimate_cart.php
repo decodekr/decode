@@ -66,7 +66,7 @@ include 'views/header.html';
             <table class="search-list-table">
                 <thead>
                 <tr>
-					<th><input type="checkbox" id="check_all"></th>
+					<th><input type="checkbox" id="check_all" checked></th>
                     <th>CATEGORY</th>
                     <th>DESCRIPTION</th>
             
@@ -93,9 +93,9 @@ include 'views/header.html';
 						}
 						
 				?>
-                <tr>
+                <tr class="product_row">
 					<td>
-						<input type="checkbox" class="checkbox" data-no="<?=$cart['no']?>">
+						<input type="checkbox" class="checkbox" checked data-no="<?=$cart['no']?>" data-product-no="<?=$cart['product_no']?>">
 
 					</td>
                     <th scope="row"><?=$cart['details']['category']?></th>
@@ -124,10 +124,50 @@ include 'views/header.html';
                    
                     <td><input data-no="<?=$cart['no']?>" type="number"  style="width:80px;" name="amount" value="<?=$cart['amount']?>"></td>
 					<td id="attaches">
+					<?php
+						if($cart['certi_file']){
+					?>
 						<a href="#" class="attach_icon"><i class="fa fa-file"></i></a>
+					<?php
+					}else{
+					?>
+						<a href="#" class="attach_icon" style="opacity:0.5;position:relative;"><i class="fa fa-file"></i><span style="position:absolute;top:50%;left:-3px;width:15px;height:2px;background:red"></span></a>
+						<?php
+					}
+					?>
+					<?php
+						if($cart['certi_file']){
+					?>
 						<a href="#" class="attach_icon"><i class="fa fa-file"></i></a>
+					<?php
+					}else{
+					?>
+						<a href="#" class="attach_icon" style="opacity:0.5;position:relative;"><i class="fa fa-file"></i><span style="position:absolute;top:50%;left:-3px;width:15px;height:2px;background:red"></span></a>
+						<?php
+					}
+					?>
+						<?php
+						if($cart['certi_file']){
+					?>
 						<a href="#" class="attach_icon"><i class="fa fa-file"></i></a>
-						<a  href="#"class="attach_icon"><i class="fa fa-file"></i></a>
+					<?php
+					}else{
+					?>
+						<a href="#" class="attach_icon" style="opacity:0.5;position:relative;"><i class="fa fa-file"></i><span style="position:absolute;top:50%;left:-3px;width:15px;height:2px;background:red"></span></a>
+						<?php
+					}
+					?>
+						<?php
+						if($cart['certi_file']){
+					?>
+						<a href="#" class="attach_icon"><i class="fa fa-file"></i></a>
+					<?php
+					}else{
+					?>
+						<a href="#" class="attach_icon" style="opacity:0.5;position:relative;"><i class="fa fa-file"></i><span style="position:absolute;top:50%;left:-3px;width:15px;height:2px;background:red"></span></a>
+						<?php
+					}
+					?>
 
 					</td>
 				</tr>
@@ -141,10 +181,19 @@ include 'views/header.html';
             </table>
 
 
-<table class="table table-bordered" style="width:800px;">
+<table class="table table-bordered" style="100%;">
 	
 	<tr>
-		
+		<th style="width:140px;">
+			대금지급 일정<br>
+	
+
+		</th>
+		<td>
+			<i class="fa fa-calendar"></i>
+<input type="text" class="datepicker" autocomplete="off" name="pay_date" style="width:150px;">
+
+		</td>
 		<th style="width:140px;">
 			희망운송 일정<br>
 	
@@ -152,9 +201,10 @@ include 'views/header.html';
 		</th>
 		<td>
 			<i class="fa fa-calendar"></i>
-<input type="text" class="datepicker" name="wish_date" style="width:150px;">
+<input type="text" class="datepicker" autocomplete="off" name="wish_date" style="width:150px;">
 
 		</td>
+		
 		<th  style="width:140px;">
 			
 			사용 통화
@@ -222,11 +272,22 @@ include 'views/header.html';
 		});
 
 			$('#estimate_request').click(function(){
+				var products='';
+
+				$('.product_row input[type="checkbox"]:checked').each(function(){
+					if(products!=''){
+						products+=',';
+
+					}
+					products+=$(this).data('product-no');
+				});
+
+
 				if($('[name="wish_date"]').val()==''){
 				alert('희망 운송 일정을 입력해주세요.');
 				return false;
 				}
-				location.href='/user/estimate?wish_date='+$('[name="wish_date"]').val();
+				location.href='/user/estimate?product_no='+products+'&wish_date='+$('[name="wish_date"]').val();
 				return false;
 			});
 

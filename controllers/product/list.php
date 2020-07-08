@@ -2,7 +2,7 @@
 	
 	ini_set('memory_limit',-1);
 	$sameWords=array();
-	$omit=array('country','available_delivery_date','unit','quantity','unit_price','price','supplier');
+	$omit=array('country','available_delivery_date','unit','quantity','unit_price','price','supplier','scratch_y/n','dent_y/n','rust_y/n','heat_no._and_product_certi._y/n','manufactured_year','manufacturer','drawing_y/n','pressure_test_report_y/n','raw_material_certi._y/n');
 	
 	function multiexplode ($delimiters,$string) {
 
@@ -15,7 +15,7 @@
 	}
 	function samewords($word){
 		
-		$sameword=getItem('samewords','input_word like "%'.$word.'%"');
+		$sameword=getItem('samewords',"input_word like '%".$word."%'");
 
 		
 
@@ -30,7 +30,7 @@ if($param['mode']=='product_list'){
 	if($param['category']==''){
 		exit;
 	}
-	$where=  '';;
+	$where=  'amount > 0  ';;
 	$select = '';
 	
 	
@@ -39,7 +39,7 @@ if($param['mode']=='product_list'){
 	
 	
 	if($param['keyword']){
-		$where.=' (';
+		$where.='AND (';
 
 		//컴마와 공백으로 쪼갠다.
 
@@ -242,7 +242,6 @@ foreach($products['list'] as $productIndex=>$product){
 
 
 
-
 ?>
 
 
@@ -269,25 +268,25 @@ foreach($products['list'] as $productIndex=>$product){
 
                     <th><input type="checkbox" id="check_all"></th>
 					  <?php if($param['keyword']){?>
-                    <th>Matching</th>             
+                    <th>Matching<br>매칭률</th>             
 					<?php
 					}	
 					?>
-					<th>category</th>
-					<th>seamless/welded</th>
-					<th>welding_type</th>
-					<th>material_grade</th>
-					<th>zinc/galva</th>
-					<th>size1</th>
-					<th>sch1</th>
-					<th>end</th>
-					<th>code</th>
-					<th>scratch_y/n</th>
+					<th>category<br>카테고리</th>
+					<th>seamless/welded<br>심리스/용접</th>
+					<th>welding_type<br>용접 종류</th>
+					<th>material_grade<br>재질</th>
+					<th>zinc/galva<br>코팅 형태</th>
+					<th>size1<br>사이즈1</th>
+					<th>sch1<br>스케쥴</th>
+					<th>end<br>엔드 타입</th>
+					<th>code<br>코드</th>
+					<!-- <th>scratch_y/n</th>
 					<th>dent_y/n</th>
 					<th>rust_y/n</th>
 					<th>heat_no._and_product_certi._y/n</th>
 					<th>manufactured_year</th>
-					<th>manufacturer</th>
+					<th>manufacturer</th> -->
 					                    <!-- <th>TYPE</th>
                     <th>SIZE</th>
                     <th>MATERIAL GRADE</th>
@@ -369,31 +368,31 @@ foreach($products['list'] as $productIndex=>$product){
 
                     <th><input type="checkbox" id="check_all"></th>
                                      	   <?php if($param['keyword']){?>
-                    <th>Matching</th>             
+                    <th>Matching<br>매칭률</th>             
 					<?php
 					}	
 					?>
-                                     	  <th>category</th>
-					<th>item</th>
-					<th>forged/casting</th>
-					<th>type</th>
-					<th>bore</th>
-					<th>operating_type</th>
-					<th>material_grade</th>
-					<th>trim_material</th>
-					<th>seat_material</th>
-					<th>size1</th>
-					<th>pressure_rating</th>
-					<th>end</th>
-					<th>code</th>
-					<th>scratch_y/n</th>
+                                     	  <th>category<br>카테고리</th>
+					<th>item<br>밸브 종류</th>
+					<th>forged/casting<br>단조/주조</th>
+					<th>type<br>밸브 종류 상세</th>
+					<th>bore<br>보어 선택</th>
+					<th>operating_type<br>구동 방식</th>
+					<th>material_grade<br>재질</th>
+					<th>trim_material<br>트림 재질</th>
+					<th>seat_material<br>시트 재질</th>
+					<th>size1<br>사이즈</th>
+					<th>pressure_rating<br>압력</th>
+					<th>end<br>엔드 타입</th>
+					<th>code<br>코드</th>
+					<!-- <th>scratch_y/n</th>
 					<th>dent_y/n</th>
 					<th>rust_y/n</th>
 					<th>heat_no._and_product_certi._y/n</th>
 					<th>drawing_y/n</th>
 					<th>pressure_test_report_y/n</th>
 					<th>manufactured_year</th>
-					<th>manufacturer</th>
+					<th>manufacturer</th> -->
 					                    <!-- <th>TYPE</th>
                     <th>SIZE</th>
                     <th>MATERIAL GRADE</th>
@@ -475,32 +474,32 @@ foreach($products['list'] as $productIndex=>$product){
 
                     <th><input type="checkbox" id="check_all"></th>
 					  <?php if($param['keyword']){?>
-                    <th>Matching</th>             
+                    <th>Matching<br>매칭률</th>             
 					<?php
 					}	
 					?>
-                                     	  <th>category</th>
-					<th>item</th>
-					<th>forged/pipe</th>
-					<th>type</th>
-					<th>material</th>
-					<th>nace_y/n</th>
-					<th>size1</th>
-					<th>size2</th>
-					<th>size3</th>
-					<th>schedule_1</th>
-					<th>schedule_2</th>
-					<th>pressure__rating</th>
-					<th>end1</th>
-					<th>end2</th>
-					<th>end3</th>
-					<th>code</th>
-					<th>scratch_y/n</th>
-					<th>dent_y/n</th>
+                                     	  <th>category<br>카테고리</th>
+					<th>item <br>피팅 종류</th>
+					<th>forged/pipe<br>단조 피팅/파이프 피팅</th>
+					<th>type<br>피팅 종류 상세</th>
+					<th>material<br>재질</th>
+					<th>nace_y/n<br>nace 적용 유무</th>
+					<th>size1<br>사이즈1</th>
+					<th>size2<br>사이즈2</th>
+					<th>size3<br>사이즈3</th>
+					<th>schedule_1<br>스케쥴1</th>
+					<th>schedule_2<br>스케쥴2</th>
+					<th>pressure_rating<br>압력</th>
+					<th>end1<br>엔드 타입1</th>
+					<th>end2<br>엔드 타입2</th>
+					<th>end3<br>엔드 타입3</th>
+					<th>code<br>코드</th>
+					<!-- <th>scratch_y/n</th> -->
+					<!-- <th>dent_y/n</th>
 					<th>rust_y/n</th>
 					<th>heat_no._and_product_certi._y/n</th>
 					<th>manufactured_year</th>
-					<th>manufacturer</th>
+					<th>manufacturer</th> -->
 					                    <!-- <th>TYPE</th>
                     <th>SIZE</th>
                     <th>MATERIAL GRADE</th>
@@ -581,27 +580,27 @@ foreach($products['list'] as $productIndex=>$product){
 
                     <th><input type="checkbox" id="check_all"></th>
 					  <?php if($param['keyword']){?>
-                    <th>Matching</th>             
+                    <th>Matching<br>매칭률</th>             
 					<?php
 					}	
 					?>
-                                     	  <th>category</th>
-					<th>type1</th>
-					<th>reducing_y/n</th>
-					<th>material</th>
-					<th>size1</th>
-					<th>size2</th>
-					<th>sch1</th>
-					<th>pressure</th>
-					<th>end1</th>
-					<th>code</th>
-					<th>scratch_y/n</th>
+                                     	  <th>category<br>카테고리</th>
+					<th>type<br>플렌지 타입</th>
+					<th>reducing_y/n<br>리듀싱 유/무</th>
+					<th>material<br>재질</th>
+					<th>size1<br>사이즈1</th>
+					<th>size2<br>사이즈2</th>
+					<th>sch1 <br>스케쥴1</th>
+					<th>pressure<br>압력</th>
+					<th>end1 <br>엔드타입 1</th>
+					<th>code<br>코드</th>
+					<!-- <th>scratch_y/n</th>
 					<th>dent_y/n</th>
 					<th>rust_y/n</th>
 					<th>heat_no._and_product_certi._y/n</th>
 					<th>raw_material_certi._y/n</th>
 					<th>manufactured_year</th>
-					<th>manufacturer</th>
+					<th>manufacturer</th> -->
 					                    <!-- <th>TYPE</th>
                     <th>SIZE</th>
                     <th>MATERIAL GRADE</th>
@@ -685,6 +684,7 @@ foreach($products['list'] as $productIndex=>$product){
 .search-list-table thead th, .search-list-table tbody td{
 	width: 80px;;
 	height: 46px;
+	vertical-align: middle;
 }
 
 #wrapper {
@@ -774,31 +774,57 @@ margin-right: 10px;
 
 
 
-	<div class="filter-options" id="additional_category">
+	<!-- <div class="filter-options" id="additional_category">
 		  <div class="block-content">
 			<div class="filter-options-item filter-categori categories">
                   <div class="filter-options-title">자재 상태</div>
 					<div class="filter-option-contents">
-						<label class="inline">
+					<div class="filter-row">
+							<label class="inline">
 							<input type="checkbox" name="scratch" value="1"  >
-							<span class="input"></span> SCRATCH 
+							<span class="input"></span> SCRATCH Y
 
                          </label>
-						 <label class="inline">
-							<input type="checkbox" name="rust" value="1" >
-							<span class="input"></span> RUST
-                         </label><br>
-						 <label class="inline">
-							<input type="checkbox" name="dent" value="1" >
-							<span class="input"></span> DENT
-                         </label>
-						 <label class="inline">
-							<input type="checkbox" name="certi" value="1" >
-							<span class="input"></span> CERTI
+						<label class="inline">
+							<input type="checkbox" name="scratch" value="0"  >
+							<span class="input"></span> SCRATCH N
+
                          </label>
 
 					</div>
-					<br>
+					<div class="filter-row">
+						 <label class="inline">
+							<input type="checkbox" name="rust" value="1" >
+							<span class="input"></span> RUST Y
+                         </label>
+						 <label class="inline">
+							<input type="checkbox" name="rust" value="0" >
+							<span class="input"></span> RUST N
+                         </label>
+						</div>
+						<div class="filter-row">
+						 <label class="inline">
+							<input type="checkbox" name="dent"  value="1" >
+							<span class="input"></span> DENT Y
+                         </label>
+						 <label class="inline">
+							<input type="checkbox" name="dent" value="0" >
+							<span class="input"></span> DENT N
+                         </label>
+						</div>
+						<div class="filter-row">
+						 <label class="inline">
+							<input type="checkbox" name="certi" value="1" >
+							<span class="input"></span> CERTI Y
+                         </label>
+						 <label class="inline">
+							<input type="checkbox" name="certi" value="0" >
+							<span class="input"></span> CERTI N
+                         </label>
+						 </div>
+
+					</div>
+				
 					<br>
 					 <div class="filter-options-title">검색제외 국가</div>
 					<div class="filter-option-contents">
@@ -806,7 +832,7 @@ margin-right: 10px;
 					</div>
 			</div>
 		  </div>
-	</div>
+	</div> -->
 	<div id="product_filter">
 			<div class="filter-options">
 			  <div class="block-content">

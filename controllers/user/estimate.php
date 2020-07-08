@@ -1,21 +1,134 @@
 <?php
 include 'views/header.html';
 	$omit=array('country','available_delivery_date','unit','quantity','unit_price','price','supplier');
-$carts = getListJoin('estimate_cart_products',array('LEFT','product_lists','estimate_cart_products.product_no=product_lists.no'),'estimate_cart_products.*,product_lists.details,product_lists.price','estimate_cart_products.status=0 AND estimate_cart_products.user_no='.$session['login']);
+	$carts = getListJoin('estimate_cart_products',array('LEFT','product_lists','estimate_cart_products.product_no=product_lists.no'),'estimate_cart_products.*,product_lists.details,product_lists.price,product_lists.grade','estimate_cart_products.status=0 AND estimate_cart_products.user_no='.$session['login'].' AND estimate_cart_products.product_no in ('.$param['product_no'].')');
 
 $user=getItem('users',$_SESSION['login']);
 if($param['order']==1){
 	$orderParam['user_no']=$session['login'];
-	$orderParam['wish_date']=$session['login'];
+	$orderParam['wish_date']=$param['wish_date'];
 	$orderParam['total_price']=0;
 
-foreach($carts['list'] as $cart){
-	$orderParam['total_price']+=$cart['price'];
-}
-	$orderParam['total_price']=1;
+	foreach($carts['list'] as $cart){
+
+		if($cart['grade']=='A'){
+							if($cart['price']*$cart['amount']>=100000000){
+								$fee=$cart['price']*$cart['amount']*0.0774;
+							}
+							else if($cart['price']*$cart['amount']>=50000000){
+								$fee=$cart['price']*$cart['amount']*0.0815;
+							}
+							else if($cart['price']*$cart['amount']>=10000000){
+								$fee=$cart['price']*$cart['amount']*0.0857;
+							}
+							else if($cart['price']*$cart['amount']>=5000000){
+								$fee=$cart['price']*$cart['amount']*0.0903;
+							}
+							else if($cart['price']*$cart['amount']>=1000000){
+								$fee=$cart['price']*$cart['amount']*0.0950;
+							}
+							else{
+									$fee+=$cart['price']*$cart['amount']*0.1;
+							}
+						}
+						if($cart['grade']=='B'){
+							
+							if($cart['price']*$cart['amount']>100000000){
+								$fee=$cart['price']*$cart['amount']*0.1161;
+							}
+							else if($cart['price']*$cart['amount']>=50000000){
+								$fee=$cart['price']*$cart['amount']*0.1222;
+							}
+							else if($cart['price']*$cart['amount']>=10000000){
+								$fee=$cart['price']*$cart['amount']*0.1286;
+							}
+							else if($cart['price']*$cart['amount']>=5000000){
+								$fee=$cart['price']*$cart['amount']*0.1354;
+							}
+							else if($cart['price']*$cart['amount']>=1000000){
+								$fee=$cart['price']*$cart['amount']*0.1425;
+							}
+							else{
+									$fee=$cart['price']*$cart['amount']*0.15;
+							}
+						}
+						if($cart['grade']=='C'){
+							if($cart['price']*$cart['amount']>=100000000){
+								$fee=$cart['price']*$cart['amount']*0.1548;
+							}
+							else if($cart['price']*$cart['amount']>=50000000){
+								$fee=$cart['price']*$cart['amount']*0.1629;
+							}
+							else if($cart['price']*$cart['amount']>=10000000){
+								$fee=$cart['price']*$cart['amount']*0.1715;
+							}
+							else if($cart['price']*$cart['amount']>=5000000){
+								$fee=$cart['price']*$cart['amount']*0.1805;
+							}
+							else if($cart['price']*$cart['amount']>=1000000){
+								$fee=$cart['price']*$cart['amount']*0.19;
+							}
+							else{
+									$fee=$cart['price']*$cart['amount']*0.2;
+							}
+						}
+
+
+		$orderParam['total_price']+=($cart['price']*$cart['amount'] + $fee);
+
+		//재고 빼기
+		$stockParam['amount'] = -1;
+		calcItem('product_lists',$stockParam,$cart['product_no']);
+
+		//CART STUTUS 변경하기
+
+		$cartParam['status'] = 1;
+		updateItem('product_lists',$cartParam,$cart['no']);
+
+	}
+
+	$discountRate = 0;
+	if($orderParam['total_price']  > 99999999){
+	$discountRate = 0.045;
+	}
+	else if($orderParam['total_price']  > 79999999){
+		$discountRate = 0.040;
+	}
+	else if($orderParam['total_price']  > 59999999){
+		$discountRate = 0.035;
+	}
+	else if($orderParam['total_price']  > 29999999){
+		$discountRate = 0.030;
+	}
+	else if($orderParam['total_price']  > 9999999){
+		$discountRate = 0.025;
+	}
+	else if($orderParam['total_price']  > 7999999){
+		$discountRate = 0.020;
+	}
+	else if($orderParam['total_price']  > 5999999){
+		$discountRate = 0.015;
+	}
+	else if($orderParam['total_price']  > 2999999){
+		$discountRate = 0.01;
+	}
+	else if($orderParam['total_price']  > 1000000){
+		$discountRate = 0.005;
+	}
+
+	$orderParam['total_price'] = $orderParam['total_price'] * (1-$discountRate);
+
+	
+
+
+
 
 	$cartParam['order_no']=insertItem('estimate_orders',$orderParam);
+	
 	updateItem('estimate_cart_products',$cartParam,'user_no='.$session['login'].' AND status=0');
+	
+
+	sendSMS('01062420349','주문이 완료되었습니다');
 	printMessage('주문이 완료되었습니다. '.$param['wish_date'].'까지 대금을 '.$session['name'].'님의 가상계좌에 입금하시면 거래가 진행됩니다.\n'.$param['wish_date'].'까지 가상계좌 입금이 진행되지 않으면, 요청하신 현재 거래는 취소됩니다,','/user/order');
 exit;
 }
@@ -1852,7 +1965,7 @@ IP 의 경우 3개월 보관함(통신비밀보호법)
 		openLoading();
 		setTimeout(function(){
 	
-		 location.href='/user/estimate?order=1&wish_date=<?=$param['wish_date']?>'
+		 location.href='/user/estimate?order=1&wish_date=<?=$param['wish_date']?>&product_no=<?=$param['product_no']?>&pay_date=<?=$param['pay_date']?>'
 	},2500);
  
  
@@ -2091,7 +2204,78 @@ div.nppfs-keypad .kpd-blank{cursor:default;}
                 <tbody>
 			  <?php
 			  $totalPrice=0;
+			  $feePrice=0;
+
+			  
+						
+
+						
+
+
 					foreach($carts['list'] as $cart){
+
+						if($cart['grade']=='A'){
+							if($cart['price']*$cart['amount']>=100000000){
+								$fee=$cart['price']*$cart['amount']*0.0774;
+							}
+							else if($cart['price']*$cart['amount']>=50000000){
+								$fee=$cart['price']*$cart['amount']*0.0815;
+							}
+							else if($cart['price']*$cart['amount']>=10000000){
+								$fee=$cart['price']*$cart['amount']*0.0857;
+							}
+							else if($cart['price']*$cart['amount']>=5000000){
+								$fee=$cart['price']*$cart['amount']*0.0903;
+							}
+							else if($cart['price']*$cart['amount']>=1000000){
+								$fee=$cart['price']*$cart['amount']*0.0950;
+							}
+							else{
+									$fee+=$cart['price']*$cart['amount']*0.1;
+							}
+						}
+						if($cart['grade']=='B'){
+							
+							if($cart['price']*$cart['amount']>100000000){
+								$fee=$cart['price']*$cart['amount']*0.1161;
+							}
+							else if($cart['price']*$cart['amount']>=50000000){
+								$fee=$cart['price']*$cart['amount']*0.1222;
+							}
+							else if($cart['price']*$cart['amount']>=10000000){
+								$fee=$cart['price']*$cart['amount']*0.1286;
+							}
+							else if($cart['price']*$cart['amount']>=5000000){
+								$fee=$cart['price']*$cart['amount']*0.1354;
+							}
+							else if($cart['price']*$cart['amount']>=1000000){
+								$fee=$cart['price']*$cart['amount']*0.1425;
+							}
+							else{
+									$fee=$cart['price']*$cart['amount']*0.15;
+							}
+						}
+						if($cart['grade']=='C'){
+							if($cart['price']*$cart['amount']>=100000000){
+								$fee=$cart['price']*$cart['amount']*0.1548;
+							}
+							else if($cart['price']*$cart['amount']>=50000000){
+								$fee=$cart['price']*$cart['amount']*0.1629;
+							}
+							else if($cart['price']*$cart['amount']>=10000000){
+								$fee=$cart['price']*$cart['amount']*0.1715;
+							}
+							else if($cart['price']*$cart['amount']>=5000000){
+								$fee=$cart['price']*$cart['amount']*0.1805;
+							}
+							else if($cart['price']*$cart['amount']>=1000000){
+								$fee=$cart['price']*$cart['amount']*0.19;
+							}
+							else{
+									$fee=$cart['price']*$cart['amount']*0.2;
+							}
+						}
+						$feePrice+=$fee;
 						$cart['details']=json_decode( $cart['details'],true);
 						$cart['details']['package_type']=null;
 						$cart['details']['delivery_type']=null;
@@ -2101,7 +2285,7 @@ div.nppfs-keypad .kpd-blank{cursor:default;}
 						if($cart['details']['category']==''){
 						continue;
 						}
-						$totalPrice = $totalPrice+$cart['price']*$cart['amount'];
+						$totalPrice = $totalPrice+($cart['price']*$cart['amount']);
 				?>
                 <tr>
                     <th scope="row"><?=$cart['details']['category']?></th>
@@ -2128,11 +2312,45 @@ div.nppfs-keypad .kpd-blank{cursor:default;}
 
                     </th>
                   
-                    <td><?=$cart['amount']?></td>
-                    <td><?=number_format($cart['price']*$cart['amount'])?></td>
+                    <td><?=$cart['amount']?> (<?=$cart['grade']?>)</td>
+                    <td><?=number_format($cart['price']*$cart['amount'] + $fee)?></td>
                 </tr>
 				<?php
-}	
+
+						
+
+}
+
+						$discountRate = 0;
+						if($totalPrice  + $feePrice  > 99999999){
+						$discountRate = 0.045;
+						}
+						else if($totalPrice  + $feePrice  > 79999999){
+							$discountRate = 0.040;
+						}
+						else if($totalPrice  + $feePrice  > 59999999){
+							$discountRate = 0.035;
+						}
+						else if($totalPrice  + $feePrice  > 29999999){
+							$discountRate = 0.030;
+						}
+						else if($totalPrice  + $feePrice  > 9999999){
+							$discountRate = 0.025;
+						}
+						else if($totalPrice  + $feePrice  > 7999999){
+							$discountRate = 0.020;
+						}
+						else if($totalPrice  + $feePrice  > 5999999){
+							$discountRate = 0.015;
+						}
+						else if($totalPrice  + $feePrice  > 2999999){
+							$discountRate = 0.01;
+						}
+						else if($totalPrice  + $feePrice  > 1000000){
+							$discountRate = 0.005;
+						}
+
+
 				?>
               
                 </tbody>
@@ -2143,13 +2361,28 @@ div.nppfs-keypad .kpd-blank{cursor:default;}
                 <p>가장 빠른 운송 일정을 제공해 드렸습니다!
                     모든 제품이 동일한 일정으로 운송되는 것이 더 편하신가요?</p>
             </div>
+			<div id="total_wrap">
+				<div class="estimate-sheet-amount sub_amount">
+					<div class="box-price"><span class="text-label">합계</span>
+						<span class="box-format-amount"> <strong class="text-value" id="tprice"><?=number_format($totalPrice+$feePrice)?></strong>
+							<span class="text-unit">원</span></span>
+					</div>
+				</div>
+				<div class="estimate-sheet-amount sub_amount">
+					<div class="box-price"><span class="text-label">할인률</span>
+						<span class="box-format-amount"> <strong class="text-value" id="tprice"> <?=$discountRate*100?></strong>
+							<span class="text-unit">%</span></span>
+					</div>
+				</div>
+				<div class="estimate-sheet-amount main_amount">
+					<div class="box-price"><span class="text-label">총액</span>
+						<span class="box-format-amount"> <strong class="text-value" id="tprice"><?=number_format(($totalPrice+$feePrice)*(1-$discountRate))?></strong>
+							<span class="text-unit">원</span></span>
+					</div>
+				</div>
 
-            <div class="estimate-sheet-amount">
-                <div class="box-price"><span class="text-label">총액</span>
-                    <span class="box-format-amount"> <strong class="text-value" id="tprice"><?=number_format($totalPrice)?></strong>
-                        <span class="text-unit">원</span></span>
-                </div>
-            </div>
+			</div>
+            
             <button type="submit" class="btn-checkout estimate-sheet-buy">
                 <span>구매하기</span>
             </button>

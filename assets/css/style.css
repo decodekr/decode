@@ -10264,9 +10264,13 @@ svg:not(:root) {
 	width: 162px;
 	height: 164px;
 	box-shadow: -8px 12px 18px 0 rgba(25,42,70,.13);
+	overflow: hidden;
 }
 .cards-list h3 {
 	font-size: 16px;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
 }
 .slide-heading {
 	margin-left: 10px;
@@ -10291,7 +10295,7 @@ svg:not(:root) {
 	background-color: #f2f4f4;
 	position: absolute;
 	top: 0;
-	right: 0;
+	left: -100%;
 	z-index: 99;
 	width: 586px;
 	height: 800px;
@@ -10554,11 +10558,28 @@ input[type="text"].search-form-input {
 	width: auto;
 	margin-bottom: 20px;
 	display: block;
-	border-top: 4px solid #000;
+	
 	padding: 15px 75px 15px 87px;
+	margin-bottom: 0;
 	overflow: auto;
 	position: relative;
 	border-bottom: 1px solid #c9c9c9;
+}
+.sub_amount  .text-value{
+	font-size:22px;
+}
+.sub_amount  .text-label{
+	font-size:15px;
+}
+.main_amount  .text-label{
+	color: #2c4fa3;
+}
+.main_amount  .text-value{
+	color: #2c4fa3;
+}
+#total_wrap{
+border-top: 4px solid #000;
+margin-bottom: 20px;
 }
 .estimate-sheet-buy {
 	margin: 0 auto;
@@ -10798,4 +10819,9 @@ input[type="text"].search-form-input {
 	color: #000;
 	font-size: 24px;
 	font-weight: bold;
+}
+.filter-row{
+	border-bottom: 1px solid #ddd;
+	overflow: hidden;
+	padding: 6px 0;
 }

@@ -35,13 +35,18 @@ include 'views/header.html';
                $session['id']=$user['id'];
                $session['name']=$user['name'];
                $session['user_type']=$user['user_type'];
-
-				if( $session['user_type']=='seller'){
-					 getBack('/seller');
+				if($param['page']){
+					 getBack($param['page']);
 				}
 				else{
-					 getBack('/');
+					if( $session['user_type']=='seller'){
+						 getBack('/seller?now_login=1');
+					}
+					else{
+						 getBack('/');
+					}
 				}
+				
 
                
             }
@@ -60,6 +65,7 @@ include 'views/header.html';
                         <p class="p-title-login">로그인을 하시면 MOM의 모든 서비스를 이용하실 수 있습니다.</p>
                         <form class="login" method="post" id="login_form">
 						<input type="hidden" name="user_type">
+						<input type="hidden" name="page" value="<?=$_SERVER["HTTP_REFERER"]?>">
 							<input type="hidden" name="has_data" value="1">
 							 <!-- <p class="form-row" id="user_type">
 							   <label>회원유형<span class="required"></span></label><br>

@@ -37,21 +37,20 @@ $orders=getList('estimate_orders','user_no='.$session['login']);
 		foreach($orders['list'] as $order){
 			$carts = getListJoin('estimate_cart_products',array('LEFT','product_lists','estimate_cart_products.product_no=product_lists.no'),'estimate_cart_products.*,product_lists.details,product_lists.price','order_no='.$order['no']);
 			$total=0;
-			foreach($carts['list'] as $cart){
-				$total= $total+$cart['price'];
-			}
+		
 	?>
     <tr>
         <td>
             <input type="hidden" name="ct_id[2]" value="">
-            <a href="#"><?=str_replace(array(' ','-',':'),'',$order['create_date']).$order['no']?></a>
+            <a href="/user/order_detail/no/<?=$order['no']?>"><?=str_replace(array(' ','-',':'),'',$order['create_date']).$order['no']?></a>
         </td>
         <td><?=$order['create_date']?></td>
         <td class="td_num"><?=$carts['length']?></td>
-        <td class="td_numbig"><?=number_format($total)?>원</td>
+        <td class="td_numbig"><?=number_format($order['total_price'])?>원</td>
        
  
-        <td>접수</td>
+        <td>
+					<?=displayStatus($order['status'])?></td>
     </tr>
 
 <?php

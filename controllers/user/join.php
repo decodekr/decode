@@ -41,6 +41,7 @@ include 'views/header.html';
 		//$param['password'] = 'PASSWORD("'.$param['password'].'")';
 
 		$data=jsonDecode(addUser($param['name'],$param['id'],$param['phone']));
+	
 		$param['guid'] = $data['data']['memGuid'];
 
 		$session['login']= insertItem('users',$param);

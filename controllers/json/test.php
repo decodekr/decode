@@ -3,9 +3,9 @@
 
 //sendSMS('01062420349','test');
 
-//echo deleteUser('ddf9c7408faa44dfa7eab65ca35adb21');
-//echo addUser('박철균','decode@decodelab.co.kr','01062420349');
-
+//echo deleteUser('82ecfa0d302b471694523d8d349a9421');
+//echo addUser('박기성','decode@decodelab.co.kr','01065050291');
+echo getVirtualAccountNumber('641f66c71b1c4744879494482b548473');
 //echo getMemberBalanceInOut('3aa11bc42ea24a3599e9625d06e0d89b');
 //echo getMerchantBalance();
 //br();

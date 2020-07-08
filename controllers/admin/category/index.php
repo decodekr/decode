@@ -36,6 +36,12 @@
 						PIPE
 
 					</a>
+					<div class="btns">
+							<a href="/admin/category/add?parent_category_group=pipe" class="btn">추가</a>
+				
+
+					</div>
+				
 					
 
 				</li>
@@ -44,6 +50,11 @@
 						VALVE
 
 					</a>
+					<div class="btns">
+							<a href="/admin/category/add?parent_category_group=valve" class="btn">추가</a>
+				
+
+					</div>
 					
 
 				</li>
@@ -52,6 +63,24 @@
 						FITTING
 
 					</a>
+					<div class="btns">
+							<a href="/admin/category/add?parent_category_group=fitting" class="btn">추가</a>
+				
+
+					</div>
+					
+
+				</li>
+				<li>
+					<a href=""  data-next="flange" data-type="flange">
+						FITTING
+
+					</a>
+					<div class="btns">
+							<a href="/admin/category/add?parent_category_group=flange" class="btn">추가</a>
+				
+
+					</div>
 					
 
 				</li>
@@ -91,7 +120,7 @@
 </style>
 
 <script>
-	$(document).on('click','#categories li a',function(){
+	$(document).on('click','#categories li a:not(.btn)',function(){
 		var categoryGroup =  $(this).data('next');
 		var type= $(this).data('type');
 		var $this = $(this);
@@ -114,7 +143,7 @@
 						else{
 							additional = '('+$data.list[iu].additional_info+')'
 						}
-						$template.push('<li style="margin-left : '+(step * 132)+'px"><a href="" data-next="'+$data.list[iu].next_category_group+'" data-type="'+$data.list[iu].product_type+'">'+$data.list[iu].name+additional+'</a></li>');
+						$template.push('<li style="margin-left : '+(step * 132)+'px"><a href="" data-next="'+$data.list[iu].next_category_group+'" data-type="'+$data.list[iu].product_type+'">'+$data.list[iu].name+additional+'</a><div class="btns"><a href="" class="btn">추가</a><a href="" class="btn">수정</a></div></li>');
 					}
 					$this.parent().append('<ul>'+$template.join('')+'</ul>')
 					

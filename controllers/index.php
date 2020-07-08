@@ -6,15 +6,15 @@
 	#main_slide_left{
 	position: fixed;
 	left: 10px;
-	top: 400px;
+	top: 200px;
 	background: rgba(0,0,0,0.5);
 	padding: 15px;
 	text-align: center;
 }
 
-	#main_slide_right{
+	#main_slide_left2{
 	position: fixed;
-	right: 10px;
+	left: 10px;
 	top: 400px;
 	background: rgba(0,0,0,0.5);
 	padding: 15px;
@@ -33,7 +33,7 @@
     <span class="svg-icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="analytics" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="svg-inline--fa fa-analytics fa-w-18 fa-3x"><path fill="currentColor" d="M510.62 92.63C516.03 94.74 521.85 96 528 96c26.51 0 48-21.49 48-48S554.51 0 528 0s-48 21.49-48 48c0 2.43.37 4.76.71 7.09l-95.34 76.27c-5.4-2.11-11.23-3.37-17.38-3.37s-11.97 1.26-17.38 3.37L255.29 55.1c.35-2.33.71-4.67.71-7.1 0-26.51-21.49-48-48-48s-48 21.49-48 48c0 4.27.74 8.34 1.78 12.28l-101.5 101.5C56.34 160.74 52.27 160 48 160c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-4.27-.74-8.34-1.78-12.28l101.5-101.5C199.66 95.26 203.73 96 208 96c6.15 0 11.97-1.26 17.38-3.37l95.34 76.27c-.35 2.33-.71 4.67-.71 7.1 0 26.51 21.49 48 48 48s48-21.49 48-48c0-2.43-.37-4.76-.71-7.09l95.32-76.28zM400 320h-64c-8.84 0-16 7.16-16 16v160c0 8.84 7.16 16 16 16h64c8.84 0 16-7.16 16-16V336c0-8.84-7.16-16-16-16zm160-128h-64c-8.84 0-16 7.16-16 16v288c0 8.84 7.16 16 16 16h64c8.84 0 16-7.16 16-16V208c0-8.84-7.16-16-16-16zm-320 0h-64c-8.84 0-16 7.16-16 16v288c0 8.84 7.16 16 16 16h64c8.84 0 16-7.16 16-16V208c0-8.84-7.16-16-16-16zM80 352H16c-8.84 0-16 7.16-16 16v128c0 8.84 7.16 16 16 16h64c8.84 0 16-7.16 16-16V368c0-8.84-7.16-16-16-16z" class=""></path></svg></span>
     <h3>현재 시세</h3>
 </a>
-<a href="#" class="btn-arrow btn-arrow-right"  id="main_slide_right">
+<a href="#" class="btn-arrow btn-arrow-right"  id="main_slide_left2">
     <span class="svg-icon">
         <svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="newspaper" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="svg-inline--fa fa-newspaper fa-w-18 fa-3x"><path fill="currentColor" d="M552 64H88c-13.234 0-24 10.767-24 24v8H24c-13.255 0-24 10.745-24 24v280c0 26.51 21.49 48 48 48h504c13.233 0 24-10.767 24-24V88c0-13.233-10.767-24-24-24zM32 400V128h32v272c0 8.822-7.178 16-16 16s-16-7.178-16-16zm512 16H93.258A47.897 47.897 0 0 0 96 400V96h448v320zm-404-96h168c6.627 0 12-5.373 12-12V140c0-6.627-5.373-12-12-12H140c-6.627 0-12 5.373-12 12v168c0 6.627 5.373 12 12 12zm20-160h128v128H160V160zm-32 212v-8c0-6.627 5.373-12 12-12h168c6.627 0 12 5.373 12 12v8c0 6.627-5.373 12-12 12H140c-6.627 0-12-5.373-12-12zm224 0v-8c0-6.627 5.373-12 12-12h136c6.627 0 12 5.373 12 12v8c0 6.627-5.373 12-12 12H364c-6.627 0-12-5.373-12-12zm0-64v-8c0-6.627 5.373-12 12-12h136c6.627 0 12 5.373 12 12v8c0 6.627-5.373 12-12 12H364c-6.627 0-12-5.373-12-12zm0-128v-8c0-6.627 5.373-12 12-12h136c6.627 0 12 5.373 12 12v8c0 6.627-5.373 12-12 12H364c-6.627 0-12-5.373-12-12zm0 64v-8c0-6.627 5.373-12 12-12h136c6.627 0 12 5.373 12 12v8c0 6.627-5.373 12-12 12H364c-6.627 0-12-5.373-12-12z" class=""></path></svg>
     </span>
@@ -189,8 +189,12 @@
 		foreach($news['list'] as $newsItem){
 	?>
         <li>
-            <h3><?=$newsItem['title']?></h3>
-            <p class="cards-list-article"><?=$newsItem['contents']?></p>
+			<a href="/board/news/view/no/<?=$newsItem['no']?>">
+				 <h3><?=$newsItem['title']?></h3>
+            <p class="cards-list-article"><?=getSummary($newsItem['contents'],150)?></p>
+
+			</a>
+           
         </li>
 	<?php
 		}
@@ -375,8 +379,8 @@
 
 	});
 	
-	$('#main_slide_right').click(function(){
-		TweenMax.to('.main-sliding-2',0.5,{right:0});
+	$('#main_slide_left2').click(function(){
+		TweenMax.to('.main-sliding-2',0.5,{left:0});
 		$('#fog').fadeIn();
 		return false;
 
@@ -392,7 +396,7 @@ $('.input-search').keyup(function($event){
 });
 
 			TweenMax.to('#main_slide_left',0.5,{repeat:-1,left:30,yoyo:true})
-			TweenMax.to('#main_slide_right',0.5,{repeat:-1,right:30,yoyo:true})
+			TweenMax.to('#main_slide_left2',0.5,{repeat:-1,left:30,yoyo:true})
 
 
 			$('.btn-search').click(function(){

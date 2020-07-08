@@ -186,7 +186,7 @@ background: rgba(0,0,0,0.5);
 	$('.btn-close-common,#fog ').click(function(){
 
 		TweenMax.to('.main-sliding-1',1,{left:'-100%'});
-		TweenMax.to('.main-sliding-2',1,{right:'-100%'});
+		TweenMax.to('.main-sliding-2',1,{left:'-100%'});
 		TweenMax.to('.main-sliding-3',1,{left:'-100%'});
 		$('#fog,.layer').fadeOut();
 		return false;
@@ -212,5 +212,40 @@ background: rgba(0,0,0,0.5);
 
 	</script>
 
+<?php
+if($param['now_login']){
+?>
+	<script>
+		Swal.fire({
+  title: '<strong>견적서 내용대로 주문하시겠습니까?</strong>',
+  icon: 'info',
+  html:
+    '',
+  showCloseButton: true,
+  showCancelButton: true,
+  focusConfirm: false,
+  confirmButtonText:
+    '<a href="#"  style="color:white;">확인</a>',
+  confirmButtonAriaLabel: 'Thumbs up, great!',
+  cancelButtonText:
+    '취소',
+  cancelButtonAriaLabel: 'Thumbs down'
+}).then((result) => {
+	
+  if (result.value) {
+	  $('#fog,#contentsWrap').fadeIn();
+	setTimeout(function(){
+		closeLoading();
+		$('#pname').text($.trim($('.product_detail').eq(0).text()).substr(0,25)+'외 '+($('.product_detail').size()-1)+'건');
+		$('#pay_price').text($('#tprice').text()+'원')
+	},2500);
+ // location.href='/user/estimate?order=1'
+  }
+})
+
+	</script>
+	<?php
+}	
+?>
 </body>
 </html>
