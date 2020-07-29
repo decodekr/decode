@@ -50,8 +50,8 @@
 							판매관리
 						</a>
 					</li>
-					<li>
-						<a href="">
+					<li <?=attr($melon['segment'][1]=='payment','class="active"')?>>
+						<a href="/admin/payment">
 							<i class="fa fa-money"></i>
 							결제관리
 						</a>
@@ -172,6 +172,22 @@
 						</li>
 					</ul>
 				</div>
+
+
+                <div class="lnb" <?=attr(makeCondition($melon['segment'][1],'payment'),'style="display:block;"')?>>
+                    <ul>
+                        <li <?=attr($melon['segment'][1]=='payment' && $melon['segment'][2] != 'balance','class="active"')?>>
+                            <a href="/admin/payment">
+                                멤버 입출금 내역 조회
+                            </a>
+                        </li>
+                        <li <?=attr($melon['segment'][1]=='payment' && $melon['segment'][2] == 'balance','class="active"')?>>
+                            <a href="/admin/payment/balance">
+                                머천트 잔액 조회
+                            </a>
+                        </li>
+                    </ul>
+                </div>
 		
 
 			</div>

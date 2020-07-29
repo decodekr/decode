@@ -54,6 +54,9 @@
 		 $ch = curl_init(); //curl 사용 전 초기화 필수(curl handle)
 		curl_setopt($ch, CURLINFO_HEADER_OUT, true);
 		curl_setopt($ch, CURLOPT_URL, $url); //URL 지정하기
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+		curl_setopt($ch, 64, false);
+//		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
 
         $data = welcomeENCRYPT($data);
@@ -360,7 +363,8 @@
 
 	function getMemberBalanceInOut($guid, $page, $size, $startDate, $endDate){
 		//$url='https://stgftapi.welcomepayments.co.kr/wp/api/v2/member/balance/inout/'.$guid.'?page='.$page.'&size='.$size.'&crrncyType=KRW&startDate='.$startDate.'&endDate='.$endDate;
-		$url='https://openapi.welcomefin.com/wp/api/v2/member/balance/inout/'.$guid.'?page='.$page.'&size='.$size.'&crrncyType=KRW&startDate='.$startDate.'&endDate='.$endDate;
+//		$url='https://openapi.welcomefin.com/wp/api/v2/member/balance/inout/'.$guid.'?page='.$page.'&size='.$size.'&crrncyType=KRW&startDate='.$startDate.'&endDate='.$endDate;
+		$url="https://openapi.welcomefin.com/wp/api/v2/member/balance/inout/$guid?page=$page&size=$size&crrncyType=KRW&startDate=$startDate&endDate=$endDate";
 		return welcomeCURL($url,'','get');
 	}
 
@@ -373,7 +377,7 @@
 
 	function getMerchantBalanceInOut($page, $size, $startDate, $endDate){
 		//$url='https://stgftapi.welcomepayments.co.kr/wp/api/v2/merchant/balance/inout/?page='.$page.'&size='.$size.'&crrncyType=KRW&startDate='.$startDate.'&endDate='.$endDate;
-		$url='https://openapi.welcomefin.com/wp/api/v2/merchant/balance/inout/?page='.$page.'&size='.$size.'&crrncyType=KRW&startDate='.$startDate.'&endDate='.$endDate;
+		$url="https://openapi.welcomefin.com/wp/api/v2/merchant/balance/inout/?page=$page&size=$size&crrncyType=KRW&startDate=$startDate&endDate=$endDate";
 		return welcomeCURL($url,'','get');
 	}
 
@@ -496,6 +500,42 @@ function getBusinessStatus($txprDscmNo){
 }
 
 
+/**
+ * 머천트 PUSH URL 조회
+ */
+
+function getMerchantPushUrl(){
+
+    $url='https://openapi.welcomefin.com/wp/api/merchant/push/url';
+
+    return welcomeCURL($url,'','get');
+}
+
+/**
+ * 머천트 PUSH URL 등록
+ */
+function registerMerchantPushUrl(){
+
+    $url='https://openapi.welcomefin.com/wp/api/merchant/push/url';
+
+    $data= array('pushUrl'=>'https://marketofmaterial.com/json/payment_noti');
+
+    $data=jsonEncode($data);
+    return welcomeCURL($url,$data,'post');
+}
+
+/**
+ * 머천트 PUSH URL 변경
+ */
+function updateMerchantPushUrl(){
+
+    $url='https://openapi.welcomefin.com/wp/api/merchant/push/url';
+
+    $data= array('pushUrl'=>'https://marketofmaterial.com/json/payment_noti');
+
+    $data=jsonEncode($data);
+    return welcomeCURL($url,$data,'put');
+}
 
 
 

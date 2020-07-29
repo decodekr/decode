@@ -19,8 +19,30 @@ echo getBusinessStatus($param['business_code']);
 
 }
 
+if($param['mode']=='getMemberBalanceInOut') {
+	echo getMemberBalanceInOut($param['guid'], 1, 1000, $param['startDate'], $param['endDate']);
+}
 
-//echo getBankList();
+if($param['mode']=='getMemberBalanceInOut') {
+	echo json_decode(getMemberBalanceInOut($param['guid'], 1, 1000, $param['startDate'], $param['endDate']));
+}
+
+if($param['mode']=='getMerchantBalance') {
+	echo getMerchantBalance();
+}
+
+/*if ($param['mode'] == 'getMerchantPushUrl') {
+	echo getMerchantPushUrl();
+}*/
+
+/*if ($param['mode'] == 'registerMerchantPushUrl') {
+	echo registerMerchantPushUrl();
+}*/
+
+/*if ($param['mode'] == 'updateMerchantPushUrl') {
+	echo updateMerchantPushUrl();
+}*/
+
 
 //echo checkAccount('1002338278658', '박기성', 20);
 

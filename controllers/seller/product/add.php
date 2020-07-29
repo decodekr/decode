@@ -4,18 +4,14 @@ ini_set('memory_limit','-1');
 
 if(count($_FILES['images'])>0){
 	$images=uploadFile($_FILES['images'],'/files');
-	
-
-
-foreach($images as $image){
-	$imageParam['product_id']= substr($image['name'],0,12);
-	$imageParam['path']= $image['path'];
-	$imageParam['name']= $image['name'];
-	insertItem('files',$imageParam);
-	
-}
-printMessage('이미지를 성공적으로 업로드 했습니다.','/seller/product/add');
-exit;
+	foreach($images as $image){
+		$imageParam['product_id']= substr($image['name'],0,12);
+		$imageParam['path']= $image['path'];
+		$imageParam['name']= $image['name'];
+		insertItem('files',$imageParam);
+	}
+	printMessage('이미지를 성공적으로 업로드 했습니다.','/seller/product/add');
+	exit;
 }
 
 $cnt['pipe']=0;

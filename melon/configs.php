@@ -11,9 +11,9 @@ if($_SERVER['REMOTE_ADDR']!="112.155.161.11" && $_SERVER['REMOTE_ADDR']!="165.76
 	$melon['upload']['filter'] = "php|htm|html";
 	$melon['db']['type']				= 'mysqli';		//Database Type
 	$melon['db']['host']				= 'localhost';	//Database Host
-	$melon['db']['id']				= 'root';	//Database Connection ID
-	$melon['db']['pw']				= 'skanxn11';	//Database Connection Password
-	$melon['db']['name']				= 'mom';	//Database Name
+	$melon['db']['id']				= 'mom0318';	//Database Connection ID
+	$melon['db']['pw']				= 'mom1021!';	//Database Connection Password
+	$melon['db']['name']				= 'mom0318';	//Database Name
 	$melon['helper']['pagination'] = array(
 		'first'=>'<li><a href="[url]">&lt;&lt;</a></li>',
 		'prev'=>'<li><a href="[url]">&lt;</a></li>',

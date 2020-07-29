@@ -258,6 +258,7 @@ foreach($products['list'] as $productIndex=>$product){
 
 					if($products['length']>0){
 				$detailTitle=json_decode( $products['list'][0]['details'],true);
+				
 	?>
             <table class="search-list-table" >
                 <thead>
@@ -272,7 +273,7 @@ foreach($products['list'] as $productIndex=>$product){
 					<?php
 					}	
 					?>
-					<th>category<br>카테고리</th>
+				
 					<th>seamless/welded<br>심리스/용접</th>
 					<th>welding_type<br>용접 종류</th>
 					<th>material_grade<br>재질</th>
@@ -280,19 +281,6 @@ foreach($products['list'] as $productIndex=>$product){
 					<th>size1<br>사이즈1</th>
 					<th>sch1<br>스케쥴</th>
 					<th>end<br>엔드 타입</th>
-					<th>code<br>코드</th>
-					<!-- <th>scratch_y/n</th>
-					<th>dent_y/n</th>
-					<th>rust_y/n</th>
-					<th>heat_no._and_product_certi._y/n</th>
-					<th>manufactured_year</th>
-					<th>manufacturer</th> -->
-					                    <!-- <th>TYPE</th>
-                    <th>SIZE</th>
-                    <th>MATERIAL GRADE</th>
-                    
-                    <th>MANUFACTURER</th> -->
-           
                 </tr>
                 </thead>
                 </thead>
@@ -311,25 +299,14 @@ foreach($products['list'] as $productIndex=>$product){
 					   <tr>
                     <th scope="row"><input type="checkbox" name="no[]" value="<?=$product['no']?>"></th>
                     <?php if($param['keyword']){?> <th><?=round(($product['match_rate']*100))?>%</th> <?php } ?>
-                 <?php
-					foreach($product['details'] as $title=>$detail){
-					if($title=='country'){
-						break;
-					}
-					if(in_array($title,$omit)){
-						continue;
-					}
-					
-					if($detail==''){
-						echo '<td  data-category="'.$title.'">-</td>';
-					}else{
-
-				?>
-				<td data-category="<?=$title?>"><?=$detail?></td>
-					<?php
-				}
-				}
-				?>
+                 <td><?=$product['details']['seamless/welded']?></td>
+                 <td><?=$product['details']['welding_type']?></td>
+                 <td><?=$product['details']['material_grade']?></td>
+                 <td><?=$product['details']['zinc/galva']?></td>
+                 <td><?=$product['details']['size1']?></td>
+                 <td><?=$product['details']['sch1']?></td>
+                 <td><?=$product['details']['end']?></td>
+               
 				 <!-- 
                     <td><?=$product['details']['pipe_type']?></td>
                     <td><?=$product['details']['size']?></td>
@@ -359,6 +336,8 @@ foreach($products['list'] as $productIndex=>$product){
 		if($param['category']=='valve'){
 						if($products['length']>0){
 							$detailTitle=json_decode( $products['list'][0]['details'],true);
+print_x($detailTitle);
+	
 	?>
             <table class="search-list-table" >
               <thead>
@@ -372,33 +351,19 @@ foreach($products['list'] as $productIndex=>$product){
 					<?php
 					}	
 					?>
-                                     	  <th>category<br>카테고리</th>
+                  
 					<th>item<br>밸브 종류</th>
 					<th>forged/casting<br>단조/주조</th>
 					<th>type<br>밸브 종류 상세</th>
-					<th>bore<br>보어 선택</th>
-					<th>operating_type<br>구동 방식</th>
+			
+				
 					<th>material_grade<br>재질</th>
 					<th>trim_material<br>트림 재질</th>
 					<th>seat_material<br>시트 재질</th>
 					<th>size1<br>사이즈</th>
 					<th>pressure_rating<br>압력</th>
 					<th>end<br>엔드 타입</th>
-					<th>code<br>코드</th>
-					<!-- <th>scratch_y/n</th>
-					<th>dent_y/n</th>
-					<th>rust_y/n</th>
-					<th>heat_no._and_product_certi._y/n</th>
-					<th>drawing_y/n</th>
-					<th>pressure_test_report_y/n</th>
-					<th>manufactured_year</th>
-					<th>manufacturer</th> -->
-					                    <!-- <th>TYPE</th>
-                    <th>SIZE</th>
-                    <th>MATERIAL GRADE</th>
-                    
-                    <th>MANUFACTURER</th> -->
-           
+
                 </tr>
                 </thead>
                 <tbody>
@@ -416,24 +381,16 @@ foreach($products['list'] as $productIndex=>$product){
 					   <tr>
                     <th scope="row"><input type="checkbox" name="no[]" value="<?=$product['no']?>"></th>
                     <?php if($param['keyword']){?> <th><?=round(($product['match_rate']*100))?>%</th> <?php } ?>
-                   <?php
-					foreach($product['details'] as $title=>$detail){
-					if($title=='country'){
-						break;
-					}
-					if(in_array($title,$omit)){
-						continue;
-					}
-					if($detail==''){
-						echo '<td data-cate="'.$title.'">-</td>';
-					}else{
-
-				?>
-				<td data-cate="<?=$title?>"><?=$detail?></td>
-					<?php
-				}
-				}
-				?>
+                    <td><?=$product['details']['item']?></td>
+                    <td><?=$product['details']['forged/casting']?></td>
+                    <td><?=$product['details']['seamless/welded']?></td>
+                    <td><?=$product['details']['seamless/welded']?></td>
+                    <td><?=$product['details']['seamless/welded']?></td>
+                    <td><?=$product['details']['seamless/welded']?></td>
+                    <td><?=$product['details']['seamless/welded']?></td>
+                    <td><?=$product['details']['seamless/welded']?></td>
+                    <td><?=$product['details']['seamless/welded']?></td>
+                    <td><?=$product['details']['seamless/welded']?></td>
 				 <!-- 
                     <td><?=$product['details']['pipe_type']?></td>
                     <td><?=$product['details']['size']?></td>
@@ -478,34 +435,16 @@ foreach($products['list'] as $productIndex=>$product){
 					<?php
 					}	
 					?>
-                                     	  <th>category<br>카테고리</th>
 					<th>item <br>피팅 종류</th>
 					<th>forged/pipe<br>단조 피팅/파이프 피팅</th>
 					<th>type<br>피팅 종류 상세</th>
 					<th>material<br>재질</th>
-					<th>nace_y/n<br>nace 적용 유무</th>
 					<th>size1<br>사이즈1</th>
 					<th>size2<br>사이즈2</th>
-					<th>size3<br>사이즈3</th>
 					<th>schedule_1<br>스케쥴1</th>
-					<th>schedule_2<br>스케쥴2</th>
 					<th>pressure_rating<br>압력</th>
 					<th>end1<br>엔드 타입1</th>
-					<th>end2<br>엔드 타입2</th>
-					<th>end3<br>엔드 타입3</th>
-					<th>code<br>코드</th>
-					<!-- <th>scratch_y/n</th> -->
-					<!-- <th>dent_y/n</th>
-					<th>rust_y/n</th>
-					<th>heat_no._and_product_certi._y/n</th>
-					<th>manufactured_year</th>
-					<th>manufacturer</th> -->
-					                    <!-- <th>TYPE</th>
-                    <th>SIZE</th>
-                    <th>MATERIAL GRADE</th>
-                    
-                    <th>MANUFACTURER</th> -->
-           
+					<th>end2<br>엔드 타입2</th>       
                 </tr>
                 </thead>
                 <tbody>
@@ -584,7 +523,7 @@ foreach($products['list'] as $productIndex=>$product){
 					<?php
 					}	
 					?>
-                                     	  <th>category<br>카테고리</th>
+					  <th>material grade</th>
 					<th>type<br>플렌지 타입</th>
 					<th>reducing_y/n<br>리듀싱 유/무</th>
 					<th>material<br>재질</th>
@@ -593,7 +532,7 @@ foreach($products['list'] as $productIndex=>$product){
 					<th>sch1 <br>스케쥴1</th>
 					<th>pressure<br>압력</th>
 					<th>end1 <br>엔드타입 1</th>
-					<th>code<br>코드</th>
+					
 					<!-- <th>scratch_y/n</th>
 					<th>dent_y/n</th>
 					<th>rust_y/n</th>
@@ -603,7 +542,7 @@ foreach($products['list'] as $productIndex=>$product){
 					<th>manufacturer</th> -->
 					                    <!-- <th>TYPE</th>
                     <th>SIZE</th>
-                    <th>MATERIAL GRADE</th>
+                  
                     
                     <th>MANUFACTURER</th> -->
            
@@ -739,7 +678,7 @@ padding: 40px 0;
 }
 	#search_right{
 	width: 900px;
-	height: 800px;
+	
 	float: right;
 	margin-left: 30px;
 }
@@ -836,11 +775,11 @@ margin-right: 10px;
 	<div id="product_filter">
 			<div class="filter-options">
 			  <div class="block-content">
-				<div class="filter-options-item filter-categori categories">
+				<div class="filter-options-item filter-categori categories" style="display:none;">
 					  <div class="filter-options-title">품목</div>
 						<div class="filter-option-contents">
 							<label class="inline">
-								<input type="checkbox" name="product_type" value="pipe" data-next="pipe" data-type="pipe"  <?=attr($param['category']=='pipe','checked')?> >
+								<input type="checkbox"  name="product_type" value="pipe" data-next="pipe" data-type="pipe"  <?=attr($param['category']=='pipe','checked')?> >
 								<span class="input"></span> Pipe
 							 </label>&nbsp;&nbsp;
 							 <label class="inline">
@@ -978,8 +917,52 @@ letter-spacing:-1px;
 								</div>
 							
 						</div>
+						
 					</div>
+
 				</div>
+				<table class="table table-bordered" style="margin:10px;width:880px;">
+							<tr>
+								<th style="width:80px;">SCRATCH</th>
+								<td>
+									<label class="btn btn-xs btn-default">YES</label>
+									<label class="btn btn-xs btn-default">NO</label>
+
+								</td>
+						
+								<th style="width:80px;">RUST</th>
+								<td>
+									<label class="btn btn-xs btn-default">YES</label>
+									<label class="btn btn-xs btn-default">NO</label>
+
+								</td>
+								<th colspan="2" >
+									
+										검색제외국가
+								</th>
+							</tr>
+							<tr>
+								<th>DENT</th>
+								<td>
+									<label class="btn btn-xs btn-default">YES</label>
+									<label class="btn btn-xs btn-default">NO</label>
+
+								</td>
+						
+								<th>CERTI</th>
+								<td>
+									<label class="btn btn-xs btn-default">YES</label>
+									<label class="btn btn-xs btn-default">NO</label>
+
+								</td>
+								<td colspan="2" >
+									
+										<input type="text" style="width:100%;height:25px;">
+								</td>
+
+							</tr>
+
+						</table>
 				<form id="product_list_form" method="post" action="/user/estimate_cart">
 					
 <style>
@@ -1051,24 +1034,20 @@ height: 52px;
 
 			</a> -->
 			<div id="no-result">품목을 선택해주세요.</div>
-			<div id="checker">
-				
-
-			</div>
-			<div id="wrapper">
-	<div id="scroller">
+		
+		
+   <a href="/user/estimate_cart" id="to_estimate_cart_button" class="float-right btn btn-light btn-xs waves-effect waves-light btn-list-select">선택한 제품 견적 바구니에 담기</a><br><br>
 		  <div class="search-list-table_wrap" >
 				
 		  </div>
-		  </div>
-		 </div>
+
 		  <div class="pagination">
 						
 				</div>
 		  	</form>
 		         <div class="clearfix">
 		
-                <a href="/user/estimate_cart" id="to_estimate_cart_button" class="float-right btn btn-light btn-xs waves-effect waves-light btn-list-select">선택한 제품 견적 바구니에 담기</a>
+             
             </div>
 
 	</div>   
@@ -1124,6 +1103,7 @@ $('#search_keyword_input').on('change keyup paste',function(){
 		//$('#search_left .filter-options:gt(0)').remove()
 		$('.detail_category').remove();
 });
+
 	$(document).on('click','#product_filter .filter-option-contents input',function(){
 		//	$('.filter-options:gt(0).filter-options').remove()
 		$('#search_keyword_input').val('')
@@ -1175,9 +1155,9 @@ jQuery.expr[':'].contains = function(a, i, m) {
 		$('#search_result li').hide();
 		$('#search_result li:contains("'+keyword.toUpperCase()+'")').show();
 	});
-
+	
 	function search($elem){
-		
+
 		var categoryGroup =  $($elem).data('next');
 		$('#product_title').text(categoryGroup)
 		var type= $($elem).data('type');
