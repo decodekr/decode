@@ -32,7 +32,7 @@
 	
 		<ul id="categories">
 				<li>
-					<a href="" data-next="pipe" data-type="pipe">
+					<a href="" data-next="seamless/welded" data-type="pipe">
 						PIPE
 
 					</a>

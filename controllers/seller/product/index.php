@@ -72,15 +72,12 @@ $join,
 					</td>
 					<td>
 					
-				<?=$product['category']?>
-					<?php
-					if($product['details']!=''){	
+			
+						<?php
+				$product['details'] = jsonDecode($product['details']);
+echo displayEssentialField($product['category'],$product['details']);
 				?>
-					,
-					<?=displayDetail($product['details'])?>
-					<?php
-				}	
-				?>
+
 
 					</td>
 					<td>

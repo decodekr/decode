@@ -5,6 +5,11 @@
 		exit;
 	}
 	if($param['has_data']=='1'){
+		$total=getTotal('product_lists','create_date like "%'.date('Y-m-d').'%"')+1;
+		$param['product_id']=date('Ymd').str_pad($total,4,'0',STR_PAD_LEFT);
+		$param['category']=$param['product_type'];	
+
+
 		$param['details']= jsonEncode($param);
 		$param['user_no'] = $session['login'];
 		insertItem('product_lists',$param);
@@ -48,7 +53,7 @@
                             <div class="filter-options-title">품목</div>
                             <div class="filter-options-content">
                                 <ul >
-                                    <li><label class="inline"><input type="checkbox" name="product_type" value="pipe" data-next="pipe" data-type="pipe"><span class="input"></span> Pipe
+                                    <li><label class="inline"><input type="checkbox" name="product_type" value="pipe" data-next="seamless/welded" data-type="pipe"><span class="input"></span> Pipe
                                     </label></li>
 									 <li><label class="inline"><input type="checkbox" name="product_type" value="valve" data-next="valve" data-type="valve"><span class="input"></span> Valve
                                     </label></li>
@@ -123,33 +128,93 @@
                             </div>
                         </div> -->
 
+                   
+
+
                         <div class="filter-options-item filter-categori">
-                            <div class="filter-options-title">포장 관련 옵션</div>
+                            <div class="filter-options-title">Scratch</div>
                             <div class="filter-options-content">
-                                <ul>
-                                    <li><label class="inline"><input type="checkbox"  name="package_type" value="직접"><span class="input"></span>직접 포장</label></li>
-                                    <li><label class="inline"><input type="checkbox"  name="package_type" value="직접 안함"><span class="input"></span>직접 안함</label></li>
-                                </ul>
-                                <!-- <p class="option-message">예상 포장 가격 : KRW</p> -->
+                                <div class="filter-date">
+                                   <label class="inline"><input type="radio" name="scratch_y/n" value="pipe" ><span class="input"></span> YES
+                                    </label>
+									 <label class="inline"><input type="radio" name="scratch_y/n" value="pipe" ><span class="input"></span> NO
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+						 <div class="filter-options-item filter-categori">
+                            <div class="filter-options-title">Dent</div>
+                            <div class="filter-options-content">
+                                <div class="filter-date">
+                                   <label class="inline"><input type="radio" name="dent_y/n" value="pipe" ><span class="input"></span> YES
+                                    </label>
+									 <label class="inline"><input type="radio" name="dent_y/n" value="pipe" ><span class="input"></span> NO
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+						 <div class="filter-options-item filter-categori">
+                            <div class="filter-options-title">Rust</div>
+                            <div class="filter-options-content">
+                                <div class="filter-date">
+                                   <label class="inline"><input type="radio" name="rust_y/n" value="pipe"  data-type="pipe"><span class="input"></span> YES
+                                    </label>
+									 <label class="inline"><input type="radio" name="rust_y/n" value="pipe" ><span class="input"></span> NO
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+						 <div class="filter-options-item filter-categori">
+                            <div class="filter-options-title">Certi</div>
+                            <div class="filter-options-content">
+                                <div class="filter-date">
+                                   <label class="inline"><input type="radio" name="product_type" value="pipe" ><span class="input"></span> YES
+                                    </label>
+									 <label class="inline"><input type="radio" name="product_type" value="pipe" ><span class="input"></span> NO
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+						 <div class="filter-options-item filter-categori">
+                            <div class="filter-options-title">제조 날짜</div>
+                            <div class="filter-options-content">
+                                <div class="filter-date">
+                                    <input type="text" name="manufactured_year" class="datepicker" value=""> 
+                                </div>
                             </div>
                         </div>
 
                         <div class="filter-options-item filter-categori">
-                            <div class="filter-options-title">운송 관련 옵션</div>
+                            <div class="filter-options-title">제조사</div>
                             <div class="filter-options-content">
-                                <ul>
-                                    <li><label class="inline"><input type="checkbox" name="delivery_type" value="직접"><span class="input"></span>직접</label></li>
-                                    <li><label class="inline"><input type="checkbox" name="delivery_type" value="직접안함"><span class="input"></span>직접안함</label></li>
-                                </ul>
-                                <!-- <p class="option-message">현재 제품 소재자:  울산 ---</p> -->
+                                <div class="filter-date">
+                                    <input type="text" name="manufacturer" value=""> 
+                                </div>
                             </div>
                         </div>
-
+                        <div class="filter-options-item filter-categori">
+                            <div class="filter-options-title">제조 국가</div>
+                            <div class="filter-options-content">
+                                <div class="filter-date">
+                                    <input type="text" name="country" value=""> 
+                                </div>
+                            </div>
+                        </div>
+                       
                         <div class="filter-options-item filter-categori">
                             <div class="filter-options-title">가격</div>
                             <div class="filter-options-content">
                                 <div class="filter-date">
-                                    <input type="text" name="price"> USD
+                                    <input type="text" name="price" value="0"> &#8361;
+                                </div>
+                            </div>
+                        </div>
+                        <div class="filter-options-item filter-categori">
+                            <div class="filter-options-title">재고</div>
+                            <div class="filter-options-content">
+                                <div class="filter-date">
+                                    <input type="text" name="amount" value="1">
                                 </div>
                             </div>
                         </div>
@@ -159,54 +224,12 @@
                             </div>
                             <div class="filter-options-content">
                                 <div class="filter-date">
-                                    <input type="text" name="delivery_date" class="datepicker">  일 이내
+                                    <input type="text" name="delivery_date" class="datepicker" value="5">  일 이내
                                 </div>
                             </div>
                         </div>
 
-                        <div class="filter-options-item filter-categori">
-                            <div class="filter-options-title">상세 Spec. 업로드</div>
-                            <div class="filter-options-content">
-                                <div class="filter-date">
-                                    <input type="file" name="attach" style="width:400px;">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="filter-options-item filter-categori">
-                            <div class="filter-options-title">매물 사진 등록</div>
-                            <div class="filter-options-content">
-                                <button  type="button" value="" class="button-submit button-add-image"> 이미지 추가
-								<iframe src="/common/upload_file?callback=upload_image" frameborder="0"></iframe>
-								</button>
-								<img src="" id="uploaded_image" alt="">
-								<input type="hidden" id="uploaded_image_path">
-                            </div>
-<!-- 
-                            <div class="img-box-wrap">
-                                <div class="imgbox active" data-role="imageView"><label class="imgbox-cover">
-                                    <span class="product-image">매물사진 01</span></label>
-                                </div>
-                                <span class="file-name">파일 이름.jpg</span>
-                            </div>
-
-                            <div class="img-box-wrap">
-                                <div class="imgbox active" data-role="imageView"><label class="imgbox-cover">
-                                    <span class="product-image">매물사진 02</span></label>
-                                </div>
-                                <span class="file-name">파일 이름2.jpg</span>
-                            </div>
-
-                            <div class="img-box-wrap">
-                                <div class="imgbox active" data-role="imageView"><label class="imgbox-cover">
-                                    <span class="product-image">매물사진 03</span></label>
-                                </div>
-                                <span class="file-name">파일 이름3.jpg</span>
-                            </div> -->
-
-                        </div>
-
-                    </div>
+                     
                 </div>
             </div>
 

@@ -4,7 +4,7 @@ $logParam['ip'] = $_SERVER['REMOTE_ADDR'];
 
 		$logParam['type'] = 'logout';
 	
-	destroySession('login,id,is_admin,name,grade');
+	destroySession('login,id,is_admin,name,grade,user_type');
 
 
 		getBack('/');

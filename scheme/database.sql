@@ -258,3 +258,14 @@ CREATE TABLE `samewords` (
   PRIMARY KEY (`no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+
+CREATE TABLE `alarms` (
+  `no` int(11) NOT NULL AUTO_INCREMENT,
+  contents TEXT NOT NULL DEFAULT '' comment '내용',
+  is_read INT unsigned NOT NULL DEFAULT 0,
+  user_no INT unsigned NOT NULL DEFAULT 0 comment '회원 Prkey',
+ `create_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' comment '등록일',
+  `modify_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' comment '수정일',
+  PRIMARY KEY (`no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -1,11 +1,16 @@
     <style>
+	.links{
+	text-align: center;
+	}
 		.links li{
-		float: left;
+
 		margin-right: 30px;
 		margin-bottom: 0;
+		display: inline-block;
 	}
 	.links li a{
 	color: #fff;
+	
 
 	line-height: 28px;
 	margin-bottom: 0;
@@ -21,11 +26,11 @@
                         <div class="links">
                             
                             <ul>
-                                <li><a href="#">회사소개</a></li>
+                                <li><a href="/company_intro">회사소개</a></li>
                                 <li><a href="#">문의하기</a></li>
-                                <li><a href="#">개인정보 처리방침</a></li>
-                                <li><a href="#">이용약관</a></li>
-                                <li><a href="#">공지사항</a></li>
+                                <li><a href="/personal_info">개인정보 처리방침</a></li>
+                                <li><a href="/usage_info">이용약관</a></li>
+                                <li><a href="/board/notice">공지사항</a></li>
 
                             </ul>
                         </div>
@@ -36,8 +41,8 @@
         </div>
         <div class="copyright full-width">
             <div class="container">
-                <div class="footer-secondary" style="float:left;">
-                   ㈜ 마켓오브메테리얼 ｜대표이사 : 조윤기<br>
+                <div class="footer-secondary" style="float:left;display:none;">
+                   ㈜ 마켓오브메테리얼 ｜대표이사 : 김경호<br>
 서울시 성동구 뚝섬로13길 38, 4층 420호 (성수동2가, 상상플래닛)<br>
 통신판매업신고 : 제2020-서울성동-00816호<bR>
 사업자 등록번호 : 435-86-01645
@@ -177,7 +182,7 @@ background: rgba(0,0,0,0.5);
 	});
 
 
-		 $('.datepicker').datepicker({ format: 'yyyy-mm-dd',autoclose:true,todayBtn:true,language:'kr'});
+		 $('.datepicker').datepicker({ format: 'yyyy-mm-dd',autoclose:true,todayBtn:true,language:'kr',startDate:new Date()});
 			 $('.datepicker-month').datepicker({ format: 'yyyy-mm',autoclose:true,todayBtn:true,language:'kr', viewMode: "months", 
     minViewMode: "months", startView: "months", 
     minViewMode: "months"});
@@ -194,6 +199,11 @@ background: rgba(0,0,0,0.5);
 				}
 			 });
 
+
+$('tr[data-href]').click(function(){
+	var href= $(this).data('href');
+	location.href= href;
+})
 	</script>
 
 <?php

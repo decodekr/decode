@@ -9,9 +9,17 @@ function hyphen_hp_number($hp)
 $check = getItem('users','phone="'.hyphen_hp_number($param['number']).'"');
 
 if($check){
+    jsonMessage('-1');
+    exit;
+}
+
+$check = getItem('users','phone="'.$param['number'].'"');
+
+if($check){
 	jsonMessage('-1');
 	exit;
 }
+
 $_SESSION['certif_code'] = generateCode(4,'shorthand:number');
 
 

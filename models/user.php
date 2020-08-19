@@ -38,8 +38,8 @@ if($melon['segment'][0]=='seller'&&$session['user_type']!='seller'){
 }
 
 if(isset($session['user_type'])&&$session['user_type']==''&&$melon['segment'][0]!='user'&&$melon['segment'][0]!='json'){
-	printMessage('회원 유형을 이어서 작성해주세요.','/user/join_complete');
-	exit;
+	//printMessage('회원 유형을 이어서 작성해주세요.','/user/join_complete');
+	//exit;
 }
 
 ?>

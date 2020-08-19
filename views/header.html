@@ -116,7 +116,7 @@
 			
 					if(!$session['login']){
 				?>
-                    <li><a href="/user/join"><i class="fa fa-train" aria-hidden="true"></i> 회원가입</a></li>
+                    <li><a href="/user/join_send_mail"><i class="fa fa-train" aria-hidden="true"></i> 회원가입</a></li>
                     <li><a href="/user/login"><i class="fa fa-user" aria-hidden="true"></i> 로그인</a></li>
 				<?php
 				}else{	
@@ -167,20 +167,7 @@
                 <div class="container">
                     <div class="header-menu-nav-inner ">
                         <div id="box-vertical-megamenus" class="box-vertical-megamenus nav-toggle-cat">
-                            <h4 class="title active" id="left_member_menu">
-
-                                    <span class="btn-open-mobile home-page">
-
-                                        <span></span>
-
-                                        <span></span>
-
-                                        <span></span>
-
-                                    </span>
-                                <span class="title-menu"></span>
-                            </h4> 
-                          
+                        
                         </div>
 
                         <div class="header-menu header-menu-resize">
@@ -190,9 +177,10 @@
 							if($session['user_type']=='buyer'){	
 						?>
                                 <li>
-                                    <a href="/product/list">한번에 견적요청</a>
+                                    <a href="/estimate">한번에 견적요청</a>
                                
                                 </li>
+						
 								<li>
                                     <a href="/product/list?category=pipe">PIPE</a>
                                
@@ -230,7 +218,7 @@
 
                       
 									 <li>
-                                    <a href="#">회사소개</a>
+                                    <a href="/company_intro">회사소개</a>
 									</li>
 								<?php
 						}	
@@ -238,58 +226,26 @@
 											<?php
 							if($session['user_type']=='seller'){	
 						?>
-                                <li class="menu-item-has-children arrow">
-                                    <a href="/seller/order">주문관리</a>
-
-									 <span class="toggle-submenu hidden-md"></span>
-                                    <ul class="submenu parent-megamenu">
-                                       <li  class="menu-item">
-												<a href="/seller/order?status=0">주문 예정인 주문</a>
-
-										</li>
-										<li  class="menu-item">
-												<a href="/seller/order?status=1">진행중인 주문</a>
-
-										</li>
-										<li  class="menu-item">
-												<a href="/seller/order?status=10">진행완료된 주문</a>
-
-										</li>
-                                      
-                            
-                                    </ul>
-                                   
-                                   
-                                </li>
-								 <li class="menu-item-has-children arrow">
-                                    <a href="/seller/product">상품관리</a>
-									 <span class="toggle-submenu hidden-md"></span>
-                                    <ul class="submenu parent-megamenu">
-                                        <li class="menu-item">
-                                            <a href="/seller/product">재고관리</a>
-                                        </li>
-                                        <li class="menu-item">
-                                            <a href="/product/add">상품등록</a>
-                                        </li>
-                                        <li class="menu-item">
-                                            <a href="/seller/product/add">상품일괄등록</a>
-                                        </li>
-                                      
-                            
-                                    </ul>
-                                   
-                                </li>
+                             
 								 <li >
-                                    <a href="/seller/statistics">정산관리</a>
+                                    <a href="/seller/order?status=0">주문 예정</a>
 
                                    
                                 </li>
 								 <li >
-                                    <a href="/seller/profile">정보수정</a>
+                                    <a href="/seller/order?status=1">진행중인 주문</a>
                                    
                                 </li>
-								 <li >
-                                    <a href="/seller/notice">관리자 공지</a>
+								<li >
+                                    <a href="/seller/order?status=10">진행완료 주문</a>
+                                   
+                                </li>
+								<li >
+                                    <a href="/seller/product">재고 관리</a>
+                                   
+                                </li>
+								<li >
+                                    <a href="/seller/product/add">상품 등록</a>
                                    
                                 </li>
 		<?php

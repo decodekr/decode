@@ -5,10 +5,76 @@ if($param['mode']=='add_user'){
 }
 
 if($param['mode']=='account_check'){
-	echo createWithdrawAccount($param['guid'],$param['account'],$param['name'],$param['bankcode']);
+
+	$data=jsonDecode(addUser($param['name'],$param['email'],$param['phone']));
+	
+	if($data['error']!=''){
+		if(indexOf($data['error']['message'],'중복')!=-1){
+			$guidCrude=explode('[GUID = ',$data['error']['message']);
+			$guidCrude =str_replace(']','',$guidCrude[1]);
+			
+			deleteUser($guidCrude);
+			$data=jsonDecode(addUser($param['name'],$param['email'],$param['phone']));
+			$userParam['guid'] = $data['data']['memGuid'] ;
+			
+		
+
+			//$userParam['guid'] =$guidCrude ;
+		}
+		
+		
+	}
+	else{
+		$userParam['guid']= $data['data']['memGuid'];
+	}
+
+	updateItem('users',$userParam,$session['login']);
+
+
+	$accountResult  = jsonDecode ( createWithdrawAccount($userParam['guid'],$param['account'],$param['name'],$param['bankcode']) );
+
+	if($accountResult['error']!=''){
+		if(indexOf($accountResult['error']['message'],'5번')!=-1){
+			$result='출금계좌 인증은 하루 5번만 가능합니다.';
+			echo jsonMessage(-1,$result);
+			exit;
+		}
+		if(indexOf($accountResult['error']['message'],'점검')!=-1){
+			$result='은행 업무 점검 시간입니다.';
+			echo jsonMessage(-1,$result);
+			exit;
+		}
+	}
+	else{
+		echo jsonMessage(1,$accountResult['data']['tid']);
+	}
+	
+	
 }
 if($param['mode']=='certify_account'){
-	echo certifyWithdrawAccount($param['guid'],$param['tid'],$param['certif_code']);
+	$user=getItem('users',$session['login']);
+	$data=jsonDecode(certifyWithdrawAccount($user['guid'],$param['tid'],$param['certif_code']));
+
+	if($data['error']!=''){
+		if(indexOf($data['error']['message'],'인증번호를 다시')!=-1){
+			$result='인증번호가 올바르지 않습니다.';
+			echo jsonMessage(-1,$result);
+		}
+		exit;
+	}
+	
+	
+	$result=getVirtualAccount($user['guid'],$param['name']);
+	$result= jsonDecode ($result);
+
+	$userParam['account_number'] = $param['account_number'];
+	$userParam['bank_code'] = $param['bank_code'];
+	$userParam['virtual_account_number'] = $result['data']['vaccntNo'];
+	$userParam['virtual_account_owner'] = $param['name'];
+	updateItem('users',$userParam,$session['login']);
+	
+
+	echo jsonMessage(1,$result['data']['vaccntNo']);
 }
 if($param['mode']=='get_virtual_account'){
 	echo getVirtualAccount($param['guid'],$param['name']);
@@ -31,9 +97,19 @@ if($param['mode']=='getMerchantBalance') {
 	echo getMerchantBalance();
 }
 
-/*if ($param['mode'] == 'getMerchantPushUrl') {
+// 유저 출금 신청
+if($param['mode']=='sellerWithdraw') {
+	echo sellerWithdraw($param['guid'], $param['orgCrrncy']);
+}
+
+// 유저 출금 인증
+if($param['mode']=='certifySellerWithdraw') {
+	echo certifySellerWithdraw($param['tid'], $param['verifyWord']);
+}
+
+if ($param['mode'] == 'getMerchantPushUrl') {
 	echo getMerchantPushUrl();
-}*/
+}
 
 /*if ($param['mode'] == 'registerMerchantPushUrl') {
 	echo registerMerchantPushUrl();

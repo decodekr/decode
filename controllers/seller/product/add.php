@@ -1,5 +1,5 @@
 <?php
-
+$user=getItem('users',$session['login']);
 ini_set('memory_limit','-1');
 
 if(count($_FILES['images'])>0){
@@ -98,6 +98,7 @@ if($_FILES['excel']['name']){
 						}
 						if($rowItem==''&&($titleRow[0][$index]=='SCRATCH Y/N'||$titleRow[0][$index]=='RUST Y/N'||$titleRow[0][$index]=='DENT Y/N'||$titleRow[0][$index]=='HEAT NO. AND PRODUCT CERTI. Y/N'||$titleRow[0][$index]=='MANUFACTURED YEAR'||$titleRow[0][$index]=='COUNTRY')){
 							printMessage('엑셀 업로드 실패 : '.$sheetName.'시트 '.$row.'열 '.$titleRow[0][$index].' 값은 필수로 입력해야 합니다.','/seller/product/add');
+							exit;
 						}
 						$data[str_replace(' ','_',strtolower($titleRow[0][$index]) )]=strtoupper(str_replace('"','inch',$rowItem));
 					}
@@ -137,8 +138,8 @@ if($_FILES['excel']['name']){
 		}
 	
 	}
-
-printMessage('제품을 성공적으로 업로드 했습니다.','/seller/product/add');
+alarm(0,$total.'건의 새로운 메물이 등록되었습니다.');
+printMessage('등록하신 매물의 성적서, 및 관련  자료는 거래 진행 시 요청 드리겠습니다.\n성적서 및 관련 자료의 업로드는 거래 진행 이전에도 재고 관리 페이지에서 가능합니다.','/seller/product/add');
 
 }
 
@@ -151,6 +152,35 @@ $join,
 	include'views/header.html';
 ?>
 
+<?php
+	if(!$user['virtual_account_number']){
+?>
+	<script>
+		Swal.fire({
+		  title: '사용자 추가 정보 입력이 필요합니다.',
+	
+		  icon: 'warning',
+			 html:"판매자님의 사업자 정보를 입력 하시면, 매물 등록 및 판매가 가능합니다.<br>  사업자 정보를 입력하시겠습니까?",
+		width:700,
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: '예',
+		  cancelButtonText: '아니오'
+		}).then((result) => {
+		  if (result.value) {
+			
+				location.href='/user/mypage?type=seller'
+		  }
+			else{
+			history.back(-1);
+			}
+			
+		})
+	</script>
+<?php
+}	
+?>
 <main class="site-main site-login min-height" style="padding:60px 0;">
  <div class="container">
 <?php
@@ -175,19 +205,19 @@ $join,
 <br>
 <br>
 					<div class="alert alert-info" role="alert">
-엑셀파일은 XLS( Excel 97 - 2003 통합 문서 ) 또는 XLSX 통합문서만 가능합니다.<br>
+					엑셀파일은 XLS( Excel 97 - 2003 통합 문서 ) 또는 XLSX 통합문서만 가능합니다.<br>
 
-   **Excel 데이터를 기준으로 재고와 가격이 입력되지 않은 자재는 사이트에 바로 노출되지 않고,** <br>
+					   **Excel 데이터를 기준으로 재고와 가격이 입력되지 않은 자재는 사이트에 바로 노출되지 않고,** <br>
 
-   **별도 관리됩니다. 해당 자재는 수요자가 있을 경우 가격 및 관련 정보를 별도로 요청 드립니다.**<br>
+					   **별도 관리됩니다. 해당 자재는 수요자가 있을 경우 가격 및 관련 정보를 별도로 요청 드립니다.**<br>
 
-   엑셀에 서식 또는 틀고정 등이 포함되어 있을 경우 정상적으로 처리되지 않을 수 있으니, <br>
+					   엑셀에 서식 또는 틀고정 등이 포함되어 있을 경우 정상적으로 처리되지 않을 수 있으니, <br>
 
-   각 셀 값은 텍스트(TEXT)형식으로만 작성하여야 합니다.<br>
+					   각 셀 값은 텍스트(TEXT)형식으로만 작성하여야 합니다.<br>
 
-   등록 대상 데이터가 시작되는 행번호는 3행입니다.
+					   등록 대상 데이터가 시작되는 행번호는 3행입니다.
 
-</div>
+					</div>
 
 
 
@@ -210,7 +240,13 @@ $join,
 
 				</td>
 			</tr>
-			<tr>
+
+        <tr>
+            <th colspan="2">
+                <i class="fa fa-list"></i> 매물을 개별로 상세하게 등록하시려면 <a href="/product/add_detail" style="color: #0f74a8">여기</a>를 클릭하세요.
+            </th>
+        </tr>
+			<!-- <tr>
 				<td  colspan="2">
 					
 					<div class="alert alert-warning" role="alert">
@@ -238,7 +274,7 @@ $join,
 
 				</td>
 
-			</tr>
+			</tr> -->
 
 	</table>
 

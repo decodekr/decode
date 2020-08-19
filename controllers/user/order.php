@@ -39,8 +39,9 @@ $orders=getList('estimate_orders','user_no='.$session['login']);
 			$total=0;
 		
 	?>
-    <tr>
-        <td>
+
+    <tr data-href="/user/order_detail/no/<?=$order['no']?>">
+        <td >
             <input type="hidden" name="ct_id[2]" value="">
             <a href="/user/order_detail/no/<?=$order['no']?>"><?=str_replace(array(' ','-',':'),'',$order['create_date']).$order['no']?></a>
         </td>

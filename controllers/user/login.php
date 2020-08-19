@@ -84,6 +84,7 @@ include 'views/header.html';
                             <a href="#" class="forgot-password">비밀번호 재설정</a>
                             <p class="form-row">
                                 <input type="submit" value="로그인" name="Login" class="button-submit">
+                                <button type="button" class="button-join">회원가입</button>
                             </p>
                            
                         </form>
@@ -155,6 +156,15 @@ include 'views/header.html';
 
                     return false;
                 });
+
+
+		$('.button-join').click(function () {
+
+		    location.href = "/user/join_send_mail";
+
+		    return false;
+
+        });
 
 </script>
 <?php

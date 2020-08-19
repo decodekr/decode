@@ -87,24 +87,9 @@ $carts = getListJoin('estimate_cart_products',array('LEFT','product_lists','orde
 					
                     <th scope="row"><?=$cart['details']['category']?></th>
                     <th>
-						<?php
-					$detailIndex=0;
-					foreach($cart['details'] as $title=>$detail){	
-	
-					if($detail==''){
-						continue;
-					}
-					if(in_array($title,$omit)){
-						continue;
-					}
-					if($detailIndex!=0){
-						echo ',';
-					}
-				?>
-					<?=$detail?>
 					<?php
-										$detailIndex++;
-				}	
+				
+echo displayEssentialField($cart['details']['category'],$cart['details']);
 				?>
 
                     </th>
@@ -119,31 +104,7 @@ $carts = getListJoin('estimate_cart_products',array('LEFT','product_lists','orde
 					</td>
 					<td>
 
-					<?php
-						$status=array('견적바구니','입금대기','입금완료','계산서 발행중','결제완료','운송중','거래완료');
-			
-				
-	
-				
-
-						if($cart['status']==6){
-						?>
-						<strong style="color:green">거래 완료</strong>
-					<?php
-					}
-						else{
-						echo $status[$cart['status']];
-
-						}
-				?>
-					<?php
-	
-					if($cart['status']==5){	
-				?>
-						<a href="?complete=1&cart_no=<?=$cart['no']?>&order_no=<?=$cart['order_no']?>" class="btn btn-success btn-xs">물품 수령</a>
-					<?php
-				}	
-				?>
+				<?=displayStatus($cart['status'])?>
 						
 					</td>
 				</tr>

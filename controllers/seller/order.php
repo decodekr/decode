@@ -140,7 +140,7 @@ $join,
 					</td>
 					<td>
 					<?php
-						if($estimateCart['status']>3&&$estimateCart['status']!=9){	
+						if($estimateCart['status']>3){	
 					?>
 						<?=$estimateCart['user_name']?>
 				<?php
@@ -293,7 +293,7 @@ $join,
 	top: -50px;
 	right: -50px;
 }
-#order_detail_layer tr{
+#order_list tr{
 cursor:pointer;
 }
 </style>
@@ -305,16 +305,7 @@ cursor:pointer;
 	});
 	$('#order_list tr').click(function(){
 	var no = $(this).data('no');
-	postRequest({
-		url : '',
-		data: {cart_info:1,order_no:no},
-		dataType:'HTML',
-		success : function($data){
-			$('#order_detail_layer,#fog').slideDown();
-			$('#order_detail_layer tbody').html($data);
-		}
-
-	})
+	location.href='/seller/order_detail?order_no='+no
 });
 
 </script>

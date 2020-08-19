@@ -52,20 +52,16 @@ include 'views/header.html';
             <div class="customer-login">
                 <div class="container">
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-6" style="padding:100px 0;">
                             <h5 class="title-login"> 회원 가입이 완료되었습니다!</h5>
                             <p class="p-title-login"></p>
 
                             <div>
-                                추가 정보를 입력하시면 MOM에서 거래하실 때, 보다 편리하게 이용하실 수 있습니다.
+                               상단의 MOM 로고를 클릭하시면 메인 페이지로 이동합니다.
+
                             </div>
 
-                            <form class="register" method="get" action="/user/mypage">
-                                <p class="form-row">
-                                    <input type="submit" value="판매 계정 추가 정보 입력" name="type"  class="button-submit" >
-                                    <input type="submit" value="구매 계정 추가 정보 입력" name="type" class="button-submit" >
-                                </p>
-                            </form>
+                         
                         </div>
                     </div>
                 </div>

@@ -78,6 +78,8 @@ include 'views/header.html';
                 </thead>
                 <tbody>
                 <?php
+
+				
 					foreach($carts['list'] as $cart){
 						if($cart['details']==''){
 						continue;
@@ -100,24 +102,9 @@ include 'views/header.html';
 					</td>
                     <th scope="row"><?=$cart['details']['category']?></th>
                     <th>
-						<?php
-					$detailIndex=0;
-					foreach($cart['details'] as $title=>$detail){	
-	
-					if($detail==''){
-						continue;
-					}
-					if(in_array($title,$omit)){
-						continue;
-					}
-					if($detailIndex!=0){
-						echo ',';
-					}
-				?>
-					<?=$detail?>
-					<?php
-										$detailIndex++;
-				}	
+				<?php
+				
+echo displayEssentialField($cart['details']['category'],$cart['details']);
 				?>
 
                     </th>
@@ -213,7 +200,7 @@ include 'views/header.html';
 			<select name="">
 				
 				<option value="">통화 선택</option>
-				<option value="">
+				<option value="" selected>
 						KRW
 
 				</option>
@@ -287,7 +274,11 @@ include 'views/header.html';
 				alert('희망 운송 일정을 입력해주세요.');
 				return false;
 				}
-				location.href='/user/estimate?product_no='+products+'&wish_date='+$('[name="wish_date"]').val();
+				if($('[name="pay_date"]').val()==''){
+				alert('대금 지급 일정을 입력해주세요.');
+				return false;
+				}
+				location.href='/user/estimate?product_no='+products+'&wish_date='+$('[name="wish_date"]').val()+'&pay_date='+$('[name="pay_date"]').val();
 				return false;
 			});
 

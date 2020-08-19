@@ -6,27 +6,50 @@
                         <div class="col-sm-6">
                             <h5 class="title-login">판매자 계정 추가 정보</h5>
                             <p class="p-title-login"></p>
-                            <form class="register" method="post">
+                            <form class="register" method="post" enctype="multipart/form-data">
 								<input type="hidden" name="has_data" value="1">
 								<input type="hidden" name="type" value="<?=$type?>">
 								<input type="hidden" name="user_type" value="<?=attr($param['user_type'],$param['user_type'],$user['user_type'])?>">
+									<input type="hidden" name="virtual_account_number" id="virtual_account_number" value="<?=$user['virtual_account_number']?>">
                                 <p class="form-row form-row-wide">
                                     <label>회사명<span class="required">*</span></label>
                                     <input type="text" name="company" placeholder="" value="<?=$user['company']?>" class="input-text">
                                 </p>
                                 <p class="form-row form-row-wide">
-                                    <label>사업자번호<span class="required">*</span></label>
-                                    <input type="text"  name="business_code" placeholder=""  value="<?=$user['business_code']?>" class="input-text">
+                                    <label>사업자번호<span class="required">*</span></label><br>
+									<input type="hidden" id="origin_business_code" value="<?=$user['business_code']?>">
+                                    <input type="text"  name="business_code" placeholder=""  value="<?=$user['business_code']?>" class="input-text right_button" style="    width: calc(100% - 221px);">
+									<a href="" class="btn btn-default" id="business_check_button" <?=attr($user['business_code'],'style="display:none;"')?>>사업자번호 확인</a>
                                 </p>
 								 <p class="form-row form-row-wide">
                                     <label>사업자 등록증 사본<span class="required"></span></label>
-                                    <input type="file">
-									<!-- <p style="color:red;">TEST.php</p> -->
+                                    <input type="file" name="business_licence_file" id="business_licence_file">
+									<?php
+										if($user['business_licence_file']){
+											$user['business_licence_file']=explode('|',$user['business_licence_file']);
+									?>
+										<a href="/files/<?=$user['business_licence_file'][0]?>" target="_blank">
+											<i class="fa fa-file"></i> <?=$user['business_licence_file'][1]?>
+
+										</a>
+									<?php
+										}
+									?>
                                 </p>
 								 <p class="form-row form-row-wide">
                                     <label>사업자 통장 사본<span class="required"></span></label>
-                                    <input type="file">
-										<!-- <p style="color:red;">TEST.php</p> -->
+                                    <input type="file" name="business_account_file" id="business_account_file">
+									<?php
+										if($user['business_account_file']){
+											$user['business_account_file']=explode('|',$user['business_account_file']);
+									?>
+										<a href="/files/<?=$user['business_account_file'][0]?>" target="_blank">
+											<i class="fa fa-file"></i> <?=$user['business_account_file'][1]?>
+
+										</a>
+									<?php
+										}
+									?>
                                 </p>
                                 <p class="form-row form-row-wide">
                                     <label>주소<span class="required"></span></label>
@@ -38,10 +61,6 @@
 
 								<script>
 									
-									$('[name="address_country"]').on('change',function(){
-								
-										$(this).parent().siblings().find('input').prop({checked:false});
-									});
 								</script>
                                 <p class="form-row form-row-wide">
                                     <label>도로명 주소</label><br>
@@ -58,14 +77,122 @@
                                     <input type="text"   id="address_detail" name="address_detail" placeholder=""     value="<?=$user['address_detail']?>" class="input-text">
                                 </p>
 
+								 <p class="form-row ">
+                                    <label>예상 거래 품목</label>
+									  
+								</p>
+								 <div class="form-group form-row-wide">
+								
+									 <label class="inline"><input type="checkbox" name="expect_product[]"  value="pipe" <?=attr(indexOf($user['expect_product'],'pipe')!=-1,'checked')?> ><span class="input"></span>PIPE</label>
+									   <label class="inline"><input type="checkbox" name="expect_product[]" value="fitting"  <?=attr(indexOf($user['expect_product'],'fitting')!=-1,'checked')?>><span class="input"></span>FITTING</label>
+									   <label class="inline"><input type="checkbox" name="expect_product[]" value="flange"  <?=attr(indexOf($user['expect_product'],'flange')!=-1,'checked')?>><span class="input"></span>FLANGE</label>
+									   <label class="inline"><input type="checkbox" name="expect_product[]" value="valve"  <?=attr(indexOf($user['expect_product'],'valve')!=-1,'checked')?>><span class="input"></span>VALVE</label>
+								 </div>
+
+								<script>
+
+									if($('[name="address_country"]:checked').val()=='국내'){
+											$('#address_search_button').show()
+												$('#address').addClass('right_button').prop({readonly:false})
+											$('#address_title').text('도로명 주소');
+										}
+										else{
+											$('#address_search_button').hide()
+												$('#address').removeClass('right_button').prop({readonly:false})
+													$('#address_title').text('주소 입력');
+										}
+								
+									$('[name="address_country"]').on('change',function(){
+										$('#address,#address_detail').val('')
+										if($(this).val()=='국내'){
+											$('#address_search_button').show()
+												$('#address').addClass('right_button').prop({readonly:false})
+											$('#address_title').text('도로명 주소');
+										}
+										else{
+											$('#address_search_button').hide()
+												$('#address').removeClass('right_button').prop({readonly:false})
+													$('#address_title').text('주소 입력');
+										}
+									});
+								
+										
+								</script>
 						
 
 
 
-                                <h5 class="title-login">계좌 정보 입력</h5>
                                 <p class="form-row form-row-wide">
+
+								<?php
+									if(!$user['bank_code']){
+										
+								
+								?>
+									
+                                <h5 class="title-login"> 계좌 정보  입력
+								
+								</h5>
                                     <label>은행 명</label>
+										  <p class="form-row form-row-wide ">
                                   <select name="bank_code" class="input-text bank_code">
+									<option value="">은행명</option>
+									<?php
+									foreach($banks['data'] as $bank){	
+								?>
+								<option value="<?=$bank['bankId']?>" <?=attr($bank['bankId']===$user['bank_code'])?>><?=$bank['bankName']?></option>
+									<?php
+								}	
+								?>
+										
+                                  </select>
+                                </p>
+                                <p class="form-row form-row-wide ">
+                                    <label>계좌번호</label>
+                                    <input type="text"  name="bank_account_number"   value="<?=$user['bank_account_number']?>"  placeholder="" class="input-text bank_account_number">
+                                </p>
+                                <!-- <p class="form-row form-row-wide">
+                                    <label>SWIFT CODE</label>
+                                    <input type="text"  name="swift_code" placeholder=""    value="<?=$user['swift_code']?>"  class="input-text">
+                                </p> -->
+                                <p class="form-row form-row-wide">
+                                    <label>예금주</label>
+                                    <input type="text"  name="bank_owner" placeholder=""    value=""  class="input-text bank_owner">
+                                </p>
+								<p style="float:right;" id="virtual_wrap">
+									<input type="text" id="account_certif_code" style="display:none;">
+									<a href="#n" class="btn btn-success" id="check_account" >계좌 인증</a>
+									<a href="#n" class="btn btn-success" id="certif_account" style="display:none;">계좌 인증</a>
+
+								</p>
+								<input type="hidden" name="tid" value="" id="tid">
+
+								<p style="clear:both;padding-top:15px;">
+									회원님의 안전한 가상계좌 발급 및 거래를 위해 현재 보유하신 계좌 인증이 필요합니다
+
+								</p>
+							<?php
+								}else{	
+								?>
+
+									
+                                <h5 class="title-login">가상 계좌 정보 
+								
+								</h5>
+								 <p class="form-row form-row-wide ">
+                                    <?=$user['virtual_account_number']?> 상호저축은행 <?=$user['virtual_account_owner']?>
+                                </p>
+
+								
+                                <h5 class="title-login">출금 계좌 정보
+								
+								</h5>
+									 <p class="form-row form-row-wide ">
+                                    <?=$user['account_number']?> <span class="my_bank_name"></span> <?=$user['virtual_account_owner']?>
+                                </p>
+
+
+							 <select name="bank_code" class="input-text bank_code" style="display:none;">
 									<option value="">은행명</option>
 									<?php
 									foreach($banks['data'] as $bank){	
@@ -76,27 +203,16 @@
 								?>
 										
                                   </select>
-                                </p>
-                                <p class="form-row form-row-wide">
-                                    <label>계좌번호</label>
-                                    <input type="text"  name="bank_account_number"   value="<?=$user['bank_account_number']?>"  placeholder="" class="input-text bank_account_number">
-                                </p>
-                                <!-- <p class="form-row form-row-wide">
-                                    <label>SWIFT CODE</label>
-                                    <input type="text"  name="swift_code" placeholder=""    value="<?=$user['swift_code']?>"  class="input-text">
-                                </p> -->
-                                <p class="form-row form-row-wide">
-                                    <label>예금주</label>
-                                    <input type="text"  name="bank_address" placeholder="" disabled   value="<?=$user['name']?>"  class="input-text">
-                                </p>
-								<p style="float:right;">
-									<input type="text" id="account_certif_code" style="display:none;">
-									<a href="" class="btn btn-success" id="check_account">계좌 인증</a>
+								  <script>
+									$('.my_bank_name').text($('[name="bank_code"] option:selected').text())
 
-								</p>
-								<input type="hidden" name="tid" value="" id="tid">
-							
+								  </script>
+
+								<?php
+								}	
+								?>
                                 <ul>
+								
 
                                 
 <br><br><li>
@@ -114,33 +230,78 @@
         </div>
     </main>
 	<script>
-	var businessCertif=0;
 
-	$('[name="business_code"]').blur(function(){
-		var business_code = $(this).val();
-		postRequest({
-			url : '/json/payment',
-			dataType:'html',
-			data: {mode :'check_business_code',business_code:business_code},
-			success : function($data){
-				if($data.indexOf('등록되어 있지 않은 사업자등록번호')!=-1){
-					businessCertif=0;
-					Swal.fire({
-					  title: '',
-					  text: '정확한 사업자 번호를 입력해 주세요.',
-					  icon: 'error',
-					  confirmButtonText: '확인'
-					})
-				}
-				else{
-					businessCertif=1;
-
-				}
+var business_code = $('[name="business_code"]').val();
+	postRequest({
+		url : '/json/payment',
+		dataType:'html',
+		data: {mode :'check_business_code',business_code:business_code.replace('-','').replace('-','')},
+		success : function($data){
+			if($data.indexOf('등록되어 있지 않은 사업자등록번호')!=-1){
+				businessCertif=0;
+				
 			}
-		})
+			else{
+				businessCertif=1;
+				
+					
+
+			}
+		}
 	});
-		$('[name="business_code"]').blur();
+	
+	var businessCertif=0;
+	$('[name="business_code"]').on('keydown change keyup paste',function(){
+		if($('#origin_business_code').val()==$('[name="business_code"]').val()&&$('#origin_business_code').val()!=''){
+			$('#business_check_button').hide();
+			businessCertif=1;
+		}
+		else{
+			$('#business_check_button').show();
+			businessCertif=0;
+		}
+		
+	
+	});
+	$('#business_check_button').click(function(){
+
+		
+			var business_code = $('[name="business_code"]').val();
+			postRequest({
+				url : '/json/payment',
+				dataType:'html',
+				data: {mode :'check_business_code',business_code:business_code.replace('-','').replace('-','')},
+				success : function($data){
+					if($data.indexOf('등록되어 있지 않은 사업자등록번호')!=-1){
+						businessCertif=0;
+						Swal.fire({
+						  title: '',
+						  text: '정확한 사업자 번호를 입력해 주세요.',
+						  icon: 'error',
+						  confirmButtonText: '확인'
+						})
+					}
+					else{
+						businessCertif=1;
+						Swal.fire({
+						  title: '',
+						  text: '인증되었습니다.',
+						  icon: 'success',
+						  confirmButtonText: '확인'
+						})
+							$('[name="business_code"]').prop({readonly:true});
+						$('#business_check_button').remove();
+
+					}
+				}
+			});
+			return false;
+	});
+		
 	$('.button-submit').click(function(){
+
+
+
 		var company = $('[name="company"]').val();
 		var business_code = $('[name="business_code"]').val();
 		var virtual_account_number = $('[name="virtual_account_number"]').val();
@@ -171,6 +332,24 @@
 			})
 			return false;
 		}
+
+		var business_licence_file_name_check = '<?=$user['business_licence_file'][1]?>';
+        var business_licence_file_check = document.getElementById("business_licence_file").value;
+
+        if(!business_licence_file_name_check && !business_licence_file_check){
+            alert("사업자 등록증 사본을 첨부해주세요");
+            return false;
+        }
+
+        var business_account_file_name_check = '<?=$user['business_account_file'][1]?>';
+        var business_account_file_check = document.getElementById("business_account_file").value;
+
+        if(!business_account_file_name_check && !business_account_file_check){
+            alert("사업자 통장 사본을 첨부해주세요");
+            return false;
+        }
+
+
 		if(virtual_account_number==''){
 			Swal.fire({
 			  title: '',
@@ -182,5 +361,123 @@
 		}
 		
 	});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		var tid = '';
+		$('#check_account').click(function(){
+					var bankCode=$('.bank_code').val();
+					var accountNumber=$('.bank_account_number').val();
+					var bankOwner=$('.bank_owner').val();
+
+					if(bankCode==''){
+						Swal.fire({
+					  title: '',
+					  text: '은행을 선택해주세요.',
+					  icon: 'error',
+					  confirmButtonText: '확인'
+					})
+					return false;
+					}
+					if(accountNumber==''){
+						Swal.fire({
+					  title: '',
+					  text: '계좌번호를 입력해주세요.',
+					  icon: 'error',
+					  confirmButtonText: '확인'
+					})
+					return false;
+					}
+					if(bankOwner==''){
+						Swal.fire({
+					  title: '',
+					  text: '예금주를 입력해주세요.',
+					  icon: 'error',
+					  confirmButtonText: '확인'
+					})
+					return false;
+					}
+
+					postRequest({
+						url: '/json/payment',
+						data : {mode: 'account_check',account : accountNumber,name :bankOwner,bankcode :bankCode,email : '<?=$user['id']?>',phone:'<?=$user['phone']?>'},
+						success : function($data){
+							$('#account_certif_code').fadeIn();
+							$('#check_account').hide();
+							$('#certif_account').show();
+							if($data.result==-1){
+								Swal.fire({
+								  title: '',
+								  text: $data.message,
+								  icon: 'error',
+								  confirmButtonText: '확인'
+								})
+							}
+							else{
+								tid=$data.message;
+								Swal.fire({
+								  title: '',
+								  text: '계좌 인증을 위한 메세지가 휴대폰 번호로 전송되었습니다.',
+								  icon: 'success',
+								  confirmButtonText: '확인'
+								});
+
+
+							}
+							return false;
+							
+						
+						}
+					});
+					
+		});
+
+		$('#certif_account').click(function(){
+			var bankCode=$('.bank_code').val();
+			var certifCode  = $('#account_certif_code').val();
+			var accountNumber=$('.bank_account_number').val();
+			var bankOwner=$('.bank_owner').val();
+			$('.bank_code,#account_certif_code,.bank_owner').prop({disabled:true})
+			$('#account_certif_code').prop({disabled:false})
+			postRequest({
+					url: '/json/payment',
+					data : {mode: 'certify_account',tid : tid,certif_code :certifCode,name :bankOwner,bank_code:bankCode,account_number:accountNumber },
+					success : function($data){
+						if($data.result==-1){
+							Swal.fire({
+								  title: '',
+								  text: $data.message,
+								  icon: 'error',
+								  confirmButtonText: '확인'
+								})
+						}
+						else{
+								Swal.fire({
+								  title: '',
+								  text: '가상계좌가 성공적으로 발급되었습니다.',
+								  icon: 'success',
+								  confirmButtonText: '확인'
+								})
+									$('#virtual_account_number').val($data.message)
+							$('#virtual_wrap').text('상호저축은행 '+bankOwner+' '+$data.message);
+						}
+
+
+					}
+				});
+		});
+
 
 	</script>

@@ -1,0 +1,144 @@
+<?php
+
+	$param['status']=8;
+
+	//$param['status']='1,2,3,4,5,6,7,8,9';
+	$estimateCarts=getListQuery('
+	SELECT estimate_orders.wish_date,estimate_cart_products.*,product_lists.user_no AS product_user_no,product_lists.details,product_lists.delivery_date,product_lists.price as product_price,cart_user.name AS user_name 
+	FROM estimate_cart_products 
+	LEFT JOIN product_lists ON product_lists.no = estimate_cart_products.product_no
+	LEFT JOIN users AS product_user ON product_lists.user_no = product_user.no 
+	LEFT JOIN users AS cart_user ON estimate_cart_products.user_no = cart_user.no 
+	LEFT JOIN estimate_orders ON estimate_cart_products.order_no = estimate_orders.no WHERE estimate_cart_products.status in ('.$param['status'].') AND product_lists.user_no='.$session['login'].'
+	GROUP BY order_no  ORDER BY estimate_cart_products.no DESC');
+/*$estimateCarts=getListJoin(
+'estimate_cart_products,viewQuery',
+$join,
+'estimate_cart_products.*,product_lists.user_no AS product_user_no,product_lists.details,product_lists.delivery_date,product_lists.price as product_price,cart_user.name AS user_name',
+'product_lists.user_no='.$session['login']);*/
+
+?>
+						<div class="box">
+							<h4>진행 완료된 주문</h4>
+							<table class="table">
+								
+<tr>
+				<th>
+					구매일
+
+				</th>	
+				<th>
+					구매자명
+
+				</th>
+				<th>
+					주문내용
+
+				</th>
+				<?php
+					if($param['status']==1){
+				?>
+				<th>
+					배송일정
+
+				</th>
+				<?php
+				}	
+				?>
+				<th>
+						수량
+
+				</th>
+				<th>
+						합계
+
+				</th>
+				<?php
+					if($param['status']==1){
+				?>
+				<th>
+					상태
+
+				</th>
+			
+				<?php
+				}	
+				?>
+
+			</tr>
+			<?php
+				if($estimateCarts['length']==0){
+			echo '<tr><td colspan="6">주문 목록이 없습니다.</td></tr>';
+		}
+			foreach($estimateCarts['list'] as $estimateCart){
+				
+				$estimateCart['details']=json_decode( $estimateCart['details'],true);
+			
+			?>
+			<tr data-no="<?=$estimateCart['order_no']?>">
+					<td>
+						<?=$estimateCart['create_date']?>
+
+					</td>
+					<td>
+					<?php
+						if($estimateCart['status']>3){	
+					?>
+						<?=$estimateCart['user_name']?>
+				<?php
+					}
+					else{
+					echo '***';
+					}
+					?>
+					</td>
+					<td>
+						<?=$estimateCart['details']['category']?>
+						<?=$estimateCart['details']['material_grade']?>
+
+					</td>
+					<?php
+					if($param['status']==1){
+				?>
+					<td>
+					<?=$estimateCart['wish_date']?>까지
+
+					</td>
+					<?php
+					}
+					?>
+					<td>
+						
+						<?=$estimateCart['amount']?>
+					</td>
+					<td>
+<?php
+
+
+	?>
+			
+							<?=number_format($estimateCart['product_price'])?>\
+
+					</td>
+					
+						<?php
+					if($param['status']==1){
+				?>
+				<td>
+			
+					<?=displayStatus($estimateCart['status'])?>
+
+				</td>
+			
+				<?php
+				}	
+				?>
+
+			</tr>
+			<?php
+			}	
+			?>
+
+							</table>
+
+						</div>

@@ -1,5 +1,5 @@
 <?php
-	
+	$user=getItem('users',$session['login']);
 	ini_set('memory_limit',-1);
 	$sameWords=array();
 	$omit=array('country','available_delivery_date','unit','quantity','unit_price','price','supplier','scratch_y/n','dent_y/n','rust_y/n','heat_no._and_product_certi._y/n','manufactured_year','manufacturer','drawing_y/n','pressure_test_report_y/n','raw_material_certi._y/n');
@@ -13,17 +13,9 @@
 	function checkMatching($keyword,$detail){
 		
 	}
-	function samewords($word){
-		
+	function samewords($word){	
 		$sameword=getItem('samewords',"input_word like '%".$word."%'");
-
-		
-
-	
-
 		return $sameword['result_words'];
-
-
 	}
 if($param['mode']=='product_list'){
 
@@ -160,7 +152,23 @@ if($param['mode']=='product_list'){
 	}
 
 
-
+	
+	if($param['certi']){
+		$where.=' AND details like '.'\'%"heat_no._and_product_certi._y/n":"'.$param['certi'].'"%\''.'';
+	}
+	if($param['scratch']){
+		$where.=' AND details like '.'\'%"scratch_y/n":"'.$param['scratch'].'"%\''.'';
+	}
+	if($param['dent']){
+		$where.=' AND details like '.'\'%"dent_y/n":"'.$param['dent'].'"%\''.'';
+	}
+	if($param['rust']){
+		$where.=' AND details like '.'\'%"rust_y/n":"'.$param['rust'].'"%\''.'';
+	}
+	if($param['except_country']){
+		$where.=' AND details not like '.'\'%'.$param['except_country'].'"%\''.'';
+	}
+	
 
 $products=pageListSelect('product_lists',$where,$order,10,10,$param['page'],'$page',$select);
 
@@ -296,10 +304,173 @@ foreach($products['list'] as $productIndex=>$product){
 						$product['details']['has_data']=null;
 					
 				?>
-					   <tr>
+					   <tr class="detail_info_parent">
+					
                     <th scope="row"><input type="checkbox" name="no[]" value="<?=$product['no']?>"></th>
                     <?php if($param['keyword']){?> <th><?=round(($product['match_rate']*100))?>%</th> <?php } ?>
-                 <td><?=$product['details']['seamless/welded']?></td>
+                 <td >
+						
+					<?=$product['details']['seamless/welded']?>
+					<div class="detail_info_layer">
+					  <?php if($param['keyword']){?> 
+					<h3>찾으시는 자재와 <strong><?=round(($product['match_rate']*100))?></strong>% 일치합니다.</h3>
+					<?php
+					}else{
+					?>
+							<h3>Pipe</h3>
+						<?php
+					}	
+					?>
+						<table class="table table-bordered">
+							<tr>
+								<th>
+									SEAMLESS/WELDED
+
+								</th>
+								<td>
+									<?=$product['details']['seamless/welded']?>
+									
+								</td>
+								<th>
+									
+									LENGTH
+								</th>
+								<td>
+									<?=$product['details']['length']?>
+								</td>
+								<th>SCRATCH</th>
+								<td>
+									<?=$product['details']['scratch_y/n']?>
+								</td>
+							</tr>
+							<tr>
+								<th>
+									MATERIAL GRADE
+
+								</th>
+								<td>
+									<?=$product['details']['material_grade']?>
+									
+								</td>
+								<th>
+									CODE
+									
+								</th>
+								<td>
+									<?=$product['details']['code']?>
+
+								</td>
+								<th>DENT</th>
+								<td>
+									<?=$product['details']['dent_y/n']?>
+								</td>
+							</tr>
+							<tr>
+								<th>
+									SIZE
+
+								</th>
+								<td>
+									<?=$product['details']['size1']?>
+									
+								</td>
+								<th>
+									
+									MANUFACTURED YEAR
+								</th>
+								<td>
+									<?=$product['details']['manufactured_year']?>
+
+								</td>
+								<th>RUST</th>
+								<td>
+									<?=$product['details']['rust_y/n']?>
+								</td>
+							</tr>
+							<tr>
+								<th>
+SCH1
+
+								</th>
+								<td>
+									
+									<?=$product['details']['sch1']?>
+								</td>
+								<th>
+									
+									MANUFACTURER
+								</th>
+								<td>
+									<?=$product['details']['manufacturer']?>
+
+								</td>
+								<th>HEAT NO. AND PRODUCT CERTI.
+</th>
+								<td>
+									<?=$product['details']['heat_no._and_product_certi._y/n']?>
+								</td>
+							</tr>
+							<tr>
+								<th>
+						WELDING TYPE
+
+
+								</th>
+								<td>
+									<?=$product['details']['welding_type']?>
+									
+								</td>
+								<th>
+									
+									COUNTRY
+
+								</th>
+								<td>
+									<?=$product['details']['country']?>
+
+								</td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<th>
+									END
+
+								</th>
+								<td>
+									<?=$product['details']['end']?>
+									
+								</td>
+								<th>
+									AVAILABLE DELIVERY DATE
+
+								</th>
+								<td>
+									
+<?=$product['details']['available_delivery_date']?>d
+								</td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<th>
+									ZINC/GALVA
+
+
+								</th>
+							
+								<td><?=$product['details']['zinc/galva']?></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							
+							</tr>
+
+						</table>
+
+					</div>
+				 </td>
                  <td><?=$product['details']['welding_type']?></td>
                  <td><?=$product['details']['material_grade']?></td>
                  <td><?=$product['details']['zinc/galva']?></td>
@@ -775,11 +946,13 @@ margin-right: 10px;
 	<div id="product_filter">
 			<div class="filter-options">
 			  <div class="block-content">
-				<div class="filter-options-item filter-categori categories" style="display:none;">
+				<div class="filter-options-item filter-categori categories" >
 					  <div class="filter-options-title">품목</div>
-						<div class="filter-option-contents">
-							<label class="inline">
-								<input type="checkbox"  name="product_type" value="pipe" data-next="pipe" data-type="pipe"  <?=attr($param['category']=='pipe','checked')?> >
+					
+					  <strong>  <?=$param['category']?></strong>
+						<div class="filter-option-contents" style="display:none;" >
+							<label class="inline" >
+								<input type="checkbox"  name="product_type" value="pipe" data-next="welding_type" data-type="pipe"  <?=attr($param['category']=='pipe','checked')?> >
 								<span class="input"></span> Pipe
 							 </label>&nbsp;&nbsp;
 							 <label class="inline">
@@ -925,15 +1098,15 @@ letter-spacing:-1px;
 							<tr>
 								<th style="width:80px;">SCRATCH</th>
 								<td>
-									<label class="btn btn-xs btn-default">YES</label>
-									<label class="btn btn-xs btn-default">NO</label>
+									<label class="btn btn-xs btn-default scratch" class="scratch" data-value="y">YES</label>
+									<label class="btn btn-xs btn-default scratch"  class="" data-value="n">NO</label>
 
 								</td>
 						
 								<th style="width:80px;">RUST</th>
 								<td>
-									<label class="btn btn-xs btn-default">YES</label>
-									<label class="btn btn-xs btn-default">NO</label>
+									<label class="btn btn-xs btn-default rust"  class="" data-value="y">YES</label>
+									<label class="btn btn-xs btn-default rust"  class="rust" data-value="n">NO</label>
 
 								</td>
 								<th colspan="2" >
@@ -944,20 +1117,20 @@ letter-spacing:-1px;
 							<tr>
 								<th>DENT</th>
 								<td>
-									<label class="btn btn-xs btn-default">YES</label>
-									<label class="btn btn-xs btn-default">NO</label>
+									<label class="btn btn-xs btn-default dent"  class="dent" data-value="y">YES</label>
+									<label class="btn btn-xs btn-default dent"  class="dent" data-value="n">NO</label>
 
 								</td>
 						
 								<th>CERTI</th>
 								<td>
-									<label class="btn btn-xs btn-default">YES</label>
-									<label class="btn btn-xs btn-default">NO</label>
+									<label class="btn btn-xs btn-default certi"  class="certi" data-value="y">YES</label>
+									<label class="btn btn-xs btn-default certi"  class="certi" data-value="n">NO</label>
 
 								</td>
 								<td colspan="2" >
 									
-										<input type="text" style="width:100%;height:25px;">
+										<input type="text" style="width:100%;height:25px;" id="except_country">
 								</td>
 
 							</tr>
@@ -1093,8 +1266,16 @@ height: 52px;
 </style>
 <script>
 
+
+	
+		
+
+	
+		
+
 	var currentSelect = 0;
-	var serach  = [];
+
+
 		$(document).on('click','#product_list_search_form input',function(){
 	$(this).parent().parent().siblings().find('input[type="checkbox"]').prop({checked:false});
 });
@@ -1120,6 +1301,8 @@ $('#search_keyword_input').on('change keyup paste',function(){
 	
 	});
 
+
+	search('#product_filter .filter-option-contents input[value="<?=$param['category']?>"]');
 
 jQuery.expr[':'].contains = function(a, i, m) {
   return jQuery(a).text().toUpperCase()
@@ -1220,6 +1403,7 @@ jQuery.expr[':'].contains = function(a, i, m) {
 
 
 	function getList($page,$keyword){
+
 var category = $('[name="product_type"]:checked').val()
 
 	
@@ -1244,22 +1428,22 @@ openLoading();
 				}
 
 			
-			var scratch =0;
-			var rust =0;
-			var dent =0;
-			var certi =0;
-			var except_country =$('[name="except_country"]').val();
-			if($('[name="rust"]').size()>0){
-				rust=1;
+			var scratch ='';
+			var rust ='';
+			var dent ='';
+			var certi ='';
+			var except_country =$('#except_country').val();
+			if($('.rust.active').size()>0){
+				rust=$('.rust.active').data('value');
 			}
-			if($('[name="scratch"]').size()>0){
-				scratch=1;
+			if($('.scratch.active').size()>0){
+				scratch=$('.scratch.active').data('value');
 			}
-			if($('[name="dent"]').size()>0){
-				dent=1;
+			if($('.dent.active').size()>0){
+				dent=$('.dent.active').data('value');
 			}
-			if($('[name="certi"]').size()>0){
-				certi=1;
+			if($('.certi.active').size()>0){
+				certi=$('.certi.active').data('value');
 			}
 			postRequest({
 				url : '/product/list',
@@ -1406,6 +1590,39 @@ return false;
 	return false;
 		}
 
+		<?php
+	if(!$user['virtual_account_number']){
+?>
+
+		Swal.fire({
+		  title: '사용자 추가 정보 입력이 필요합니다.',
+	
+		  icon: 'warning',
+			 html:"구매자님의 사업자 정보를 입력 하시면, 견적 요청 및 구매 진행이 가능합니다. <br>  사업자 정보를 입력하시겠습니까?",
+		width:700,
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: '예',
+		  cancelButtonText: '아니오'
+		}).then((result) => {
+		  if (result.value) {
+			
+				location.href='/user/mypage?type=buyer'
+		  }
+			else{
+			history.back(-1);
+			}
+			
+		})
+			return false;
+
+<?php
+}	
+?>
+
+
+
 
 		var checked=[];
 		$('.search-list-table tbody input[type="checkbox"]:checked').each(function(){
@@ -1467,6 +1684,29 @@ Swal.fire({
 
 	return false;
 });
+
+$('.scratch,.certi,.dent,.rust').click(function(){
+	if($(this).hasClass('active')){
+		$(this).removeClass('active');;
+	}
+	else{
+		$(this).addClass('active').siblings().removeClass('active');;
+	}
+	getList(1,keyword);
+	return false;
+});
+$('#except_country').on('keyup paste change',function(){
+	clearTimeout(searchRun);
+	
+	searchRun=setTimeout(function(){
+		
+		getList(1,keyword)
+
+		
+	},850);
+	
+})
+
 $(document).on('click','#check_all',function(){
 	var checked = $(this).prop('checked')
 		$('#product_list_form input[type="checkbox"]').prop({checked:checked});
@@ -1474,16 +1714,7 @@ $(document).on('click','#check_all',function(){
 </script>
 
 <script src="/scripts/iscroll.js"></script>
-<script type="text/javascript">
 
-var myScroll;
-
-
-	myScroll = new IScroll('#wrapper', {scrollbars: true, scrollX: true, scrollY: false, mouseWheel: true });
-
-
-
-</script>
 
 
 

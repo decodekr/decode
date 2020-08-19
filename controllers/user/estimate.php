@@ -5,9 +5,38 @@ include 'views/header.html';
 
 $user=getItem('users',$_SESSION['login']);
 if($param['order']==1){
+
+		
+	$sellers=getListQuery('SELECT estimate_cart_products.*,product_lists.user_no AS product_user_no,users.id,users.phone FROM `estimate_cart_products` 
+Left join product_lists ON product_lists.no=estimate_cart_products.product_no
+Left join users ON users.no = product_lists.user_no
+Where estimate_cart_products.user_no='.$session['login'].'
+ GROUP BY product_user_no');
+ print_x($sellers);
+$order['no']='20200731476949';
+foreach($sellers['list'] as $seller){
+	$alarmContents='등록하신 매물이 서울의 구매자님과 거래 예정입니다. 대금 지급 예정일은 '.dateFormat($param['pay_date'],'m월d일').' 입니다. 매물의 판매 가능 여부를 확인 부탁 드립니다. 해당 자재의 판매가 가능하면 "예", 판매가 불가능 하시면 "아니오"를 클릭해 주세요';
+    alarm($seller['product_user_no'],$alarmContents,'sell_receive');
+    $code=generateCode(6,'shorthand:number');
+	$subject = "[MOM]판매가 시작되었습니다.";
+	$contents='<p style="margin:20px 0 0;padding:30px 30px 50px;min-height:200px;height:auto !important;height:200px;border-bottom:1px solid #eee">
+					<b>'.$alarmContents.'
+			   <br>
+			   <br>
+			   <br>
+			 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="https://marketofmaterial.com/seller/status?no='.$order['no'].'&user_no='.$seller['product_user_no'].'&result=2">[예]</a>&nbsp;&nbsp;&nbsp;&nbsp; <a href="https://marketofmaterial.com/seller/status?no='.$order['no'].'&user_no='.$seller['product_user_no'].'&result=20" style="color:red;">[아니오]</a>
+			  </b>
+	';
+	sendSMS($seller['phone'],'등록하신 매물이 거래 예정입니다.(주문번호'.$order['order_id'].') 대금 지급 예정일은 '.dateFormat($param['pay_date'],'m월d일').' 입니다. 매물의 판매 가능 여부를 확인 부탁 드립니다. 자세한 내용은 MOM 홈페이지에서 확인 가능합니다. (www.marketofmaterial.com)','L');
+	sendmail2($subject,$contents,$seller['id']);
+
+}
+ 
 	$orderParam['user_no']=$session['login'];
 	$orderParam['wish_date']=$param['wish_date'];
+	$orderParam['pay_date']=$param['pay_date'];
 	$orderParam['total_price']=0;
+	$orderParam['status']=1;
 
 	foreach($carts['list'] as $cart){
 
@@ -75,7 +104,7 @@ if($param['order']==1){
 
 
 		$orderParam['total_price']+=($cart['price']*$cart['amount'] + $fee);
-
+		
 		//재고 빼기
 		$stockParam['amount'] = -1;
 		calcItem('product_lists',$stockParam,$cart['product_no']);
@@ -120,16 +149,23 @@ if($param['order']==1){
 
 	
 
-
+	
 
 
 	$cartParam['order_no']=insertItem('estimate_orders',$orderParam);
 	
 	updateItem('estimate_cart_products',$cartParam,'user_no='.$session['login'].' AND status=0');
-	
 
-	sendSMS('01062420349','주문이 완료되었습니다');
-	printMessage('주문이 완료되었습니다. '.$param['wish_date'].'까지 대금을 '.$session['name'].'님의 가상계좌에 입금하시면 거래가 진행됩니다.\n'.$param['wish_date'].'까지 가상계좌 입금이 진행되지 않으면, 요청하신 현재 거래는 취소됩니다,','/user/order');
+
+
+	
+	$order=getItem('estimate_orders',$cartParam['order_no']);
+
+	alarm(0,'"새로운 거래 주문번호('.str_replace(array(' ','-',':'),'',$order['create_date']).$order['no'].')가 시작되었습니다."');
+
+
+	//sendSMS('01062420349','주문이 완료되었습니다');
+	printMessage('주문이 완료되었습니다. '.$param['pay_date'].'까지 대금을 '.$session['name'].'님의 가상계좌에 입금하시면 거래가 진행됩니다.\n'.$param['pay_date'].'까지 가상계좌 입금이 진행되지 않으면, 요청하신 현재 거래는 취소됩니다,','/user/order');
 exit;
 }
 ?>
@@ -2187,22 +2223,145 @@ div.nppfs-keypad .kpd-blank{cursor:default;}
 }	
 ?>
  <main class="site-main site-login">
-        <div class="box-center box-center-2">
+        <div class="box-center box-center-2" style="position:relative;">
             <div class="toolbar-products">
                 <h4 class="title-product">견적서</h4>
             </div>
-            <table class="search-list-table">
-                <thead>
-                <tr>
-                    <th>CATEGORY</th>
-                    <th>DESCRIPTION</th>
-                 
-                    <th>QUANTITY</th>
-                    <th>PRICE</th>
-                </tr>
-                </thead>
-                <tbody>
-			  <?php
+			
+			<style>
+			#estimate_origin_layer{
+			transition:0.5s;
+			position: absolute;z-index: 5000;
+				top: -170px;
+				left:50%;
+				width: 1000px;
+				background: #fff;
+				margin-left: -500px;
+				padding: 30px;
+				
+			}
+				#estimate_layer{
+				transition:0.5s;
+				position: absolute;z-index: 5000;
+				top: 50px;
+				left:300%;
+				width: 1600px;
+				background: #fff;
+				margin-left: -800px;
+				padding: 30px;
+			}
+			#estimate_layer th,#estimate_layer td{
+			border:1px solid #000;
+			}
+			#estimate_layer .title{
+			position: relative;
+			text-align: center;
+			font-weight: bold;
+			}
+			#estimate_layer .title .date{
+				position: absolute;
+				right: 0;
+				top: 0;
+				font-sizE:14px;
+			}
+			#total_wrap{
+			text-align: right;
+			padding:50px;
+			}
+			#fog{
+			display: block !important;
+			}
+			#buttons_wrap{
+				position: absolute;
+				bottom: -100px;
+				left: 50%;
+				margin-left: -170px;
+			}
+			#buttons_wrap_origin{
+				position: absolute;
+				top: 50%;
+				right:-300px;
+				margin-top: -100px;
+				margin-left: -170px;
+			}
+			#buttons_wrap_origin button{
+			display: block;
+			}
+			#estimate_prev_button{
+				position: absolute;
+				top: 50%;
+				margin-top: -50px;
+				color: #fff;
+				left: -100px;
+				font-size:100px;
+			}
+			#estimate_next_button{
+				position: absolute;
+				top: 50%;
+				margin-top: -50px;
+				color: #fff;
+				right: -100px;
+				font-size:100px;
+			}
+			.close_button{
+				position: absolute;
+				top: 10px;
+				right: -80px;
+				font-size:64px;
+				color: #fff;
+			}
+
+			</style>
+			<?php
+				include'views/estimate_origin_layer.html';
+			?>
+			<div id="estimate_layer">
+		<a href="/user/estimate_cart" class="close_button"><i class="fa fa-times-circle"></i></a>
+			<a href="/user/estimate_cart" id="estimate_prev_button">
+				<i class="fa fa-angle-left"></i>
+
+			</a>
+			<h3 class="title">BILL OF MATERIAL <span class="date"> DATE : <?=date('Y-m-d H:i:s')?></span></h3>
+			<div id="buttons_wrap">
+				 <button type="submit" class="btn-checkout ">
+					<span>PDF 출력</span>
+				</button>
+				 <button type="submit" class="btn-checkout ">
+					<span>내 메일로 전달</span>
+				</button>
+				 <button type="submit" class="btn-checkout estimate-sheet-buy-now">
+					<span>구매하기</span>
+				</button>
+
+			</div>
+				<table class="table table-bordered">
+					<tr>
+						<th rowspan="2">ITEM <br> NO</th>
+						<th rowspan="2">ITEM</th>
+						<th colspan="2">DESCRIPTION</th>
+						<th rowspan="2">SIZE1</th>
+						<th rowspan="2">SIZE2</th>
+						<th rowspan="2">SIZE3</th>
+						<th rowspan="2">UNIT</th>
+						<th rowspan="2">QTY</th>
+						<th colspan="2">Delivery</th>
+						<th colspan="2">Origin</th>
+						<th rowspan="2">UNIT PRICE</th>
+						<th rowspan="2">Remark</th>
+
+					</tr>
+
+					<tr>
+						<th>Type</th>
+						<th>Material</th>
+						<th>Location</th>
+						<th>Lead Time</th>
+						<th>Maker</th>
+						<th>Country</th>
+						
+					</tr>
+
+					  <?php
 			  $totalPrice=0;
 			  $feePrice=0;
 
@@ -2212,7 +2371,7 @@ div.nppfs-keypad .kpd-blank{cursor:default;}
 						
 
 
-					foreach($carts['list'] as $cart){
+					foreach($carts['list'] as $cart_index=>$cart){
 
 						if($cart['grade']=='A'){
 							if($cart['price']*$cart['amount']>=100000000){
@@ -2288,32 +2447,62 @@ div.nppfs-keypad .kpd-blank{cursor:default;}
 						$totalPrice = $totalPrice+($cart['price']*$cart['amount']);
 				?>
                 <tr>
+					<th><?=$cart_index+1?></th>
                     <th scope="row"><?=$cart['details']['category']?></th>
+					 <td>		<?php
+				
+echo $cart['details']['type'];
+				?>
+				
+				</td>
                     <th class="product_detail">
 						<?php
-					$detailIndex=0;
-					foreach($cart['details'] as $title=>$detail){	
-	
-					if($detail==''){
-						continue;
-					}
-					if(in_array($title,$omit)){
-						continue;
-					}
-					if($detailIndex!=0){
-						echo ',';
-					}
-				?>
-					<?=$detail?>
-					<?php
-										$detailIndex++;
-				}	
+				
+echo $cart['details']['material_grade'];
 				?>
 
+
                     </th>
+					<th>
+							<?php echo $cart['details']['size1']; ?>
+
+					</th>
+					<th>
+							<?php echo $cart['details']['size2']; ?>
+
+					</th>
+					<th>
+							<?php echo $cart['details']['size3']; ?>
+
+					</th>
+					<th>
+							<?php echo $cart['details']['unit']; ?>
+
+					</th>
+					<th>
+							<?php echo $cart['details']['amount']; ?>
+
+					</th>
+					<th>
+						Seoul
+
+					</th>
+					<th>
+						3d
+
+					</th>
+					<th>
+						S물산
+
+					</th>
+					<th>
+								<?php echo $cart['details']['country']; ?>	
+
+					</th>
                   
-                    <td><?=$cart['amount']?> (<?=$cart['grade']?>)</td>
+                   
                     <td><?=number_format($cart['price']*$cart['amount'] + $fee)?></td>
+					<td>-</td>
                 </tr>
 				<?php
 
@@ -2353,39 +2542,28 @@ div.nppfs-keypad .kpd-blank{cursor:default;}
 
 				?>
               
-                </tbody>
-            </table>
-            <p class="estimate-cart-guide">* 상기 테이블에서 다운로드 가능한 성적서는 결제 진행 후, 등록하신 메일로 한 번에
-                보내 드립니다.</p>
-            <div class="cart-tooltip">
-                <p>가장 빠른 운송 일정을 제공해 드렸습니다!
-                    모든 제품이 동일한 일정으로 운송되는 것이 더 편하신가요?</p>
-            </div>
-			<div id="total_wrap">
-				<div class="estimate-sheet-amount sub_amount">
-					<div class="box-price"><span class="text-label">합계</span>
-						<span class="box-format-amount"> <strong class="text-value" id="tprice"><?=number_format($totalPrice+$feePrice)?></strong>
-							<span class="text-unit">원</span></span>
-					</div>
-				</div>
-				<div class="estimate-sheet-amount sub_amount">
-					<div class="box-price"><span class="text-label">할인률</span>
-						<span class="box-format-amount"> <strong class="text-value" id="tprice"> <?=$discountRate*100?></strong>
-							<span class="text-unit">%</span></span>
-					</div>
-				</div>
-				<div class="estimate-sheet-amount main_amount">
-					<div class="box-price"><span class="text-label">총액</span>
-						<span class="box-format-amount"> <strong class="text-value" id="tprice"><?=number_format(($totalPrice+$feePrice)*(1-$discountRate))?></strong>
-							<span class="text-unit">원</span></span>
-					</div>
+					
+
+
+					
+				</table>
+				<div id="total_wrap">
+						<div class="row-total">
+							DISCOUNT : <?=number_format(($totalPrice+$feePrice) - ($totalPrice+$feePrice)*(1-$discountRate))?>
+
+						</div>
+						<div class="row-total">
+							DISCOUNTED TOTAL PRICE <?=number_format(($totalPrice+$feePrice)*(1-$discountRate))?>
+
+						</div>
+
 				</div>
 
 			</div>
+			
+        
             
-            <button type="submit" class="btn-checkout estimate-sheet-buy">
-                <span>구매하기</span>
-            </button>
+           
         </div>
     </main>
 <script>
@@ -2398,7 +2576,18 @@ doc.text(20, 20, 'Do you like that?');
 
 doc.save('Test.pdf');
 */
-$('.estimate-sheet-buy').click(function(){
+$('#estimate_next_button').click(function(){
+	$('#estimate_origin_layer').css({left : '-300%'})
+	$('#estimate_layer').css({left : '50%'})
+	return false;
+});
+$('#estimate_prev_button').click(function(){
+	$('#estimate_origin_layer').css({left : '50%'})
+	$('#estimate_layer').css({left : '300%'})
+	return false;
+});
+
+$('.estimate-sheet-buy-now').click(function(){
 Swal.fire({
   title: '<strong>견적서 내용대로 주문하시겠습니까?</strong>',
   icon: 'info',
@@ -2420,7 +2609,7 @@ Swal.fire({
 	setTimeout(function(){
 		closeLoading();
 		$('#pname').text($.trim($('.product_detail').eq(0).text()).substr(0,25)+'외 '+($('.product_detail').size()-1)+'건');
-		$('#pay_price').text($('#tprice').text()+'원')
+		$('#pay_price').text($('#tprice_result').text()+'원')
 	},2500);
  // location.href='/user/estimate?order=1'
   }

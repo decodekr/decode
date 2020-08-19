@@ -12,16 +12,27 @@ $user=getItem('users',$_SESSION['login']);
 include 'views/header.html';
 ?>
 <?php
+	
+	if($_FILES['business_licence_file']['name']){
+		$business_licence_file = uploadFile($_FILES['business_licence_file'],'/files');
+		$param['business_licence_file']= $business_licence_file['path'].'|'.$business_licence_file['name'];
+	}
+	if($_FILES['business_account_file']['name']){
+		$business_account_file = uploadFile($_FILES['business_account_file'],'/files');
+		$param['business_account_file']= $business_account_file['path'].'|'.$business_account_file['name'];
+	}
+	
+	
+	
 
-
-	if(strpos($param['type'],'판매')!==FALSE){
+	if(strpos($param['type'],'seller')!==FALSE){
 		$param['user_type']='seller';
 	//	$session['user_type']='seller';
 	//	updateItem('users',$param,$session['login']);
 //		$type='first';
 		
 	}
-	if(strpos($param['type'],'구매')!==FALSE){
+	if(strpos($param['type'],'buyer')!==FALSE){
 		$param['user_type']='buyer';
 	//	$session['user_type']='buyer';
 //	updateItem('users',$param,$session['login']);
@@ -34,39 +45,26 @@ include 'views/header.html';
 		$session['user_type']=$param['user_type'];
 		updateItem('users',$param,$session['login']);
 	  
-		printMessage('수정 완료','/');
+		printMessage('수정 완료');
 		exit;
 	  }
-	$user=getItem('users',$session['login']);
-	$user['expect_product'] = explode('|',$user['expect_product']);
-	if($param['user_type']){
-	$user['user_type']=$param['user_type'];
-	}
+	  
+		$user=getItem('users',$session['login']);
+		if($user['user_type']=='buyer'){
+			$user['expect_product'] = explode('|',$user['expect_product']);
+		}
+	  
 ?>
 
 <?php
 
-	if($user['user_type']=='seller'){
+if($user['user_type']=='seller'){
 	include'views/seller_mypage.html';
 }
 else{
 	include'views/buyer_mypage.html';
 }
-if($param['complete']==1&&false){
 ?>
-<script>
-	Swal.fire({
- 
-  text: '수정완료',
-  icon: 'success',
-  confirmButtonText: '확인'
-})
-
-</script>
-<?php
-}	
-?>
-
 
 
 
@@ -178,122 +176,7 @@ $('#address_search_button').click(function(){
 
 
 <script>
-						$('#check_account').click(function(){
-									var tid = $('#tid').val();
-									if(tid!=''){
-										var certifCode  = $('#account_certif_code').val();
-										postRequest({
-											url: '/json/payment',
-											data : {mode: 'certify_account',guid : '<?=$user['guid']?>',tid : tid,certif_code :certifCode},
-											success : function($data){
-							
-										
-												if(typeof($data.data)=='undefined'){
-														Swal.fire({
-														  title: '',
-														  text: '인증번호가 일치하지 않습니다.',
-														  icon: 'error',
-														  confirmButtonText: '확인'
-														})
-												}
-												else{
-													Swal.fire({
-														 
-													  text: '인증되었습니다. 가상계좌가 발급되었습니다.',
-													  icon: 'success',
-													  confirmButtonText: '확인'
-													});
-													postRequest({
-														url: '/json/payment',
-														data : {mode: 'get_virtual_account',guid : '<?=$user['guid']?>',name : '<?=$user['name']?>'},
-														success : function($data){
-															$('.bank_account_number').prop({disabled:true});
-															$('.bank_code').prop({disabled:true});
-															$('#virtual_account').show();
-															$('#virtual_account .contents').text('상호저축은행 '+$data.data.vaccntNo+' (예금주 : '+$data.data.vaccntOwnerName+')');
-															$('#account_certif_code').parent().remove();
-															postRequest({
-																url :'/user/mypage',
-																data : {has_data:1,virtual_account_number  : $data.data.vaccntNo,virtual_account_owner:$data.data.vaccntOwnerName},
-																success : function(){
-
-																}
-															});
-															
-														}
-													});
-
-												
-												}
-											
-											
-
-
-
-
-											}
-										});
-									}
-									else{
-										var account= $('.bank_account_number').val();
-										var bankCode= $('.bank_code').val();
-										if(bankCode==''){
-											Swal.fire({
-											  title: '',
-											  text: 'BANK NAME을 선택해주세요.',
-											  icon: 'error',
-											  confirmButtonText: '확인'
-											})
-												return false;
-										}
-										if(account==''){
-											Swal.fire({
-											  title: '',
-											  text: 'ACCOUNT NO를 입력해주세요.',
-											  icon: 'error',
-											  confirmButtonText: '확인'
-											})
-												return false;
-										}
-											postRequest({
-												url: '/json/payment',
-												data : {mode: 'account_check',guid : '<?=$user['guid']?>',account : account,name :'<?=$user['name']?>',bankcode :bankCode},
-												success : function($data){
-								
-
-
-													if(typeof($data.data)=='undefined'){
-													
-														Swal.fire({
-														  title: '',
-														  text: '계좌 인증은 하루 5회만 가능합니다. 내일 다시 시도해주세요.',
-														  icon: 'error',
-														  confirmButtonText: '확인'
-														})
-													}
-													else{
-														$('#account_certif_code').fadeIn();
-														$('#tid').val($data.data.tid);
-														Swal.fire({
-														 
-														  text: '휴대폰 번호로 인증번호 확인 안내 문자를 전송하였습니다.',
-														  icon: 'success',
-														  confirmButtonText: '확인'
-														});
-
-														$('#check_account').text('인증 완료');
-													}
-												
-
-
-
-
-												}
-											});
-
-									}
-										return false;
-									});
+						
 
 </script>
 <?php

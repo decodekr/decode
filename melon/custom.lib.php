@@ -1,5 +1,47 @@
 <?php
-function sendSMS($number,$message){
+
+
+function displayEssentialField($type,$details){
+	$result = '';
+	if(strtolower($type)=='pipe'){
+		$essential = array('material_grade','seamless/welded','size','sch1','welding_type','end','zinc/galva');
+	}
+	if(strtolower($type)=='valve'){
+		$essential = array('material_grade','item','forged/casting','type','size1','pressure_rating','end','bore','trim_material','seat_material');
+	}
+	if(strtolower($type)=='fitting'){
+		$essential = array('material_grade','item','forged/pipe','type','size1','size2','sch1','pressure_rating','end1','end2');
+	}
+	if(strtolower($type)=='flange'){
+		$essential = array('material_grade','type','end','size1','size2','sch1','pressure_rating');
+	}
+	
+	if($type==''){
+	return false;
+	}
+	foreach($details as $detail_index=>$detail){
+		if(in_array($detail_index,$essential)){
+			if(trim($detail)==''){
+				continue;
+			}
+			if($result!=''){
+				$result.=', ';
+			}
+			$result.=$detail;
+		}
+	}
+	return $result;
+}
+
+
+function alarm($user_no,$contents,$type=''){
+	$param['user_no'] = $user_no;
+	$param['contents'] = $contents;
+	$param['type'] = $type;
+	insertItem('alarms',$param);
+
+}
+function sendSMS($number,$message,$type=''){
 
 
 	
@@ -10,6 +52,7 @@ function sendSMS($number,$message){
 	$sms['secure'] = base64_encode("7980f9ccbb2848867d8f6b81b65e47ef ") ;//인증키
 
 
+    $sms['smsType'] = base64_encode(stripslashes($type));
     $sms['msg'] = base64_encode(stripslashes($message));
      $sms['rphone'] = base64_encode($number);
     $sms['sphone1'] = base64_encode('031');//$param['sphone1']);
@@ -117,22 +160,31 @@ function displayStatus($status){
 		return '견적바구니';
 	}
 	if($status==1){
-		return '입금대기';
+		return '주문';
 	}
 	if($status==2){
-		return '입금완료';
+		return '제품 운송 준비중';
 	}
 	if($status==3){
-		return '계산서 발행중';
+		return '입금 완료';
 	}
 	if($status==4){
-		return '결제완료';
+		return '계산서 발행 및 서류 등록 완료';
 	}
 	if($status==5){
-		return '운송중';
+		return '구매자 최종 승인';
 	}
 	if($status==6){
-		return '거래완료';
+		return '대금 지급 완료';
+	}
+	if($status==7){
+		return '배송중';
+	}
+	if($status==8){
+		return '거래 완료';
+	}
+	if($status==20){
+		return '판매자 거부';
 	}
 }
 function displayDetail($details){
@@ -169,4 +221,57 @@ $detailIndex=0;
 
 }
 
+
+function sendmail2($subject,$contents,$address){
+
+	$mailText='
+	<!doctype html>
+	<html lang="ko">
+	<head>
+	<meta charset="utf-8">
+	<title> '.$subject.'</title>
+	</head>
+
+	<body>
+
+	<div style="margin:30px auto;width:600px;border:10px solid #f7f7f7">
+		<div style="border:1px solid #dedede">
+			<h1 style="padding:30px 30px 30px;background:#f7f7f7;color:#555;font-size:1.4em">
+			  마켓 오브 메테리얼
+			</h1><br>
+
+			'.$contents.'
+
+		  
+			</p>
+
+			<table>
+			<tr><td style="background:#fff; padding:40px 0 20px 30px; border-left:1px solid #b6b6b6; border-right:1px solid #b6b6b6; font-family:dotum, sans-serif; font-size:11px; color:#333; line-height:22px; ">
+					   본 메일은 발신전용으로 회신되지 않습니다.
+					   <br> 이메일(E-mail) 안내장에 관하여 궁금하신 사항은 02-2108-1000 또는 <a href="mailto:help@marketofmaterial.com" rel="noreferrer noopener" target="_blank">help@marketofmaterial.com</a> 로 문의하여 주시기 바랍니다.
+					</td></tr>
+			</table>
+
+		  
+		</div>
+	</div>
+
+	</body>
+	</html>';
+
+
+
+
+
+	  $to =$address;
+
+
+
+
+
+	   $headers = "From: help@marketofmaterial.com\r\n";
+	$headers .= "Content-Type:text/html; charset=UTF-8\r\n";
+
+	mail($to, $subject, $mailText, $headers);
+}
 

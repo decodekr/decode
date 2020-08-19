@@ -1,11 +1,11 @@
 <?php
 	include'models/payment.php';
 
-//sendSMS('01062420349','test');
-
-//echo deleteUser('82ecfa0d302b471694523d8d349a9421');
+sendSMS('01062420349','testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest');
+//echo addUser('고릴라','tesu@planet.co.kr','01062420349');
+//echo deleteUser('8052be0a9bed4cf1b38ddb1fbb460f16');
 //echo addUser('박기성','decode@decodelab.co.kr','01065050291');
-echo getVirtualAccountNumber('641f66c71b1c4744879494482b548473');
+//echo getVirtualAccountNumber('641f66c71b1c4744879494482b548473');
 //echo getMemberBalanceInOut('3aa11bc42ea24a3599e9625d06e0d89b');
 //echo getMerchantBalance();
 //br();
